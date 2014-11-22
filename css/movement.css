@@ -1,0 +1,29 @@
+@-webkit-keyframes czmkf1 {
+  0% {
+    left: 0;
+  }
+  33.33333% {
+    left: 100px;
+  }
+  66.66667% {
+    left: 50px;
+  }
+  100% {
+    left: 90px;
+  }
+}
+
+@keyframes czmkf1 {
+  0% {
+    left: 0;
+  }
+  33.33333% {
+    left: 100px;
+  }
+  66.66667% {
+    left: 50px;
+  }
+  100% {
+    left: 90px;
+  }
+}

@@ -1,0 +1,75 @@
+
+$_animation-map: ();
+$_animation-keyframes: ();
+$_animation-keyframe-offset: 0;
+$_keyframes-active: false;
+
+// Animation constructor
+// $target: Animatable? target (default: &)
+// $timing: AnimationTimingProperties object (map)
+// @content: AnimationEffect
+@mixin animation(
+    $target: &,
+    $timing: default
+) {
+    $_animation-map: map-merge($_animation-map, (
+        #{$target}: (
+            name: 'czmkf1',
+            duration: $timing
+        )
+    )) !global;
+
+    %temp { @content; }
+
+    $total-keyframes: length($_animation-keyframes);
+    $_keyframes-active: true !global;
+
+    @keyframes czmkf1 {
+        @content;
+    }
+}
+
+@mixin keyframe() {
+    @if not $_keyframes-active {
+        $_animation-keyframes: append($_animation-keyframes, auto) !global;
+    } @else {
+        #{percentage($_animation-keyframe-offset)} {
+            @content;
+        }
+
+        $_animation-keyframe-offset: $_animation-keyframe-offset + (1 / (length($_animation-keyframes) - 1)) !global;
+    }
+}
+
+// @mixin props($props-map)
+
+.targetElement {
+    @include animation($timing: 2000ms) {
+        @include keyframe {
+            left: 0;
+            // @include props((
+            //     left: 0,
+            //     top: 0
+            // ));
+        }
+        @include keyframe {
+            left: 100px;
+            // @include props((
+            //     left: '+50px',
+            //     top: '+40px'
+            // ));
+        }
+        @include keyframe {
+            left: 50px;
+            // @include props((
+            //     left: '-20px',
+            //     top: '+20px'
+            // ));
+        }
+        @include keyframe {
+            left: 90px;
+        }
+    }
+}
+
+@debug $_animation-map;

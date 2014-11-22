@@ -1,0 +1,33 @@
+{
+  "name": "movement",
+  "version": "0.0.0",
+  "description": "SCSS animation framework for creating, composing, sequencing, and using animations similar to the W3C Web Animations spec.",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "~3.8.10",
+    "gulp-autoprefixer": "~2.0.0",
+    "gulp-ruby-sass": "~0.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidkpiano/movement.git"
+  },
+  "keywords": [
+    "sass",
+    "scss",
+    "css",
+    "animation",
+    "web",
+    "animation"
+  ],
+  "author": "David Khourshid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidkpiano/movement/issues"
+  },
+  "homepage": "https://github.com/davidkpiano/movement"
+}

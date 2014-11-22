@@ -1,4 +1,12 @@
 
+@import
+    '_global',
+    '_effect',
+    '_keyframe',
+    '_animation',
+    '_group',
+    '_sequence';
+
 $_animation-map: ();
 $_animation-keyframes: ();
 $_animation-keyframe-offset: 0;
@@ -8,26 +16,26 @@ $_keyframes-active: false;
 // $target: Animatable? target (default: &)
 // $timing: AnimationTimingProperties object (map)
 // @content: AnimationEffect
-@mixin animation(
-    $target: &,
-    $timing: default
-) {
-    $_animation-map: map-merge($_animation-map, (
-        #{$target}: (
-            name: 'czmkf1',
-            duration: $timing
-        )
-    )) !global;
+// @mixin animation(
+//     $target: &,
+//     $timing: default
+// ) {
+//     $_animation-map: map-merge($_animation-map, (
+//         #{$target}: (
+//             name: 'czmkf1',
+//             duration: $timing
+//         )
+//     )) !global;
 
-    %temp { @content; }
+//     %temp { @content; }
 
-    $total-keyframes: length($_animation-keyframes);
-    $_keyframes-active: true !global;
+//     $total-keyframes: length($_animation-keyframes);
+//     $_keyframes-active: true !global;
 
-    @keyframes czmkf1 {
-        @content;
-    }
-}
+//     @keyframes czmkf1 {
+//         @content;
+//     }
+// }
 
 @mixin keyframe() {
     @if not $_keyframes-active {
@@ -72,4 +80,8 @@ $_keyframes-active: false;
     }
 }
 
-@debug $_animation-map;
+@debug $_movement;
+
+$nodes: czm-get(nodes);
+@debug type-of($nodes);
+@debug map-get($nodes, foo);

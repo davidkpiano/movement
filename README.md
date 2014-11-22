@@ -35,8 +35,10 @@ If the offset is not specified, keyframes are evenly distributed at offsets betw
 
 ## Sequencing and synchronizing animations
 
+Two different types of TimingGroups (AnimationGroup and AnimationSequence) allow animations to be synchronized and sequenced.
+
 **AnimationGroup** (TimingGroup) plays animations synchronized (in parallel):
-```
+```scss
 // var animationGroup = new AnimationGroup([new Animation(...), new Animation(...)]);
 @include animation-group {
   @include animation() { ... }
@@ -54,3 +56,21 @@ If the offset is not specified, keyframes are evenly distributed at offsets betw
 ```
 
 Because `Animation`, `AnimationGroup`, `AnimationSequence` are all `TimedItems`, groups can be nested:
+```scss
+@include animation-group {
+  @include animation-sequence {
+    @include animation() { ... };
+    @include animation() { ... };
+  }
+  @include animation() { ... };
+}
+```
+
+Groups also take an optional `TimingDictionary` parameter (see below), which among other things allows iteration and timing functions to apply at the group level:
+```scss
+// var animationGroup = new AnimationGroup([new Animation(...), new Animation(...)], {iterations: 4});
+@include animation-group($iterations: 4) {
+  ...
+}
+```
+

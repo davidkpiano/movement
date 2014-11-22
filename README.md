@@ -3,6 +3,8 @@ Cadenza Movement
 
 Sass/SCSS/CSS animation framework for creating, composing, sequencing, and using animations.
 
+Conforms (as closely as possible) to the [W3C Web Animations spec](http://w3c.github.io/web-animations/).
+
 ## The animation model
 
 ```scss

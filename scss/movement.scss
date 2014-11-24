@@ -1,6 +1,7 @@
 
 @import
     '_global',
+    '_timing',
     '_effect',
     '_keyframe',
     '_animation',
@@ -22,7 +23,7 @@ $_keyframes-active: false;
 // ) {
 //     $_animation-map: map-merge($_animation-map, (
 //         #{$target}: (
-//             name: 'czmkf1',
+//             name: 'mmkf1',
 //             duration: $timing
 //         )
 //     )) !global;
@@ -32,22 +33,22 @@ $_keyframes-active: false;
 //     $total-keyframes: length($_animation-keyframes);
 //     $_keyframes-active: true !global;
 
-//     @keyframes czmkf1 {
+//     @keyframes mmkf1 {
 //         @content;
 //     }
 // }
 
-@mixin keyframe() {
-    @if not $_keyframes-active {
-        $_animation-keyframes: append($_animation-keyframes, auto) !global;
-    } @else {
-        #{percentage($_animation-keyframe-offset)} {
-            @content;
-        }
+// @mixin keyframe() {
+//     @if not $_keyframes-active {
+//         $_animation-keyframes: append($_animation-keyframes, auto) !global;
+//     } @else {
+//         #{percentage($_animation-keyframe-offset)} {
+//             @content;
+//         }
 
-        $_animation-keyframe-offset: $_animation-keyframe-offset + (1 / (length($_animation-keyframes) - 1)) !global;
-    }
-}
+//         $_animation-keyframe-offset: $_animation-keyframe-offset + (1 / (length($_animation-keyframes) - 1)) !global;
+//     }
+// }
 
 // @mixin props($props-map)
 
@@ -67,6 +68,7 @@ $_keyframes-active: false;
             //     top: '+40px'
             // ));
         }
+        @include keyframe { right: 20px; }
         @include keyframe {
             left: 50px;
             // @include props((
@@ -80,8 +82,4 @@ $_keyframes-active: false;
     }
 }
 
-@debug $_movement;
-
-$nodes: czm-get(nodes);
-@debug type-of($nodes);
-@debug map-get($nodes, foo);
+@debug $_current-node;

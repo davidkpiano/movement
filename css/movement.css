@@ -1,11 +1,14 @@
-@-webkit-keyframes czmkf1 {
+@-webkit-keyframes u0oi0m28q {
   0% {
     left: 0;
   }
-  33.33333% {
+  25% {
     left: 100px;
   }
-  66.66667% {
+  50% {
+    right: 20px;
+  }
+  75% {
     left: 50px;
   }
   100% {
@@ -13,14 +16,17 @@
   }
 }
 
-@keyframes czmkf1 {
+@keyframes u0oi0m28q {
   0% {
     left: 0;
   }
-  33.33333% {
+  25% {
     left: 100px;
   }
-  66.66667% {
+  50% {
+    right: 20px;
+  }
+  75% {
     left: 50px;
   }
   100% {

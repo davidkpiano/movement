@@ -1,0 +1,30 @@
+@function Keyframe(
+    $offset: auto
+) {
+    $keyframe-offset: $offset;
+
+    @return (
+        offset: $keyframe-offset
+    );
+}
+
+@mixin keyframe(
+    $offset: auto
+) {
+    $keyframe: new(Keyframe, (
+        offset: $offset
+    ));
+
+    @if not map-get($_current-node, 'keyframes-active') {
+        @include mm-node-push(keyframes, $keyframe);
+    } @else {
+        $node-offset: mm-node-get(keyframe-offset);
+        $node-keyframes-length: length(mm-node-get(keyframes));
+
+        #{percentage($node-offset)} {
+            @content;
+        }
+
+        @include mm-node-set(keyframe-offset, $node-offset + (1 / ($node-keyframes-length - 1)));
+    }
+}

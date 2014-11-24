@@ -1,0 +1,46 @@
+
+@function Animation(
+    $target,
+    $name: $target,
+    $timing: default
+) {
+    $animation-target: $target;
+    $animation-name: if($name, $name, unique-id());
+    $animation-timing: Timing($timing);
+    $animation-nodes: (_type: nodes);
+    $animation-keyframes: ();
+    $animation-keyframes-active: false;
+    $animation-keyframe-offset: 0;
+
+    @debug $animation-timing;
+
+    @return (
+        target: $animation-target,
+        name: $animation-name,
+        timing: $animation-timing,
+        nodes: $animation-nodes,
+        keyframes: $animation-keyframes,
+        keyframes-active: $animation-keyframes-active,
+        keyframe-offset: $animation-keyframe-offset
+    );
+}
+
+@mixin animation(
+    $target: &,
+    $timing: default
+) {
+    $animation: new(Animation, (
+        target: $target,
+        timing: $timing
+    ));
+    
+    $_current-node: map-merge($_current-node, $animation) !global;
+
+    @include run { @content; }
+
+    @include mm-node-set(keyframes-active, true);
+
+    @keyframes #{mm-node-get(name)} {
+        @content;
+    }
+}

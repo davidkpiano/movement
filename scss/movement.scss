@@ -3,6 +3,7 @@
     '_global',
     '_timing',
     '_effect',
+    '_node',
     '_keyframe',
     '_animation',
     '_group',
@@ -82,12 +83,12 @@ $_keyframes-active: false;
             }
         }
 
-        @include animation($timing: 1000ms) {
-            @include keyframe { right: 0; }
-            @include keyframe { right: 25px; }
-            @include keyframe { right: 0; }
-            @include keyframe { right: -25px; }
-        }
+        // @include animation($timing: 1000ms) {
+        //     @include keyframe { right: 0; }
+        //     @include keyframe { right: 25px; }
+        //     @include keyframe { right: 0; }
+        //     @include keyframe { right: -25px; }
+        // }
     // }
 }
 

@@ -5,15 +5,20 @@ $_nodes: ();
 $_current-node: ();
 
 @function new($type, $params, $extends: false) {
-    $instance: (
-        _type: $type
+    $instance-meta: (
+        _type: $type,
+        _extends: $extends
     );
 
-    // @if $extends {
-    //     $instance: map-merge($instance, call($extends, $params...));
-    // }
+    $instance: ();
+
+    @if $extends {
+        $instance: map-merge($instance, new($extends, $params));
+    }
 
     $instance: map-merge($instance, call($type, $params...));
+
+    $instance: map-merge($instance, $instance-meta);
 
     @return $instance;
 }

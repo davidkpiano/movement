@@ -18,13 +18,17 @@
     @if not map-get($_current-node, 'keyframes-active') {
         @include mm-node-push(keyframes, $keyframe);
     } @else {
-        $node-offset: mm-node-get(keyframe-offset);
+        $node-offset: mm-node-get(keyframes-offset);
         $node-keyframes-length: length(mm-node-get(keyframes));
 
         #{percentage($node-offset)} {
             @content;
         }
 
-        @include mm-node-set(keyframe-offset, $node-offset + (1 / ($node-keyframes-length - 1)));
+        @debug $node-keyframes-length;
+        @debug map-get($_current-node, keyframes);
+        @debug $node-offset + (1 / ($node-keyframes-length - 1));
+
+        @include mm-node-set(keyframes-offset, $node-offset + (1 / ($node-keyframes-length - 1)));
     }
 }

@@ -1,62 +1,19 @@
-@-webkit-keyframes ulcoevk00 {
+@keyframes uds3qmin3 {
   0% {
     left: 0;
   }
-  20% {
+  25% {
     left: 100px;
   }
-  40% {
+  50% {
     right: 2px;
   }
-  60.0% {
+  75% {
     left: 50px;
   }
-  80% {
+  100% {
     left: 90px;
   }
 }
-@keyframes ulcoevk00 {
-  0% {
-    left: 0;
-  }
-  20% {
-    left: 100px;
-  }
-  40% {
-    right: 2px;
-  }
-  60.0% {
-    left: 50px;
-  }
-  80% {
-    left: 90px;
-  }
-}
-@-webkit-keyframes ulcoevk04 {
-  0% {
-    right: 0;
-  }
-  11.11111% {
-    right: 25px;
-  }
-  22.22222% {
-    right: 0;
-  }
-  33.33333% {
-    right: -25px;
-  }
-}
-@keyframes ulcoevk04 {
-  0% {
-    right: 0;
-  }
-  11.11111% {
-    right: 25px;
-  }
-  22.22222% {
-    right: 0;
-  }
-  33.33333% {
-    right: -25px;
-  }
-}
+
+/*# sourceMappingURL=movement.css.map */

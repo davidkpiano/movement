@@ -8,7 +8,7 @@
     $animation-target: $target;
     $animation-name: $name;
     $animation-timing: new(AnimationTiming, $timing);
-    $animation-keyframe-offset: 0;
+    $animation-keyframes-offset: 0;
     $animation-keyframes-active: false;
 
     @return (
@@ -16,7 +16,8 @@
         target: $animation-target,
         name: $animation-name,
         timing: $animation-timing,
-        keyframe-offset: $animation-keyframe-offset,
+        keyframes: (),
+        keyframes-offset: $animation-keyframes-offset,
         keyframes-active: $animation-keyframes-active
     );
 }

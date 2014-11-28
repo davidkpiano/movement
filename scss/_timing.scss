@@ -1,0 +1,13 @@
+
+@function Timing(
+    $duration: 1000ms,
+    $delay: 0
+) {
+    $timing-duration: $duration;
+    $timing-delay: $delay;
+
+    @return (
+        duration: $timing-duration,
+        delay: $timing-delay
+    );
+}

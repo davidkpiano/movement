@@ -4,24 +4,20 @@
     $name: $target,
     $timing: default
 ) {
+    $animation-id: unique-id();
     $animation-target: $target;
-    $animation-name: if($name, $name, unique-id());
-    $animation-timing: Timing($timing);
-    $animation-nodes: (_type: nodes);
-    $animation-keyframes: ();
-    $animation-keyframes-active: false;
+    $animation-name: $name;
+    $animation-timing: new(AnimationTiming, $timing);
     $animation-keyframe-offset: 0;
-
-    @debug $animation-timing;
+    $animation-keyframes-active: false;
 
     @return (
+        id: $animation-id,
         target: $animation-target,
         name: $animation-name,
         timing: $animation-timing,
-        nodes: $animation-nodes,
-        keyframes: $animation-keyframes,
-        keyframes-active: $animation-keyframes-active,
-        keyframe-offset: $animation-keyframe-offset
+        keyframe-offset: $animation-keyframe-offset,
+        keyframes-active: $animation-keyframes-active
     );
 }
 
@@ -32,15 +28,15 @@
     $animation: new(Animation, (
         target: $target,
         timing: $timing
-    ));
-    
+    ), $extends: AnimationNode);
+
     $_current-node: map-merge($_current-node, $animation) !global;
 
     @include run { @content; }
 
     @include mm-node-set(keyframes-active, true);
 
-    @keyframes #{mm-node-get(name)} {
+    @keyframes #{map-get($animation, id)} {
         @content;
     }
 }

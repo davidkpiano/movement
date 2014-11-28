@@ -53,33 +53,42 @@ $_keyframes-active: false;
 // @mixin props($props-map)
 
 .targetElement {
-    @include animation($timing: 2000ms) {
-        @include keyframe {
-            left: 0;
-            // @include props((
-            //     left: 0,
-            //     top: 0
-            // ));
+    // @include animation-group() {    
+        @include animation($timing: 2000ms) {
+            @include keyframe {
+                left: 0;
+                // @include props((
+                //     left: 0,
+                //     top: 0
+                // ));
+            }
+            @include keyframe {
+                left: 100px;
+                // @include props((
+                //     left: '+50px',
+                //     top: '+40px'
+                // ));
+            }
+            @include keyframe { right: 2px; }
+            @include keyframe {
+                left: 50px;
+                // @include props((
+                //     left: '-20px',
+                //     top: '+20px'
+                // ));
+            }
+            @include keyframe {
+                left: 90px;
+            }
         }
-        @include keyframe {
-            left: 100px;
-            // @include props((
-            //     left: '+50px',
-            //     top: '+40px'
-            // ));
+
+        @include animation($timing: 1000ms) {
+            @include keyframe { right: 0; }
+            @include keyframe { right: 25px; }
+            @include keyframe { right: 0; }
+            @include keyframe { right: -25px; }
         }
-        @include keyframe { right: 20px; }
-        @include keyframe {
-            left: 50px;
-            // @include props((
-            //     left: '-20px',
-            //     top: '+20px'
-            // ));
-        }
-        @include keyframe {
-            left: 90px;
-        }
-    }
+    // }
 }
 
 @debug $_current-node;

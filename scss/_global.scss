@@ -1,19 +1,21 @@
 
 
-$_movement: (
-    nodes: ()
-);
+$_nodes: ();
 
 $_current-node: ();
 
-@function new($type, $params) {
-    $meta: (
+@function new($type, $params, $extends: false) {
+    $instance: (
         _type: $type
     );
 
-    $instance: call($type, $params...);
+    // @if $extends {
+    //     $instance: map-merge($instance, call($extends, $params...));
+    // }
 
-    @return map-merge($instance, $meta);
+    $instance: map-merge($instance, call($type, $params...));
+
+    @return $instance;
 }
 
 @function mm-node-get($key) {

@@ -47,8 +47,21 @@ $_defaults-map: (
     $_current-node: map-merge($_current-node, ($key: $value)) !global;
 }
 
+@mixin mm-nodes-push($node) {
+    $id: map-get($node, id);
+    $_nodes: map-merge($_nodes, ($id: $node)) !global;
+}
+
 @mixin mm-node-scope($node) {
+    @if map-get($_current-node, id) {
+        $node: map-merge($node, (parent: map-get($_current-node, id)));
+        @include mm-node-push(children, map-get($node, id));
+    }
+
     $_previous-node: $_current-node !global;
+
+    @include mm-nodes-push($node);
+
     $_current-node: $node !global;
 
     @content;
@@ -65,15 +78,43 @@ $_defaults-map: (
     @include mm-node-set($key, $updated-list);
 }
 
-
-
-@mixin mm-nodes-set($node) {
-    $id: map-get($node, id);
-    $_nodes: map-merge($_nodes, ($id: $node)) !global;
-}
-
 @function mm-nodes-get($id) {
     @return map-get($_nodes, $id);
+}
+
+@mixin mm-attach-animation-properties($node) {
+    @if not map-get($node, parent) {
+        @if map-get($node, _type) == AnimationGroup {
+            $group: $node;
+
+            $animation-name-list: ();
+            $animation-duration-list: ();
+            $animation-delay-list: ();
+            $animation-fill-list: ();
+            $animation-iterations-list: ();
+            $animation-easing-list: ();
+
+            @each $child in map-get($group, children) {
+                $child-node: mm-nodes-get($child);
+
+                $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
+                $animation-duration-list: append($animation-duration-list, map-get(map-get($group, timing), duration), comma);
+                $animation-delay-list: append($animation-delay-list, 0, comma);
+                $animation-fill-list: append($animation-fill-list, both, comma);
+                $animation-iterations-list: append($animation-iterations-list, 1, comma);
+                $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
+            }
+
+            @debug $node;
+
+            animation-name: $animation-name-list;
+            animation-duration: $animation-duration-list;
+            animation-delay: $animation-delay-list;
+            animation-fill-mode: $animation-fill-list;
+            animation-iteration-count: $animation-iterations-list;
+            animation-timing-function: $animation-easing-list;
+        }
+    }
 }
 
 @mixin run() {

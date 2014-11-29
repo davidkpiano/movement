@@ -5,8 +5,8 @@
   background: red;
   -webkit-animation-iteration-count: infinite, infinite;
           animation-iteration-count: infinite, infinite;
-  -webkit-animation-name: a-ulprfj8ro, a-ulprfj8s3;
-          animation-name: a-ulprfj8ro, a-ulprfj8s3;
+  -webkit-animation-name: a-u2u1i6b6e, a-u2u1i6b6p;
+          animation-name: a-u2u1i6b6e, a-u2u1i6b6p;
   -webkit-animation-duration: 2000ms, 2000ms;
           animation-duration: 2000ms, 2000ms;
   -webkit-animation-delay: 0, 0;
@@ -18,7 +18,7 @@
   -webkit-animation-timing-function: linear, linear;
           animation-timing-function: linear, linear;
 }
-@-webkit-keyframes a-ulprfj8ro {
+@-webkit-keyframes a-u2u1i6b6e {
   25% {
     top: 0;
   }
@@ -32,7 +32,7 @@
     top: 90px;
   }
 }
-@keyframes a-ulprfj8ro {
+@keyframes a-u2u1i6b6e {
   25% {
     top: 0;
   }
@@ -46,7 +46,7 @@
     top: 90px;
   }
 }
-@-webkit-keyframes a-ulprfj8s3 {
+@-webkit-keyframes a-u2u1i6b6p {
   25% {
     left: 0;
   }
@@ -60,7 +60,7 @@
     left: -25px;
   }
 }
-@keyframes a-ulprfj8s3 {
+@keyframes a-u2u1i6b6p {
   25% {
     left: 0;
   }

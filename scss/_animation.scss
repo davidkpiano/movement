@@ -32,13 +32,7 @@
         timing: $timing
     ), $extends: AnimationNode);
 
-    // If current node exists, this is a child node
-    @if map-get($_current-node, id) {
-        $animation: map-merge($animation, (parent: map-get($_current-node, id)));
-        @include mm-node-push(children, map-get($animation, id));
-    }
-
-    @include mm-nodes-set($animation);
+    @debug $animation;
 
     @include mm-node-scope($animation) {    
         @include run { @content; }
@@ -48,6 +42,8 @@
         @keyframes #{map-get($animation, id)} {
             @content;
         }
+
+        $animation: $_current-node;
     }
 
     // Export if root node

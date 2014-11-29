@@ -1,0 +1,41 @@
+
+@function AnimationSequence(
+    $target,
+    $timing: default
+) {
+    $sequence-id: unquote('s-#{unique-id()}');
+    $sequence-target: $target;
+    $sequence-name: $sequence-id;
+    $sequence-timing: new(AnimationTiming, $timing);
+    $sequence-children: ();
+    $sequence-firstChild: null;
+    $sequence-lastChild: null;
+
+    @return (
+        id: $sequence-id,
+        target: $sequence-target,
+        timing: $sequence-timing,
+        name: $sequence-name,
+        children: $sequence-children,
+        firstChild: $sequence-firstChild,
+        lastChild: $sequence-lastChild
+    );
+}
+
+@mixin animation-sequence(
+    $target: auto,
+    $timing: default
+) {
+    $sequence: new(AnimationSequence, (
+        target: $target,
+        timing: $timing
+    ), $extends: AnimationNode);
+
+    @include mm-node-scope($sequence) {
+        @include run { @content; }
+
+        $sequence: $_current-node;
+    }
+
+    @include mm-attach-animation-properties($sequence);
+}

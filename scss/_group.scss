@@ -31,43 +31,11 @@
         timing: $timing
     ), $extends: AnimationNode);
 
-    @if map-get($_current-node, id) {
-        $group: map-merge($group, (parent: map-get($_current-node, id)));
-        @include mm-node-push(children, map-get($group, id));
-    }
-
-    @include mm-nodes-set($group);
-
     @include mm-node-scope($group) {
         @include run { @content; }
 
         $group: $_current-node;
     }
 
-    @if not map-get($group, parent) {
-        $animation-name-list: ();
-        $animation-duration-list: ();
-        $animation-delay-list: ();
-        $animation-fill-list: ();
-        $animation-iterations-list: ();
-        $animation-easing-list: ();
-
-        @each $child in map-get($group, children) {
-            $child-node: mm-nodes-get($child);
-
-            $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
-            $animation-duration-list: append($animation-duration-list, map-get(map-get($group, timing), duration), comma);
-            $animation-delay-list: append($animation-delay-list, 0, comma);
-            $animation-fill-list: append($animation-fill-list, both, comma);
-            $animation-iterations-list: append($animation-iterations-list, 1, comma);
-            $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
-        }
-
-        animation-name: $animation-name-list;
-        animation-duration: $animation-duration-list;
-        animation-delay: $animation-delay-list;
-        animation-fill-mode: $animation-fill-list;
-        animation-iteration-count: $animation-iterations-list;
-        animation-timing-function: $animation-easing-list;
-    }
+    @include mm-attach-animation-properties($group);
 }

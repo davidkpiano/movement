@@ -84,36 +84,42 @@ $_defaults-map: (
 
 @mixin mm-attach-animation-properties($node) {
     @if not map-get($node, parent) {
-        @if map-get($node, _type) == AnimationGroup {
-            $group: $node;
+        $node-list: ();
+        $node-type: map-get($node, _type);
 
-            $animation-name-list: ();
-            $animation-duration-list: ();
-            $animation-delay-list: ();
-            $animation-fill-list: ();
-            $animation-iterations-list: ();
-            $animation-easing-list: ();
+        $animation-name-list: ();
+        $animation-duration-list: ();
+        $animation-delay-list: ();
+        $animation-fill-list: ();
+        $animation-iterations-list: ();
+        $animation-easing-list: ();
+        
+        @if $node-type == Animation {
+            $node-list: ($node);
+        } @else {
+            $node-list: map-get($node, children);
 
-            @each $child in map-get($group, children) {
-                $child-node: mm-nodes-get($child);
+            @each $child-node-id in $node-list {
+                $child-node: mm-nodes-get($child-node-id);
+                $child-node-delay: map-get(map-get($child-node, timing), delay) + map-get(map-get($node, timeline), $child-node-id);
 
                 $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
-                $animation-duration-list: append($animation-duration-list, map-get(map-get($group, timing), duration), comma);
-                $animation-delay-list: append($animation-delay-list, 0, comma);
+                $animation-duration-list: append($animation-duration-list, map-get(map-get($child-node, timing), duration), comma);
+                $animation-delay-list: append($animation-delay-list, $child-node-delay, comma);
                 $animation-fill-list: append($animation-fill-list, both, comma);
                 $animation-iterations-list: append($animation-iterations-list, 1, comma);
                 $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
             }
 
             @debug $node;
-
-            animation-name: $animation-name-list;
-            animation-duration: $animation-duration-list;
-            animation-delay: $animation-delay-list;
-            animation-fill-mode: $animation-fill-list;
-            animation-iteration-count: $animation-iterations-list;
-            animation-timing-function: $animation-easing-list;
         }
+
+        animation-name: $animation-name-list;
+        animation-duration: $animation-duration-list;
+        animation-delay: $animation-delay-list;
+        animation-fill-mode: $animation-fill-list;
+        animation-iteration-count: $animation-iterations-list;
+        animation-timing-function: $animation-easing-list;
     }
 }
 

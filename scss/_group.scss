@@ -10,6 +10,7 @@
     $group-children: ();
     $group-firstChild: null;
     $group-lastChild: null;
+    $group-timeline: ();
 
     @return (
         id: $group-id,
@@ -18,7 +19,8 @@
         name: $group-name,
         children: $group-children,
         firstChild: $group-firstChild,
-        lastChild: $group-lastChild
+        lastChild: $group-lastChild,
+        timeline: $group-timeline
     );
 }
 
@@ -33,6 +35,12 @@
 
     @include mm-node-scope($group) {
         @include run { @content; }
+
+        @each $child-node-id in mm-node-get(children) {
+            @include mm-node-set(timeline, map-merge(mm-node-get(timeline), 
+                ($child-node-id: 0)
+            ));
+        }
 
         $group: $_current-node;
     }

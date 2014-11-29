@@ -10,6 +10,7 @@
     $sequence-children: ();
     $sequence-firstChild: null;
     $sequence-lastChild: null;
+    $sequence-timeline: ();
 
     @return (
         id: $sequence-id,
@@ -18,7 +19,8 @@
         name: $sequence-name,
         children: $sequence-children,
         firstChild: $sequence-firstChild,
-        lastChild: $sequence-lastChild
+        lastChild: $sequence-lastChild,
+        timeline: $sequence-timeline
     );
 }
 
@@ -34,8 +36,23 @@
     @include mm-node-scope($sequence) {
         @include run { @content; }
 
+        $children-offset: 0;
+
+        @each $child-node-id in mm-node-get(children) {
+            $child-node: mm-nodes-get($child-node-id);
+            $child-node-duration: map-get(map-get($child-node, timing), duration);
+
+            @include mm-node-set(timeline, map-merge(mm-node-get(timeline),
+                ($child-node-id: $children-offset)
+            ));
+
+            $children-offset: $children-offset + $child-node-duration;
+        }
+
         $sequence: $_current-node;
     }
+
+    @debug $sequence;
 
     @include mm-attach-animation-properties($sequence);
 }

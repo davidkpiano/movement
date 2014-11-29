@@ -57,19 +57,14 @@ $_keyframes-active: false;
     position: absolute;
     width: 1rem; height: 1rem; background: red;
     animation-iteration-count: infinite, infinite;
-    @include animation-group($timing: 2000ms) {    
-        @include animation() {
-            @include keyframe { top: 0; }
-            @include keyframe { top: 100px; }
-            @include keyframe { top: 50px; }
-            @include keyframe { top: 90px; }
+    @include animation-sequence($timing: 2000ms) {    
+        @include animation {
+            @include keyframe { left: 50px; }
+            @include keyframe { left: 0; }
         }
-
-        @include animation() {
-            @include keyframe { left: 0; }
-            @include keyframe { left: 25px; }
-            @include keyframe { left: 0; }
-            @include keyframe { left: -25px; }
+        @include animation {
+            @include keyframe { top: 50px; }
+            @include keyframe { top: 0; }
         }
     }
 }

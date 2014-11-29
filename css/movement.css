@@ -5,12 +5,12 @@
   background: red;
   -webkit-animation-iteration-count: infinite, infinite;
           animation-iteration-count: infinite, infinite;
-  -webkit-animation-name: a-u2u1i6b6e, a-u2u1i6b6p;
-          animation-name: a-u2u1i6b6e, a-u2u1i6b6p;
-  -webkit-animation-duration: 2000ms, 2000ms;
-          animation-duration: 2000ms, 2000ms;
-  -webkit-animation-delay: 0, 0;
-          animation-delay: 0, 0;
+  -webkit-animation-name: a-um2bvfrru, a-um2bvfrs4;
+          animation-name: a-um2bvfrru, a-um2bvfrs4;
+  -webkit-animation-duration: 1000ms, 1000ms;
+          animation-duration: 1000ms, 1000ms;
+  -webkit-animation-delay: 0, 1000ms;
+          animation-delay: 0, 1000ms;
   -webkit-animation-fill-mode: both, both;
           animation-fill-mode: both, both;
   -webkit-animation-iteration-count: 1, 1;
@@ -18,59 +18,35 @@
   -webkit-animation-timing-function: linear, linear;
           animation-timing-function: linear, linear;
 }
-@-webkit-keyframes a-u2u1i6b6e {
-  25% {
-    top: 0;
-  }
+@-webkit-keyframes a-um2bvfrru {
   50% {
-    top: 100px;
+    left: 50px;
   }
-  75% {
+  100% {
+    left: 0;
+  }
+}
+@keyframes a-um2bvfrru {
+  50% {
+    left: 50px;
+  }
+  100% {
+    left: 0;
+  }
+}
+@-webkit-keyframes a-um2bvfrs4 {
+  50% {
     top: 50px;
   }
   100% {
-    top: 90px;
-  }
-}
-@keyframes a-u2u1i6b6e {
-  25% {
     top: 0;
   }
+}
+@keyframes a-um2bvfrs4 {
   50% {
-    top: 100px;
-  }
-  75% {
     top: 50px;
   }
   100% {
-    top: 90px;
-  }
-}
-@-webkit-keyframes a-u2u1i6b6p {
-  25% {
-    left: 0;
-  }
-  50% {
-    left: 25px;
-  }
-  75% {
-    left: 0;
-  }
-  100% {
-    left: -25px;
-  }
-}
-@keyframes a-u2u1i6b6p {
-  25% {
-    left: 0;
-  }
-  50% {
-    left: 25px;
-  }
-  75% {
-    left: 0;
-  }
-  100% {
-    left: -25px;
+    top: 0;
   }
 }

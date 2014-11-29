@@ -8,6 +8,7 @@
 ) {
     $timing-duration: if($duration == default, defaults(timing, duration), $duration);
     $timing-delay: $delay;
+    $timing-offset: 0;
     $timing-fill: $fill; // fill-mode
     $timing-iterations: $iterations; // iteration-count
     $timing-easing: $easing; // timing-function
@@ -15,6 +16,7 @@
     @return (
         duration: $timing-duration,
         delay: $timing-delay,
+        offset: $timing-offset,
         fill: $timing-fill,
         iterations: $timing-iterations,
         easing: $timing-easing

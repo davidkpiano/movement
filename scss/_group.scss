@@ -45,20 +45,29 @@
     }
 
     @if not map-get($group, parent) {
-        $animation-names: ();
-        $animation-durations: ();
-        $animation-delays: ();
+        $animation-name-list: ();
+        $animation-duration-list: ();
+        $animation-delay-list: ();
+        $animation-fill-list: ();
+        $animation-iterations-list: ();
+        $animation-easing-list: ();
 
         @each $child in map-get($group, children) {
             $child-node: mm-nodes-get($child);
 
-            $animation-names: append($animation-names, map-get($child-node, name), comma);
-            $animation-durations: append($animation-durations, map-get(map-get($group, timing), duration), comma);
-            $animation-delays: append($animation-delays, 0, comma);
+            $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
+            $animation-duration-list: append($animation-duration-list, map-get(map-get($group, timing), duration), comma);
+            $animation-delay-list: append($animation-delay-list, 0, comma);
+            $animation-fill-list: append($animation-fill-list, both, comma);
+            $animation-iterations-list: append($animation-iterations-list, 1, comma);
+            $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
         }
 
-        animation-name: $animation-names;
-        animation-duration: $animation-durations;
-        animation-delay: $animation-delays;
+        animation-name: $animation-name-list;
+        animation-duration: $animation-duration-list;
+        animation-delay: $animation-delay-list;
+        animation-fill-mode: $animation-fill-list;
+        animation-iteration-count: $animation-iterations-list;
+        animation-timing-function: $animation-easing-list;
     }
 }

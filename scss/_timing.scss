@@ -1,9 +1,9 @@
 
 @function AnimationTiming(
-    $duration: 1000ms,
+    $duration,
     $delay: 0
 ) {
-    $timing-duration: $duration;
+    $timing-duration: if($duration == default, defaults(timing, duration), $duration);
     $timing-delay: $delay;
 
     @return (

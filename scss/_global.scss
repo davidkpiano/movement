@@ -4,6 +4,22 @@ $_nodes: ();
 
 $_current-node: ();
 
+// DEFAULTS
+$_animation-timing-defaults: (
+    duration: 1000ms
+);
+
+$_defaults-map: (
+    timing: $_animation-timing-defaults
+);
+
+
+@function defaults($group, $key) {
+    $group-defaults: map-get($_defaults-map, $group);
+
+    @return map-get($group-defaults, $key);
+}
+
 @function new($type, $params, $extends: false) {
     $instance-meta: (
         _type: $type,

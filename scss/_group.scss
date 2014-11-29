@@ -46,13 +46,19 @@
 
     @if not map-get($group, parent) {
         $animation-names: ();
+        $animation-durations: ();
+        $animation-delays: ();
 
         @each $child in map-get($group, children) {
             $child-node: mm-nodes-get($child);
 
             $animation-names: append($animation-names, map-get($child-node, name), comma);
+            $animation-durations: append($animation-durations, map-get(map-get($group, timing), duration), comma);
+            $animation-delays: append($animation-delays, 0, comma);
         }
 
         animation-name: $animation-names;
+        animation-duration: $animation-durations;
+        animation-delay: $animation-delays;
     }
 }

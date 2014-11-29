@@ -1,19 +1,66 @@
-@keyframes uds3qmin3 {
-  0% {
+.targetElement {
+  -webkit-animation-name: a-ukdtwwsxt, a-ukdtwwsy8;
+          animation-name: a-ukdtwwsxt, a-ukdtwwsy8;
+}
+@-webkit-keyframes a-ukdtwwsxt {
+  20% {
     left: 0;
   }
-  25% {
+  40% {
     left: 100px;
   }
-  50% {
+  60.0% {
     right: 2px;
   }
-  75% {
+  80% {
     left: 50px;
   }
   100% {
     left: 90px;
   }
 }
-
-/*# sourceMappingURL=movement.css.map */
+@keyframes a-ukdtwwsxt {
+  20% {
+    left: 0;
+  }
+  40% {
+    left: 100px;
+  }
+  60.0% {
+    right: 2px;
+  }
+  80% {
+    left: 50px;
+  }
+  100% {
+    left: 90px;
+  }
+}
+@-webkit-keyframes a-ukdtwwsy8 {
+  25% {
+    right: 0;
+  }
+  50% {
+    right: 25px;
+  }
+  75% {
+    right: 0;
+  }
+  100% {
+    right: -25px;
+  }
+}
+@keyframes a-ukdtwwsy8 {
+  25% {
+    right: 0;
+  }
+  50% {
+    right: 25px;
+  }
+  75% {
+    right: 0;
+  }
+  100% {
+    right: -25px;
+  }
+}

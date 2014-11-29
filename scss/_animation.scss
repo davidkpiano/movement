@@ -4,10 +4,11 @@
     $name: $target,
     $timing: default
 ) {
-    $animation-id: unique-id();
+    $animation-id: unquote('a-#{unique-id()}');
     $animation-target: $target;
-    $animation-name: $name;
+    $animation-name: $animation-id;
     $animation-timing: new(AnimationTiming, $timing);
+    $animation-keyframes: ();
     $animation-keyframes-offset: 0;
     $animation-keyframes-active: false;
 
@@ -16,7 +17,7 @@
         target: $animation-target,
         name: $animation-name,
         timing: $animation-timing,
-        keyframes: (),
+        keyframes: $animation-keyframes,
         keyframes-offset: $animation-keyframes-offset,
         keyframes-active: $animation-keyframes-active
     );
@@ -31,13 +32,26 @@
         timing: $timing
     ), $extends: AnimationNode);
 
-    $_current-node: map-merge($_current-node, $animation) !global;
+    // If current node exists, this is a child node
+    @if map-get($_current-node, id) {
+        $animation: map-merge($animation, (parent: map-get($_current-node, id)));
+        @include mm-node-push(children, map-get($animation, id));
+    }
 
-    @include run { @content; }
+    @include mm-nodes-set($animation);
 
-    @include mm-node-set(keyframes-active, true);
+    @include mm-node-scope($animation) {    
+        @include run { @content; }
 
-    @keyframes #{map-get($animation, id)} {
-        @content;
+        @include mm-node-set(keyframes-active, true);
+
+        @keyframes #{map-get($animation, id)} {
+            @content;
+        }
+    }
+
+    // Export if root node
+    @if not map-get($animation, parent) {
+        animation-name: #{map-get($animation, id)};
     }
 }

@@ -1,8 +1,58 @@
 
 @function AnimationGroup(
     $target,
-    $name: $target,
     $timing: default
 ) {
-    
+    $group-id: unquote('g-#{unique-id()}');
+    $group-target: $target;
+    $group-name: $group-id;
+    $group-timing: new(AnimationTiming, $timing);
+    $group-children: ();
+    $group-firstChild: null;
+    $group-lastChild: null;
+
+    @return (
+        id: $group-id,
+        target: $group-target,
+        timing: $group-timing,
+        name: $group-name,
+        children: $group-children,
+        firstChild: $group-firstChild,
+        lastChild: $group-lastChild
+    );
+}
+
+@mixin animation-group(
+    $target: auto,
+    $timing: default
+) {
+    $group: new(AnimationGroup, (
+        target: $target,
+        timing: $timing
+    ), $extends: AnimationNode);
+
+    @if map-get($_current-node, id) {
+        $group: map-merge($group, (parent: map-get($_current-node, id)));
+        @include mm-node-push(children, map-get($group, id));
+    }
+
+    @include mm-nodes-set($group);
+
+    @include mm-node-scope($group) {
+        @include run { @content; }
+
+        $group: $_current-node;
+    }
+
+    @if not map-get($group, parent) {
+        $animation-names: ();
+
+        @each $child in map-get($group, children) {
+            $child-node: mm-nodes-get($child);
+
+            $animation-names: append($animation-names, map-get($child-node, name), comma);
+        }
+
+        animation-name: $animation-names;
+    }
 }

@@ -15,6 +15,7 @@
         id: $node-id,
         timing: $node-timing,
         parent: $node-parent,
+        children: (),
         previousSibling: $node-previousSibling,
         nextSibling: $node-nextSibling
     );

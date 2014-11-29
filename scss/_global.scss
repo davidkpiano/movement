@@ -31,11 +31,33 @@ $_current-node: ();
     $_current-node: map-merge($_current-node, ($key: $value)) !global;
 }
 
+@mixin mm-node-scope($node) {
+    $_previous-node: $_current-node !global;
+    $_current-node: $node !global;
+
+    @content;
+
+    @if map-get($_previous-node, id) {
+        $_current-node: $_previous-node !global;
+    }
+}
+
 @mixin mm-node-push($key, $value) {
     $current-list: map-get($_current-node, $key);
     $updated-list: append($current-list, $value);
 
     @include mm-node-set($key, $updated-list);
+}
+
+
+
+@mixin mm-nodes-set($node) {
+    $id: map-get($node, id);
+    $_nodes: map-merge($_nodes, ($id: $node)) !global;
+}
+
+@function mm-nodes-get($id) {
+    @return map-get($_nodes, $id);
 }
 
 @mixin run() {

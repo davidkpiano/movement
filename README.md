@@ -5,6 +5,8 @@ Sass/SCSS/CSS animation framework for creating, composing, sequencing, and using
 
 Conforms (as closely as possible) to the [W3C Web Animations spec](http://w3c.github.io/web-animations/).
 
+*Coming Soon: custom rhythmic mixins!*
+
 ## The animation model
 
 ```scss

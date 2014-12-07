@@ -5,20 +5,22 @@
   background: red;
   -webkit-animation-iteration-count: infinite, infinite;
           animation-iteration-count: infinite, infinite;
-  -webkit-animation-name: a-um2bvfrru, a-um2bvfrs4;
-          animation-name: a-um2bvfrru, a-um2bvfrs4;
-  -webkit-animation-duration: 1000ms, 1000ms;
-          animation-duration: 1000ms, 1000ms;
-  -webkit-animation-delay: 0, 1000ms;
-          animation-delay: 0, 1000ms;
-  -webkit-animation-fill-mode: both, both;
-          animation-fill-mode: both, both;
-  -webkit-animation-iteration-count: 1, 1;
-          animation-iteration-count: 1, 1;
-  -webkit-animation-timing-function: linear, linear;
-          animation-timing-function: linear, linear;
+  left: 0;
+  top: 0;
+  -webkit-animation-name: a-u25mwyn5b, a-u25mwyn5o, a-u25mwyn5w;
+          animation-name: a-u25mwyn5b, a-u25mwyn5o, a-u25mwyn5w;
+  -webkit-animation-duration: 1000ms, 1000ms, 1000ms;
+          animation-duration: 1000ms, 1000ms, 1000ms;
+  -webkit-animation-delay: 0, 1000ms, 2000ms;
+          animation-delay: 0, 1000ms, 2000ms;
+  -webkit-animation-fill-mode: forwards, forwards, forwards;
+          animation-fill-mode: forwards, forwards, forwards;
+  -webkit-animation-iteration-count: 1, 1, 1;
+          animation-iteration-count: 1, 1, 1;
+  -webkit-animation-timing-function: linear, linear, linear;
+          animation-timing-function: linear, linear, linear;
 }
-@-webkit-keyframes a-um2bvfrru {
+@-webkit-keyframes a-u25mwyn5b {
   50% {
     left: 50px;
   }
@@ -26,7 +28,7 @@
     left: 0;
   }
 }
-@keyframes a-um2bvfrru {
+@keyframes a-u25mwyn5b {
   50% {
     left: 50px;
   }
@@ -34,7 +36,7 @@
     left: 0;
   }
 }
-@-webkit-keyframes a-um2bvfrs4 {
+@-webkit-keyframes a-u25mwyn5o {
   50% {
     top: 50px;
   }
@@ -42,11 +44,39 @@
     top: 0;
   }
 }
-@keyframes a-um2bvfrs4 {
+@keyframes a-u25mwyn5o {
   50% {
     top: 50px;
   }
   100% {
     top: 0;
+  }
+}
+@-webkit-keyframes a-u25mwyn5w {
+  25% {
+    left: 100px;
+  }
+  50% {
+    left: 50px;
+  }
+  75% {
+    left: 100px;
+  }
+  100% {
+    left: 0;
+  }
+}
+@keyframes a-u25mwyn5w {
+  25% {
+    left: 100px;
+  }
+  50% {
+    left: 50px;
+  }
+  75% {
+    left: 100px;
+  }
+  100% {
+    left: 0;
   }
 }

@@ -106,7 +106,7 @@ $_defaults-map: (
                 $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
                 $animation-duration-list: append($animation-duration-list, map-get(map-get($child-node, timing), duration), comma);
                 $animation-delay-list: append($animation-delay-list, $child-node-delay, comma);
-                $animation-fill-list: append($animation-fill-list, both, comma);
+                $animation-fill-list: append($animation-fill-list, forwards, comma);
                 $animation-iterations-list: append($animation-iterations-list, 1, comma);
                 $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
             }

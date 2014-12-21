@@ -1,4 +1,5 @@
 
+@import '../bower_components/SassyLists/dist/_SassyLists';
 
 $_nodes: ();
 
@@ -13,6 +14,40 @@ $_defaults-map: (
     timing: $_animation-timing-defaults
 );
 
+@function pop($list) {
+    @return sl-remove-nth($list, 1);
+}
+
+@function get($map, $properties) {
+    $map: map-get($map, nth($properties, 1));
+    $properties: pop($properties);
+
+    @if length($properties) == 0 {
+        @return $map;
+    }
+
+    @return get($map, $properties);
+}
+
+@function set($map, $properties, $value) {
+    $property: nth($properties, 1);
+    $properties: pop($properties);
+    $child-map: map-get($map, $property);
+
+    @if length($properties) == 0 {
+        @return map-merge($map, ($property: $value));
+    }
+
+    @return map-merge($map, ($property: set($child-map, $properties, $value)));
+}
+
+@function node-get($properties) {
+    @return get($_current-node, $properties);
+}
+
+@mixin node-set($properties, $value) {
+    $_current-node: set($_current-node, $properties, $value) !global;
+}
 
 @function defaults($group, $key) {
     $group-defaults: map-get($_defaults-map, $group);

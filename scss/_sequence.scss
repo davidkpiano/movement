@@ -39,12 +39,9 @@
         $children-offset: 0;
 
         @each $child-node-id in mm-node-get(children) {
-            $child-node: mm-nodes-get($child-node-id);
-            $child-node-duration: map-get(map-get($child-node, timing), duration);
+            $child-node-duration: get($_nodes, $child-node-id timing duration);
 
-            @include mm-node-set(timeline, map-merge(mm-node-get(timeline),
-                ($child-node-id: $children-offset)
-            ));
+            @include node-set(timeline $child-node-id, $children-offset);
 
             $children-offset: $children-offset + $child-node-duration;
         }

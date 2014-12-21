@@ -1,3 +1,4 @@
+/*! SassyLists - v2.2.0 - 2014-07-03 */
 .targetElement {
   position: absolute;
   width: 1rem;
@@ -7,8 +8,8 @@
           animation-iteration-count: infinite, infinite;
   left: 0;
   top: 0;
-  -webkit-animation-name: a-u25mwyn5b, a-u25mwyn5o, a-u25mwyn5w;
-          animation-name: a-u25mwyn5b, a-u25mwyn5o, a-u25mwyn5w;
+  -webkit-animation-name: a-upsphxlom, a-upsphxlop, a-upsphxlp9;
+          animation-name: a-upsphxlom, a-upsphxlop, a-upsphxlp9;
   -webkit-animation-duration: 1000ms, 1000ms, 1000ms;
           animation-duration: 1000ms, 1000ms, 1000ms;
   -webkit-animation-delay: 0, 1000ms, 2000ms;
@@ -20,7 +21,7 @@
   -webkit-animation-timing-function: linear, linear, linear;
           animation-timing-function: linear, linear, linear;
 }
-@-webkit-keyframes a-u25mwyn5b {
+@-webkit-keyframes a-upsphxlom {
   50% {
     left: 50px;
   }
@@ -28,7 +29,7 @@
     left: 0;
   }
 }
-@keyframes a-u25mwyn5b {
+@keyframes a-upsphxlom {
   50% {
     left: 50px;
   }
@@ -36,7 +37,7 @@
     left: 0;
   }
 }
-@-webkit-keyframes a-u25mwyn5o {
+@-webkit-keyframes a-upsphxlop {
   50% {
     top: 50px;
   }
@@ -44,7 +45,7 @@
     top: 0;
   }
 }
-@keyframes a-u25mwyn5o {
+@keyframes a-upsphxlop {
   50% {
     top: 50px;
   }
@@ -52,7 +53,7 @@
     top: 0;
   }
 }
-@-webkit-keyframes a-u25mwyn5w {
+@-webkit-keyframes a-upsphxlp9 {
   25% {
     left: 100px;
   }
@@ -66,7 +67,7 @@
     left: 0;
   }
 }
-@keyframes a-u25mwyn5w {
+@keyframes a-upsphxlp9 {
   25% {
     left: 100px;
   }

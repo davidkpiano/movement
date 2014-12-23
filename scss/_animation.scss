@@ -37,7 +37,7 @@
     @include mm-node-scope($animation) {    
         @include run { @content; }
 
-        @include mm-node-set(keyframes-active, true);
+        @include node-set(keyframes-active, true);
 
         @keyframes #{map-get($animation, id)} {
             @content;

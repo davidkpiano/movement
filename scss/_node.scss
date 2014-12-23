@@ -3,11 +3,12 @@
 @function AnimationNode(
     $target,
     $name: $target,
-    $timing: default
+    $timing: default,
+    $parent: node-get(id)
 ) {
     $node-id: unique-id();
     $node-timing: new(AnimationTiming, $timing);
-    $node-parent: null;
+    $node-parent: $parent;
     $node-previousSibling: null;
     $node-nextSibling: null;
 

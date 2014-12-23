@@ -8,8 +8,8 @@
           animation-iteration-count: infinite, infinite;
   left: 0;
   top: 0;
-  -webkit-animation-name: a-upd81ejw5, a-upd81ejwa, a-upd81ejwg;
-          animation-name: a-upd81ejw5, a-upd81ejwa, a-upd81ejwg;
+  -webkit-animation-name: a-u7ew2evad, a-u7ew2evao, a-u7ew2evaz;
+          animation-name: a-u7ew2evad, a-u7ew2evao, a-u7ew2evaz;
   -webkit-animation-duration: 1000ms, 1000ms, 1000ms;
           animation-duration: 1000ms, 1000ms, 1000ms;
   -webkit-animation-delay: 0, 1000ms, 2000ms;
@@ -21,7 +21,7 @@
   -webkit-animation-timing-function: linear, linear, linear;
           animation-timing-function: linear, linear, linear;
 }
-@-webkit-keyframes a-upd81ejw5 {
+@-webkit-keyframes a-u7ew2evad {
   0% {
     left: 50px;
   }
@@ -29,7 +29,7 @@
     left: 0;
   }
 }
-@keyframes a-upd81ejw5 {
+@keyframes a-u7ew2evad {
   0% {
     left: 50px;
   }
@@ -37,7 +37,7 @@
     left: 0;
   }
 }
-@-webkit-keyframes a-upd81ejwa {
+@-webkit-keyframes a-u7ew2evao {
   0% {
     top: 50px;
   }
@@ -45,7 +45,7 @@
     top: 0;
   }
 }
-@keyframes a-upd81ejwa {
+@keyframes a-u7ew2evao {
   0% {
     top: 50px;
   }
@@ -53,7 +53,7 @@
     top: 0;
   }
 }
-@-webkit-keyframes a-upd81ejwg {
+@-webkit-keyframes a-u7ew2evaz {
   0% {
     left: 100px;
   }
@@ -67,7 +67,7 @@
     left: 0;
   }
 }
-@keyframes a-upd81ejwg {
+@keyframes a-u7ew2evaz {
   0% {
     left: 100px;
   }

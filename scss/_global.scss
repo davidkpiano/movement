@@ -22,6 +22,10 @@ $_defaults-map: (
     $map: map-get($map, nth($properties, 1));
     $properties: pop($properties);
 
+    @if not $map {
+        @return null;
+    }
+
     @if length($properties) == 0 {
         @return $map;
     }

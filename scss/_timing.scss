@@ -7,7 +7,6 @@
     $easing: linear // timing-function
 ) {
     $timing-duration: if($duration == default, defaults(timing, duration), $duration);
-    $timing-liveDuration: if(node-get(timing liveDuration), node-get(timing liveDuration), $timing-duration);
     $timing-delay: $delay;
     $timing-offset: 0;
     $timing-fill: $fill; // fill-mode
@@ -16,7 +15,6 @@
 
     @return (
         duration: $timing-duration,
-        liveDuration: $timing-liveDuration,
         delay: $timing-delay,
         offset: $timing-offset,
         fill: $timing-fill,

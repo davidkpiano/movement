@@ -19,7 +19,7 @@ gulp.task('autoprefixer', function() {
         .pipe(gulp.dest('css'));
 });
 
-gulp.task('default', ['sass', 'autoprefixer'], function() {
+gulp.task('default', ['sass'/*, 'autoprefixer'*/], function() {
     gulp.watch('css/*.css', function() {
         gulp.run('autoprefixer');
     });

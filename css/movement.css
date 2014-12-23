@@ -4,80 +4,45 @@
   width: 1rem;
   height: 1rem;
   background: red;
-  -webkit-animation-iteration-count: infinite, infinite;
-          animation-iteration-count: infinite, infinite;
+  animation-iteration-count: infinite, infinite;
   left: 0;
   top: 0;
-  -webkit-animation-name: a-u7ew2evad, a-u7ew2evao, a-u7ew2evaz;
-          animation-name: a-u7ew2evad, a-u7ew2evao, a-u7ew2evaz;
-  -webkit-animation-duration: 1000ms, 1000ms, 1000ms;
-          animation-duration: 1000ms, 1000ms, 1000ms;
-  -webkit-animation-delay: 0, 1000ms, 2000ms;
-          animation-delay: 0, 1000ms, 2000ms;
-  -webkit-animation-fill-mode: forwards, forwards, forwards;
-          animation-fill-mode: forwards, forwards, forwards;
-  -webkit-animation-iteration-count: 1, 1, 1;
-          animation-iteration-count: 1, 1, 1;
-  -webkit-animation-timing-function: linear, linear, linear;
-          animation-timing-function: linear, linear, linear;
+  animation-name: a-u95xzzri3, a-u95xzzrid, a-u95xzzriu;
+  animation-duration: 3000ms, 3000ms, 3000ms;
+  animation-delay: 0, 1000ms, 2000ms;
+  animation-fill-mode: forwards, forwards, forwards;
+  animation-iteration-count: 1, 1, 1;
+  animation-timing-function: linear, linear, linear;
 }
-@-webkit-keyframes a-u7ew2evad {
+@keyframes a-u95xzzri3 {
   0% {
     left: 50px;
   }
-  100% {
+  33.33333% {
     left: 0;
   }
 }
-@keyframes a-u7ew2evad {
-  0% {
-    left: 50px;
-  }
-  100% {
-    left: 0;
-  }
-}
-@-webkit-keyframes a-u7ew2evao {
+@keyframes a-u95xzzrid {
   0% {
     top: 50px;
   }
-  100% {
+  33.33333% {
     top: 0;
   }
 }
-@keyframes a-u7ew2evao {
+@keyframes a-u95xzzriu {
   0% {
-    top: 50px;
+    left: 100px;
   }
-  100% {
-    top: 0;
+  11.11111% {
+    left: 50px;
   }
-}
-@-webkit-keyframes a-u7ew2evaz {
-  0% {
+  22.22222% {
     left: 100px;
   }
   33.33333% {
-    left: 50px;
-  }
-  66.66667% {
-    left: 100px;
-  }
-  100% {
     left: 0;
   }
 }
-@keyframes a-u7ew2evaz {
-  0% {
-    left: 100px;
-  }
-  33.33333% {
-    left: 50px;
-  }
-  66.66667% {
-    left: 100px;
-  }
-  100% {
-    left: 0;
-  }
-}
+
+/*# sourceMappingURL=movement.css.map */

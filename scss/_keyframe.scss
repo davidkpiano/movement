@@ -27,7 +27,7 @@
 
         @include node-set(
             keyframes-offset,
-            $node-offset + 1 / ($node-keyframes-length - 1)
+            $node-offset + (1 / ($node-keyframes-length - 1)) * (node-get(timing duration) / node-get(timing liveDuration))
         );
     }
 }

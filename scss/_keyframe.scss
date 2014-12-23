@@ -15,16 +15,19 @@
         offset: $offset
     ));
 
-    @if not map-get($_current-node, 'keyframes-active') {
-        @include mm-node-push(keyframes, $keyframe);
+    @if not node-get('keyframes-active') {
+        @include node-push(keyframes, $keyframe);
     } @else {
-        $node-keyframes-length: length(mm-node-get(keyframes));
-        $node-offset: mm-node-get(keyframes-offset) + 1 / $node-keyframes-length;
-
-        @include mm-node-set(keyframes-offset, $node-offset);
+        $node-keyframes-length: length(node-get(keyframes));
+        $node-offset: node-get(keyframes-offset);
 
         #{percentage($node-offset)} {
             @content;
         }
+
+        @include node-set(
+            keyframes-offset,
+            $node-offset + 1 / ($node-keyframes-length - 1)
+        );
     }
 }

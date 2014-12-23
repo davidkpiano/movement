@@ -49,6 +49,16 @@ $_defaults-map: (
     $_current-node: set($_current-node, $properties, $value) !global;
 }
 
+@mixin nodes-set($id, $properties, $value) {
+    $_nodes: set($_nodes, sl-prepend($properties, $id), $value) !global;
+}
+
+@mixin node-push($properties, $value) {
+    $value: append(node-get($properties), $value);
+
+    @include node-set($properties, $value);
+}
+
 @function defaults($group, $key) {
     $group-defaults: map-get($_defaults-map, $group);
 
@@ -88,9 +98,9 @@ $_defaults-map: (
 }
 
 @mixin mm-node-scope($node) {
-    @if map-get($_current-node, id) {
-        $node: map-merge($node, (parent: map-get($_current-node, id)));
-        @include mm-node-push(children, map-get($node, id));
+    @if node-get(id) {
+        $node: set($node, parent, node-get(id));
+        @include node-push(children, get($node, id));
     }
 
     $_previous-node: $_current-node !global;

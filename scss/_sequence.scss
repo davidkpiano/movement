@@ -38,7 +38,7 @@
 
         $children-offset: 0;
 
-        @each $child-node-id in mm-node-get(children) {
+        @each $child-node-id in node-get(children) {
             $child-node-duration: get($_nodes, $child-node-id timing duration);
 
             @include node-set(timeline $child-node-id, $children-offset);

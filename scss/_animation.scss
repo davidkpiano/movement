@@ -24,7 +24,7 @@
 }
 
 @mixin animation(
-    $target: &,
+    $target: foo,
     $timing: default
 ) {
     $animation: new(Animation, (

@@ -56,7 +56,6 @@ $_keyframes-active: false;
 .targetElement {
     position: absolute;
     width: 1rem; height: 1rem; background: red;
-    animation-iteration-count: infinite, infinite;
     left: 0;
     top: 0;
 
@@ -65,7 +64,7 @@ $_keyframes-active: false;
             @include keyframe { left: 50px; }
             @include keyframe { left: 0; }
         }
-        @include animation {
+        @include animation($target: bar) {
             @include keyframe { top: 50px; }
             @include keyframe { top: 0; }
         }
@@ -80,4 +79,5 @@ $_keyframes-active: false;
 
 @each $node in $_nodes {
     @debug $node;
+    @debug '----------------------';
 }

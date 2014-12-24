@@ -45,12 +45,18 @@ $_defaults-map: (
     @return map-merge($map, ($property: set($child-map, $properties, $value)));
 }
 
+@function push($map, $properties, $value) {
+    @return set($map, $properties, append(get($map, $properties), $value));
+}
+
 @function node-get($properties) {
     @return get($_current-node, $properties);
 }
 
 @mixin node-set($properties, $value) {
     $_current-node: set($_current-node, $properties, $value) !global;
+
+    @include nodes-set(get($_current-node, id), (), $_current-node);
 }
 
 @function nodes-get($id, $properties: ()) {
@@ -107,7 +113,6 @@ $_defaults-map: (
 
 @mixin mm-node-scope($node) {
     @if node-get(id) {
-        $node: set($node, parent, node-get(id));
         @include node-push(children, get($node, id));
     }
 
@@ -141,51 +146,67 @@ $_defaults-map: (
     @return map-get($_nodes, $id);
 }
 
-@mixin mm-attach-animation-properties($node) {
-    @if not map-get($node, parent) {
-        $node-list: ();
-        $node-type: map-get($node, _type);
+@mixin adjust-nodes-offsets($node-id, $offset: 0) {
+    $node: nodes-get($node-id);
+    $node-offset: get($node, timing offset) + $offset;
 
-        $animation-name-list: ();
-        $animation-duration-list: ();
-        $animation-delay-list: ();
-        $animation-fill-list: ();
-        $animation-iterations-list: ();
-        $animation-easing-list: ();
-        
-        @if $node-type == Animation {
-            $node-list: ($node);
-        } @else {
-            $node-list: map-get($node, children);
+    @include nodes-set($node-id, timing liveOffset, $node-offset);
 
-            @each $child-node-id in $node-list {
-                $child-node: mm-nodes-get($child-node-id);
-                $child-node-delay: get($child-node, timing delay) + get($child-node, timing offset);
-
-                $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
-                $animation-duration-list: append(
-                    $animation-duration-list,
-                    get($child-node, timing liveDuration),
-                    comma
-                );
-                $animation-delay-list: append(
-                    $animation-delay-list,
-                    $child-node-delay,
-                    comma
-                );
-                $animation-fill-list: append($animation-fill-list, forwards, comma);
-                $animation-iterations-list: append($animation-iterations-list, 1, comma);
-                $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
-            }
+    @if not get($node, _type) == Animation {    
+        @each $child-node-id in nodes-get($node-id, children) {
+            @include adjust-nodes-offsets($child-node-id, $node-offset);
         }
-
-        animation-name: $animation-name-list;
-        animation-duration: $animation-duration-list;
-        animation-delay: $animation-delay-list;
-        animation-fill-mode: $animation-fill-list;
-        animation-iteration-count: $animation-iterations-list;
-        animation-timing-function: $animation-easing-list;
     }
+}
+
+@mixin mm-attach-animation-properties($node) {
+    $target-map: ();
+
+    $node-id: get($node, id);
+
+    $animation-name-list: ();
+    $animation-duration-list: ();
+    $animation-delay-list: ();
+    $animation-fill-list: ();
+    $animation-iterations-list: ();
+    $animation-easing-list: ();
+
+    $target-map: push($target-map, get($node, target), $node-id);
+
+    @include adjust-nodes-offsets($node-id);
+
+    @each $child-node-id in get($node, children) {
+        $target-map: push($target-map, nodes-get($child-node-id, target), $child-node-id);
+    }
+
+    // @each $target, $target-nodes in $target-map {
+    //     $child-node: mm-nodes-get($child-node-id);
+    //     $child-node-delay: get($child-node, timing delay) + get($child-node, timing offset);
+
+    //     $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
+    //     $animation-duration-list: append(
+    //         $animation-duration-list,
+    //         get($child-node, timing liveDuration),
+    //         comma
+    //     );
+    //     $animation-delay-list: append(
+    //         $animation-delay-list,
+    //         $child-node-delay,
+    //         comma
+    //     );
+    //     $animation-fill-list: append($animation-fill-list, forwards, comma);
+    //     $animation-iterations-list: append($animation-iterations-list, 1, comma);
+    //     $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
+
+    //     animation-name: $animation-name-list;
+    //     animation-duration: $animation-duration-list;
+    //     animation-delay: $animation-delay-list;
+    //     animation-fill-mode: $animation-fill-list;
+    //     animation-iteration-count: $animation-iterations-list;
+    //     animation-timing-function: $animation-easing-list;
+    // }
+
+    @debug $target-map;
 }
 
 @mixin run() {

@@ -23,7 +23,7 @@
 }
 
 @mixin animation-sequence(
-    $target: auto,
+    $target: foo,
     $timing: default
 ) {
     $sequence: new(AnimationSequence, (
@@ -38,7 +38,7 @@
 
         @each $child-node-id in node-get(children) {
             $child-node-duration: nodes-get($child-node-id, timing duration);
-            
+
             @include nodes-set($child-node-id, timing offset, $children-offset);
 
             $children-offset: $children-offset + $child-node-duration;

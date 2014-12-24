@@ -45,9 +45,4 @@
 
         $animation: $_current-node;
     }
-
-    // Export if root node
-    @if not map-get($animation, parent) {
-        animation-name: #{map-get($animation, id)};
-    }
 }

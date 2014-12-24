@@ -44,6 +44,4 @@
 
         $group: $_current-node;
     }
-
-    @include mm-attach-animation-properties($group);
 }

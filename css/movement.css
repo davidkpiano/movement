@@ -4,17 +4,24 @@
   width: 1rem;
   height: 1rem;
   background: red;
-  animation-iteration-count: infinite, infinite;
+  -webkit-animation-iteration-count: infinite, infinite;
+          animation-iteration-count: infinite, infinite;
   left: 0;
   top: 0;
-  animation-name: a-u95xzzri3, a-u95xzzrid, a-u95xzzriu;
-  animation-duration: 3000ms, 3000ms, 3000ms;
-  animation-delay: 0, 1000ms, 2000ms;
-  animation-fill-mode: forwards, forwards, forwards;
-  animation-iteration-count: 1, 1, 1;
-  animation-timing-function: linear, linear, linear;
+  -webkit-animation-name: a-u8ul52280, a-u8ul52286, a-u8ul5228k;
+          animation-name: a-u8ul52280, a-u8ul52286, a-u8ul5228k;
+  -webkit-animation-duration: 3000ms, 3000ms, 3000ms;
+          animation-duration: 3000ms, 3000ms, 3000ms;
+  -webkit-animation-delay: 0, 1000ms, 2000ms;
+          animation-delay: 0, 1000ms, 2000ms;
+  -webkit-animation-fill-mode: forwards, forwards, forwards;
+          animation-fill-mode: forwards, forwards, forwards;
+  -webkit-animation-iteration-count: 1, 1, 1;
+          animation-iteration-count: 1, 1, 1;
+  -webkit-animation-timing-function: linear, linear, linear;
+          animation-timing-function: linear, linear, linear;
 }
-@keyframes a-u95xzzri3 {
+@-webkit-keyframes a-u8ul52280 {
   0% {
     left: 50px;
   }
@@ -22,7 +29,15 @@
     left: 0;
   }
 }
-@keyframes a-u95xzzrid {
+@keyframes a-u8ul52280 {
+  0% {
+    left: 50px;
+  }
+  33.33333% {
+    left: 0;
+  }
+}
+@-webkit-keyframes a-u8ul52286 {
   0% {
     top: 50px;
   }
@@ -30,7 +45,15 @@
     top: 0;
   }
 }
-@keyframes a-u95xzzriu {
+@keyframes a-u8ul52286 {
+  0% {
+    top: 50px;
+  }
+  33.33333% {
+    top: 0;
+  }
+}
+@-webkit-keyframes a-u8ul5228k {
   0% {
     left: 100px;
   }
@@ -44,5 +67,17 @@
     left: 0;
   }
 }
-
-/*# sourceMappingURL=movement.css.map */
+@keyframes a-u8ul5228k {
+  0% {
+    left: 100px;
+  }
+  11.11111% {
+    left: 50px;
+  }
+  22.22222% {
+    left: 100px;
+  }
+  33.33333% {
+    left: 0;
+  }
+}

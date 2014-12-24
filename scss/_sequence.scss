@@ -50,6 +50,4 @@
     }
 
     @debug $sequence;
-
-    @include mm-attach-animation-properties($sequence);
 }

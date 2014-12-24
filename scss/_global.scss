@@ -53,6 +53,10 @@ $_defaults-map: (
     $_current-node: set($_current-node, $properties, $value) !global;
 }
 
+@function nodes-get($id, $properties: ()) {
+    @return get($_nodes, sl-prepend($properties, $id));
+}
+
 @mixin nodes-set($id, $properties, $value) {
     $_nodes: set($_nodes, sl-prepend($properties, $id), $value) !global;
 }
@@ -107,7 +111,7 @@ $_defaults-map: (
         @include node-push(children, get($node, id));
     }
 
-    $_previous-node: $_current-node !global;
+    $previous-node: $_current-node !global;
 
     @include mm-nodes-push($node);
 
@@ -115,8 +119,14 @@ $_defaults-map: (
 
     @content;
 
-    @if map-get($_previous-node, id) {
-        $_current-node: $_previous-node !global;
+    $node: $_current-node;
+
+    @if get($previous-node, id) {
+        $_current-node: $previous-node !global;
+    }
+
+    @if not get($node, parent) {
+        @include mm-attach-animation-properties($node);
     }
 }
 

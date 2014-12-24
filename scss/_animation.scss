@@ -24,7 +24,7 @@
 }
 
 @mixin animation(
-    $target: foo,
+    $target: node-get(target),
     $timing: default
 ) {
     $animation: new(Animation, (

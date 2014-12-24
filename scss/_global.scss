@@ -45,8 +45,8 @@ $_defaults-map: (
     @return map-merge($map, ($property: set($child-map, $properties, $value)));
 }
 
-@function push($map, $properties, $value) {
-    @return set($map, $properties, append(get($map, $properties), $value));
+@function push($map, $properties, $value, $args...) {
+    @return set($map, $properties, append(get($map, $properties), $value, $args...));
 }
 
 @function node-get($properties) {
@@ -159,54 +159,71 @@ $_defaults-map: (
     }
 }
 
+@function timeline($node-id) {
+    $node: nodes-get($node-id);
+    $timeline: ();
+
+    @if get($node, _type) == Animation {
+        @return (
+            name: get($node, name),
+            target: get($node, target),
+            duration: get($node, timing liveDuration),
+            delay: get($node, timing delay) + get($node, timing liveOffset),
+            fill-mode: forwards,
+            iteration-count: 1,
+            timing-function: get($node, timing easing),
+        );
+    }
+
+    @each $child-node-id in get($node, children) {
+        $timeline: append($timeline, timeline($child-node-id));
+    }
+
+    @return $timeline;
+}
+
 @mixin mm-attach-animation-properties($node) {
     $target-map: ();
 
     $node-id: get($node, id);
 
-    $animation-name-list: ();
-    $animation-duration-list: ();
-    $animation-delay-list: ();
-    $animation-fill-list: ();
-    $animation-iterations-list: ();
-    $animation-easing-list: ();
-
-    $target-map: push($target-map, get($node, target), $node-id);
-
+    // $target-map: push($target-map, get($node, target), $node-id);
     @include adjust-nodes-offsets($node-id);
 
-    @each $child-node-id in get($node, children) {
-        $target-map: push($target-map, nodes-get($child-node-id, target), $child-node-id);
+    $timeline: timeline($node-id);
+
+    @each $timeline-node in $timeline {
+        $target-map: push($target-map, get($timeline-node, target), $timeline-node);
     }
 
-    // @each $target, $target-nodes in $target-map {
-    //     $child-node: mm-nodes-get($child-node-id);
-    //     $child-node-delay: get($child-node, timing delay) + get($child-node, timing offset);
+    @each $target, $target-nodes in $target-map {
+        $animation-properties: (
+            name: (),
+            duration: (),
+            delay: (),
+            fill-mode: (),
+            iteration-count: (),
+            timing-function: (),
+        );
 
-    //     $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
-    //     $animation-duration-list: append(
-    //         $animation-duration-list,
-    //         get($child-node, timing liveDuration),
-    //         comma
-    //     );
-    //     $animation-delay-list: append(
-    //         $animation-delay-list,
-    //         $child-node-delay,
-    //         comma
-    //     );
-    //     $animation-fill-list: append($animation-fill-list, forwards, comma);
-    //     $animation-iterations-list: append($animation-iterations-list, 1, comma);
-    //     $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
+        @each $target-node in $target-nodes {
+            @each $animation-property-key, $animation-property-value in $target-node {
+                $animation-properties: push(
+                    $animation-properties,
+                    $animation-property-key,
+                    $animation-property-value,
+                    $separator: comma
+                );
+            }
+        }
 
-    //     animation-name: $animation-name-list;
-    //     animation-duration: $animation-duration-list;
-    //     animation-delay: $animation-delay-list;
-    //     animation-fill-mode: $animation-fill-list;
-    //     animation-iteration-count: $animation-iterations-list;
-    //     animation-timing-function: $animation-easing-list;
-    // }
-
-    @debug $target-map;
+        @at-root #{$target} {
+            @each $animation-property-key, $animation-property-value in $animation-properties {
+                @debug $animation-property-key, $animation-property-value;
+                animation-#{$animation-property-key}: $animation-property-value;
+            }
+        }
+    }
 }
 
 @mixin run() {

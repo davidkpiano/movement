@@ -59,12 +59,12 @@ $_keyframes-active: false;
     left: 0;
     top: 0;
 
-    @include animation-sequence($timing: 3000ms) {    
+    @include animation-sequence($timing: 3000ms, $target: '.foo') {    
         @include animation {
             @include keyframe { left: 50px; }
             @include keyframe { left: 0; }
         }
-        @include animation($target: bar) {
+        @include animation($target: '.bar') {
             @include keyframe { top: 50px; }
             @include keyframe { top: 0; }
         }

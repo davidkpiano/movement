@@ -10,6 +10,7 @@
     $timing-liveDuration: if(node-get(timing liveDuration), node-get(timing liveDuration), $timing-duration);
     $timing-delay: $delay;
     $timing-offset: 0;
+    $timing-liveOffset: if(node-get(timing liveOffset), node-get(timing liveOffset), $timing-offset);
     $timing-fill: $fill; // fill-mode
     $timing-iterations: $iterations; // iteration-count
     $timing-easing: $easing; // timing-function
@@ -19,6 +20,7 @@
         liveDuration: $timing-liveDuration,
         delay: $timing-delay,
         offset: $timing-offset,
+        liveOffset: $timing-liveOffset,
         fill: $timing-fill,
         iterations: $timing-iterations,
         easing: $timing-easing

@@ -36,12 +36,6 @@
     @include mm-node-scope($group) {
         @include run { @content; }
 
-        @each $child-node-id in mm-node-get(children) {
-            @include mm-node-set(timeline, map-merge(mm-node-get(timeline), 
-                ($child-node-id: 0)
-            ));
-        }
-
         $group: $_current-node;
     }
 }

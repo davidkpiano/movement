@@ -32,8 +32,6 @@
         timing: $timing
     ), $extends: AnimationNode);
 
-    @debug $animation;
-
     @include mm-node-scope($animation) {    
         @include run { @content; }
 

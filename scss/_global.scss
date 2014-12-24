@@ -160,7 +160,7 @@ $_defaults-map: (
 
             @each $child-node-id in $node-list {
                 $child-node: mm-nodes-get($child-node-id);
-                $child-node-delay: get($child-node, timing delay) + get($node, timeline $child-node-id);
+                $child-node-delay: get($child-node, timing delay) + get($child-node, timing offset);
 
                 $animation-name-list: append($animation-name-list, map-get($child-node, name), comma);
                 $animation-duration-list: append(
@@ -177,8 +177,6 @@ $_defaults-map: (
                 $animation-iterations-list: append($animation-iterations-list, 1, comma);
                 $animation-easing-list: append($animation-easing-list, map-get(map-get($child-node, timing), easing), comma);
             }
-
-            @debug $node;
         }
 
         animation-name: $animation-name-list;

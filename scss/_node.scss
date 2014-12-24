@@ -23,7 +23,7 @@
 }
 
 @mixin node(
-    $target: &,
+    $target: node-get(target),
     $timing: default
 ) {
     $node: new(AnimationNode, (

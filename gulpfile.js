@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var sass = require('gulp-ruby-sass');
 var autoprefixer = require('gulp-autoprefixer');
 
-gulp.task('sass', function() {
+gulp.task('sass', ['test'], function() {
     return gulp.src('scss/*.scss')
         .pipe(sass({
             style: 'expanded',
@@ -20,12 +20,18 @@ gulp.task('autoprefixer', function() {
         .pipe(gulp.dest('css'));
 });
 
-gulp.task('default', ['sass'/*, 'autoprefixer'*/], function() {
+gulp.task('test', function() {
+    return gulp.src('scss/tests/*.scss')
+        .pipe(sass())
+        .pipe(gulp.dest('css/tests'));
+});
+
+gulp.task('default', ['sass', 'autoprefixer'], function() {
     gulp.watch('css/*.css', function() {
         gulp.run('autoprefixer');
     });
 
-    gulp.watch('scss/*.scss', function() {
-        gulp.run('sass');
-    });
+    gulp.watch('scss/tests/*.scss', ['test']);
+
+    gulp.watch('scss/*.scss', ['sass']);
 });

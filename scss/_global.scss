@@ -56,15 +56,17 @@ $_defaults-map: (
 @mixin node-set($properties, $value) {
     $_current-node: set($_current-node, $properties, $value) !global;
 
-    @include nodes-set(get($_current-node, id), (), $_current-node);
+    $_: nodes-set(get($_current-node, id), (), $_current-node);
 }
 
 @function nodes-get($id, $properties: ()) {
     @return get($_nodes, sl-prepend($properties, $id));
 }
 
-@mixin nodes-set($id, $properties, $value) {
+@function nodes-set($id, $properties, $value) {
     $_nodes: set($_nodes, sl-prepend($properties, $id), $value) !global;
+
+    @return true;
 }
 
 @mixin node-push($properties, $value) {
@@ -150,7 +152,7 @@ $_defaults-map: (
     $node: nodes-get($node-id);
     $node-offset: get($node, timing offset) + $offset;
 
-    @include nodes-set($node-id, timing liveOffset, $node-offset);
+    $_: nodes-set($node-id, timing liveOffset, $node-offset);
 
     @if not get($node, _type) == Animation {    
         @each $child-node-id in nodes-get($node-id, children) {

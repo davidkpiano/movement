@@ -7,7 +7,7 @@
   left: 0;
   top: 0;
 }
-@keyframes a-ux4nup7cy {
+@keyframes a-uef2vaye3 {
   0% {
     left: 50px;
   }
@@ -15,7 +15,7 @@
     left: 0;
   }
 }
-@keyframes a-ux4nup7df {
+@keyframes a-uef2vayea {
   0% {
     top: 50px;
   }
@@ -23,7 +23,7 @@
     top: 0;
   }
 }
-@keyframes a-ux4nup7dp {
+@keyframes a-uef2vayei {
   0% {
     left: 100px;
   }
@@ -38,7 +38,7 @@
   }
 }
 .foo {
-  animation-name: a-ux4nup7cy, a-ux4nup7dp;
+  animation-name: a-uef2vaye3, a-uef2vayei;
   animation-duration: 3000ms, 3000ms;
   animation-delay: 0, 2000ms;
   animation-fill-mode: forwards, forwards;
@@ -47,7 +47,7 @@
   animation-target: ".foo", ".foo";
 }
 .bar {
-  animation-name: a-ux4nup7df;
+  animation-name: a-uef2vayea;
   animation-duration: 3000ms;
   animation-delay: 1000ms;
   animation-fill-mode: forwards;

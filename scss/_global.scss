@@ -189,7 +189,6 @@ $_defaults-map: (
 
     $node-id: get($node, id);
 
-    // $target-map: push($target-map, get($node, target), $node-id);
     @include adjust-nodes-offsets($node-id);
 
     $timeline: timeline($node-id);
@@ -229,5 +228,5 @@ $_defaults-map: (
 }
 
 @mixin run() {
-    %__temp { @content; }
+    %__temp__ { @content; }
 }

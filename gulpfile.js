@@ -33,5 +33,5 @@ gulp.task('default', ['sass', 'autoprefixer'], function() {
 
     gulp.watch('scss/tests/*.scss', ['test']);
 
-    gulp.watch('scss/*.scss', ['sass']);
+    gulp.watch('scss/**/*.scss', ['sass']);
 });

@@ -1,5 +1,5 @@
 /*! SassyLists - v2.2.0 - 2014-07-03 */
-.targetElement {
+.targetElement, .foo, .bar {
   position: absolute;
   width: 1rem;
   height: 1rem;
@@ -7,7 +7,7 @@
   left: 0;
   top: 0;
 }
-@keyframes a-uef2vaye3 {
+@-webkit-keyframes a-uax0q4w1u {
   0% {
     left: 50px;
   }
@@ -15,7 +15,15 @@
     left: 0;
   }
 }
-@keyframes a-uef2vayea {
+@keyframes a-uax0q4w1u {
+  0% {
+    left: 50px;
+  }
+  33.33333% {
+    left: 0;
+  }
+}
+@-webkit-keyframes a-uax0q4w22 {
   0% {
     top: 50px;
   }
@@ -23,7 +31,29 @@
     top: 0;
   }
 }
-@keyframes a-uef2vayei {
+@keyframes a-uax0q4w22 {
+  0% {
+    top: 50px;
+  }
+  33.33333% {
+    top: 0;
+  }
+}
+@-webkit-keyframes a-uax0q4w28 {
+  0% {
+    left: 100px;
+  }
+  11.11111% {
+    left: 50px;
+  }
+  22.22222% {
+    left: 100px;
+  }
+  33.33333% {
+    left: 0;
+  }
+}
+@keyframes a-uax0q4w28 {
   0% {
     left: 100px;
   }
@@ -38,22 +68,32 @@
   }
 }
 .foo {
-  animation-name: a-uef2vaye3, a-uef2vayei;
-  animation-duration: 3000ms, 3000ms;
-  animation-delay: 0, 2000ms;
-  animation-fill-mode: forwards, forwards;
-  animation-iteration-count: 1, 1;
-  animation-timing-function: linear, linear;
+  -webkit-animation-name: a-uax0q4w1u, a-uax0q4w28;
+          animation-name: a-uax0q4w1u, a-uax0q4w28;
+  -webkit-animation-duration: 3000ms, 3000ms;
+          animation-duration: 3000ms, 3000ms;
+  -webkit-animation-delay: 0, 2000ms;
+          animation-delay: 0, 2000ms;
+  -webkit-animation-fill-mode: forwards, forwards;
+          animation-fill-mode: forwards, forwards;
+  -webkit-animation-iteration-count: 1, 1;
+          animation-iteration-count: 1, 1;
+  -webkit-animation-timing-function: linear, linear;
+          animation-timing-function: linear, linear;
   animation-target: ".foo", ".foo";
 }
 .bar {
-  animation-name: a-uef2vayea;
-  animation-duration: 3000ms;
-  animation-delay: 1000ms;
-  animation-fill-mode: forwards;
-  animation-iteration-count: 1;
-  animation-timing-function: linear;
+  -webkit-animation-name: a-uax0q4w22;
+          animation-name: a-uax0q4w22;
+  -webkit-animation-duration: 3000ms;
+          animation-duration: 3000ms;
+  -webkit-animation-delay: 1000ms;
+          animation-delay: 1000ms;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
   animation-target: ".bar";
 }
-
-/*# sourceMappingURL=movement.css.map */

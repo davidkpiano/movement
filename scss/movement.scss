@@ -1,59 +1,20 @@
 
-@import
-    '_global',
-    '_timing',
-    '_effect',
-    '_node',
-    '_keyframe',
-    '_animation',
-    '_group',
-    '_sequence';
+// @import 'sassdash/_module';
+@import '_global';
+@import '_timing';
+@import '_effect';
+@import '_node';
+@import '_keyframe';
+@import '_animation';
+@import '_group';
+@import '_sequence';
 
 $_animation-map: ();
 $_animation-keyframes: ();
 $_animation-keyframe-offset: 0;
 $_keyframes-active: false;
 
-// Animation constructor
-// $target: Animatable? target (default: &)
-// $timing: AnimationTimingProperties object (map)
-// @content: AnimationEffect
-// @mixin animation(
-//     $target: &,
-//     $timing: default
-// ) {
-//     $_animation-map: map-merge($_animation-map, (
-//         #{$target}: (
-//             name: 'mmkf1',
-//             duration: $timing
-//         )
-//     )) !global;
-
-//     %temp { @content; }
-
-//     $total-keyframes: length($_animation-keyframes);
-//     $_keyframes-active: true !global;
-
-//     @keyframes mmkf1 {
-//         @content;
-//     }
-// }
-
-// @mixin keyframe() {
-//     @if not $_keyframes-active {
-//         $_animation-keyframes: append($_animation-keyframes, auto) !global;
-//     } @else {
-//         #{percentage($_animation-keyframe-offset)} {
-//             @content;
-//         }
-
-//         $_animation-keyframe-offset: $_animation-keyframe-offset + (1 / (length($_animation-keyframes) - 1)) !global;
-//     }
-// }
-
-// @mixin props($props-map)
-
-.targetElement {
+.targetElement, .foo, .bar {
     position: absolute;
     width: 1rem; height: 1rem; background: red;
     left: 0;

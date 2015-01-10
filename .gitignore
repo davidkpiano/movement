@@ -2,4 +2,5 @@
 .sass-cache/*
 node_modules
 css
+scss/sassdash
 bower_components

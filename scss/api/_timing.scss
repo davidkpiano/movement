@@ -1,0 +1,24 @@
+
+@function AnimationTiming(
+    $duration,
+    $delay: 0,
+    $fill: both, // fill-mode
+    $iterations: 1, // iteration-count
+    $easing: linear // timing-function
+) {
+    $timing-duration: if($duration == default, 1s, $duration);
+    $timing-delay: $delay;
+    $timing-offset: 0;
+    $timing-fill: $fill; // fill-mode
+    $timing-iterations: $iterations; // iteration-count
+    $timing-easing: $easing; // timing-function
+
+    @return (
+        duration: $timing-duration,
+        delay: $timing-delay,
+        offset: $timing-offset,
+        fill: $timing-fill,
+        iterations: $timing-iterations,
+        easing: $timing-easing
+    );
+}

@@ -1,10 +1,10 @@
 
 
 @function AnimationNode(
-    $target,
+    $target: &,
     $name: $target,
     $timing: default,
-    $parent: node-get(id)
+    $parent: null
 ) {
     $node-id: unique-id();
     $node-timing: new(AnimationTiming, $timing);
@@ -23,7 +23,7 @@
 }
 
 @mixin node(
-    $target: node-get(target),
+    $target: &,
     $timing: default
 ) {
     $node: new(AnimationNode, (
@@ -31,7 +31,7 @@
         timing: $timing
     ));
 
-    $node-id: map-get($node, id);
-
-    $_nodes: map-merge($_nodes, ($node-id: $node));
+    @include mv-node($node) {
+        @content;
+    }
 }

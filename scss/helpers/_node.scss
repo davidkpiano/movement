@@ -1,0 +1,11 @@
+
+
+@mixin mv-node($node) {
+    $previous-node: static(mv current-node);
+    $_: static(mv current-node, get($node, id));
+    $_: static-push(mv nodes, set($node, parent, $previous-node));
+
+    @content;
+
+    $current-node: static(mv current-node, $previous-node);
+}

@@ -1,2 +1,23 @@
 
+@import 'helpers/module';
 @import 'api/module';
+
+@mixin init() {
+    $_: static(mv, ());
+    $_: static(mv nodes, ());
+}
+
+@include init();
+
+.foo {
+    @include animation-sequence() {
+        @include animation();
+
+        @include animation-group() {
+            @include animation();
+            @include animation();
+        }
+    }
+}
+
+@debug static(mv);

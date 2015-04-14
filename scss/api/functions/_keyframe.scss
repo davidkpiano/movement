@@ -1,0 +1,18 @@
+
+
+@function Keyframe($declarations: (), $offset: null) {
+    $offset: _either($offset, _get($declarations, 'offset'));
+    $declarations: _without($declarations, 'offset');
+
+    @return (
+        declarations: $declarations,
+        offset: $offset
+    );
+}
+
+@function m-keyframe($declarations: (), $offset: null) {
+    @return _new(Keyframe, (
+        'declarations': $declarations,
+        'offset': $offset
+    ));
+}

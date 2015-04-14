@@ -51,6 +51,17 @@
     }
 }
 
+@include test-module('m-timing') {
+    $default-timing: m-timing();
+    $timing-1: m-timing(150ms, 1s);
+
+    @include test('should return a new Timing map') {
+        @each $timing in $default-timing, $timing-1 {
+            @include assert-true(_instance-of($timing, 'Timing'));
+        }
+    }
+}
+
 
 
 @include report();

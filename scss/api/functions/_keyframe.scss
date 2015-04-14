@@ -12,7 +12,7 @@
 
 @function m-keyframe($declarations: (), $offset: null) {
     @return _new(Keyframe, (
-        'declarations': $declarations,
-        'offset': $offset
+        declarations: $declarations,
+        offset: $offset
     ));
 }

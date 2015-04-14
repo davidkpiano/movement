@@ -1,0 +1,41 @@
+
+
+@function Timing(
+    $duration: auto,
+    $delay: 0,
+    $easing: linear,
+    $iterations: 1,
+    $fill: auto,
+    $direction: normal,
+    $end-delay: 0,
+    $iteration-start: 0
+) {
+    @return (
+        duration: $duration,
+        delay: $delay,
+        easing: $easing,
+        iterations: $iterations,
+        fill: $fill,
+        direction: $direction
+    );
+}
+
+@function m-timing(
+    $duration: auto,
+    $delay: 0,
+    $easing: linear,
+    $iterations: 1,
+    $fill: auto,
+    $direction: normal,
+    $end-delay: 0,
+    $iteration-start: 0
+) {
+    @return _new(Timing, (
+        duration: $duration,
+        delay: $delay,
+        easing: $easing,
+        iterations: $iterations,
+        fill: $fill,
+        direction: $direction
+    ));
+}

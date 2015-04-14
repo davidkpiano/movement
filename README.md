@@ -5,6 +5,8 @@ SCSS animation framework for creating, composing, sequencing, and using animatio
 
 Conforms (as closely as possible) to the [W3C Web Animations spec](http://w3c.github.io/web-animations/).
 
+Please see the [design document](https://github.com/davidkpiano/movement/wiki/Design).
+
 **Current status: Design/Architecture**
 
 ```scss

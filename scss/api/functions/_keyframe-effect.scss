@@ -1,0 +1,35 @@
+
+
+@function KeyframeEffect(
+    $target: &,
+    $frames: (),
+    $options: null
+) {
+    @return (
+        target: $target,
+        frames: $frames,
+        options: _new(KeyframeEffectOptions, $options, $extends: AnimationEffectTimingProperties)
+    )
+}
+
+@function KeyframeEffectOptions(
+    $name: _unique-id('ke-'),
+    $spacing: 'distribute'
+) {
+    @return (
+        name: $name,
+        spacing: $spacing
+    );
+}
+
+@function m-keyframe-effect(
+    $target: &,
+    $frames: (),
+    $options: null
+) {
+    @return _new(KeyframeEffect, (
+        target: $target,
+        frames: $frames,
+        options: $options,
+    ));
+}

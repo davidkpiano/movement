@@ -1,0 +1,21 @@
+
+
+@function Keyframes(
+    $keyframes: (),
+    $spacing: 'distribute'
+) {
+    @return (
+        keyframes: $keyframes,
+        spacing: $spacing
+    );
+}
+
+@function m-keyframes(
+    $keyframes: (),
+    $spacing: 'distribute'
+) {
+    @return _new(Keyframes, (
+        keyframes: $keyframes,
+        spacing: $spacing
+    ));
+}

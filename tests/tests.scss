@@ -67,6 +67,10 @@
 
     @include test('should return a new KeyframeEffect map') {
         @include assert-true(_instance-of($effect, 'KeyframeEffect'));
+
+        $empty-effect: m-keyframe-effect();
+
+        @include assert-true(_instance-of($empty-effect, 'KeyframeEffect'));
     }
 
     @include test('should include KeyframeEffectOptions as options property') {

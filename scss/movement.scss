@@ -1,2 +1,4 @@
 
 @import 'api/module';
+
+$foo: m-keyframe-effect('.foo', (left: 100px), 1s);

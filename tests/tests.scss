@@ -86,6 +86,31 @@
 
         @include assert-true(_has($options, 'duration'));
     }
+
+    @include test('should space frames using "distribute spacing mode" by default') {
+        $effect: m-keyframe-effect('.foo', ((left: 100px), (left: 200px)));
+        
+        $frames: _get($effect, 'frames');
+
+        @include assert-equal(_get($frames, 1 'offset'), 0%);
+        @include assert-equal(_get($frames, 2 'offset'), 100%);
+
+        $effect: m-keyframe-effect('.foo', ((left: 100px), (left: 200px), (left: 300px)));
+
+        $frames: _get($effect, 'frames');
+
+        @include assert-equal(_get($frames, 1 'offset'), 0%);
+        @include assert-equal(_get($frames, 2 'offset'), 50%);
+        @include assert-equal(_get($frames, 3 'offset'), 100%);
+    }
+
+    @include test('should set solitary frame using "distribute spacing mode" to offset 100%') {
+        $effect: m-keyframe-effect('.foo', (left: 100px), 'bar');
+        
+        $frames: _get($effect, 'frames');
+
+        @include assert-equal(_get($frames, 1 'offset'), 100%);
+    }
 }
 
 

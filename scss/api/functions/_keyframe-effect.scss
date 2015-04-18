@@ -1,14 +1,45 @@
 
+@function _m-space-distribute(
+    $frame,
+    $index,
+    $frames
+) {
+    $length: length($frames);
+
+    @if $length == 1 {
+        @return _set($frame, 'offset', 100%);
+    }
+
+    $offset: percentage(($index - 1) / ($length - 1));
+
+    @return _set($frame, 'offset', $offset);
+}
+
+@function _m-space(
+    $frames: (),
+    $spacing: 'distribute'
+) {
+    $spacing-function: '_m-space-' + $spacing;
+
+    $frames: if(_is-map($frames), ($frames,), $frames);
+
+    $frames: _map($frames, $spacing-function);
+
+    @return $frames;
+}
 
 @function KeyframeEffect(
     $target: &,
     $frames: (),
     $options: null
 ) {
+    $options: _new(KeyframeEffectOptions, $options, $extends: AnimationEffectTimingProperties);
+    $frames: _m-space($frames);
+
     @return (
         target: $target,
         frames: $frames,
-        options: _new(KeyframeEffectOptions, $options, $extends: AnimationEffectTimingProperties)
+        options: $options
     )
 }
 

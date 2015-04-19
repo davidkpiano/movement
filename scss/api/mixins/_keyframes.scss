@@ -1,0 +1,17 @@
+
+
+@mixin m-keyframes($effect) {
+    $frames: _get($effect, 'frames');
+    $name: _get($effect, 'options' 'name');
+
+    @keyframes #{$name} {    
+        @each $keyframe in $frames {
+            $offset: _get($keyframe, 'offset');
+            $declarations: _get($keyframe, 'declarations');
+
+            #{$offset} {
+                @include _declare($declarations);
+            }
+        }
+    }
+}

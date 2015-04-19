@@ -21,8 +21,6 @@
 ) {
     $spacing-function: '_m-space-' + $spacing;
 
-    $frames: if(_is-map($frames), ($frames,), $frames);
-
     $frames: _map($frames, $spacing-function);
 
     @return $frames;
@@ -34,7 +32,10 @@
     $options: null
 ) {
     $options: _new(KeyframeEffectOptions, $options, $extends: AnimationEffectTimingProperties);
-    $frames: _m-space($frames);
+
+    $frames: if(_is-map($frames), ($frames,), $frames);
+    $frames: _map($frames, _ary(m-keyframe));
+    $frames: _m-space($frames, _get($options, 'spacing'));
 
     @return (
         target: $target,
@@ -44,12 +45,22 @@
 }
 
 @function KeyframeEffectOptions(
-    $name: _unique-id('ke-'),
+    $name: null,
     $spacing: 'distribute'
 ) {
+    $duration: null;
+
+    @if _is-time($name) {
+        $duration: $name;
+        $name: null;
+    }
+
+    $name: _either($name, _unique-id('ke-'));
+
     @return (
         name: $name,
-        spacing: $spacing
+        spacing: $spacing,
+        duration: $duration
     );
 }
 

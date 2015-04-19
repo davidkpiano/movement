@@ -111,6 +111,22 @@
 
         @include assert-equal(_get($frames, 1 'offset'), 100%);
     }
+
+    @include test('should set duration in AnimationEffectTimingProperties if $options is a time value') {
+        @each $value in 3s, 3ms {
+            $effect: m-keyframe-effect('.foo', (), $value);
+
+            @include assert-equal(_get($effect, 'options' 'duration'), $value);
+
+            @include assert-unequal(_get($effect, 'options' 'name'), $value);
+        }
+    }
+
+    @include test('should treat a single frame as a single-item collection of frames') {
+        $effect: m-keyframe-effect('.foo', (left: 100px, top: 100px));
+
+        @include assert-equal(length(_get($effect, 'frames')), 1);
+    }
 }
 
 

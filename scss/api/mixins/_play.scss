@@ -1,5 +1,11 @@
 
 
 @mixin m-play($effect: null) {
+    $options: _get($effect, 'options');
 
+    animation-name: _get($options, 'name');
+    animation-duration: _get($options, 'duration');
+    animation-delay: _get($options, 'delay');
+
+    @include m-keyframes($effect);
 }

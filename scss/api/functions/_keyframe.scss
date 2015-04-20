@@ -16,3 +16,13 @@
         offset: $offset
     ));
 }
+
+@function m-keyframes($rules: ()) {
+    $keyframes: ();
+
+    @each $offset, $declarations in $rules {
+        $keyframes: append($keyframes, m-keyframe($declarations, $offset));
+    }
+
+    @return $keyframes;
+}

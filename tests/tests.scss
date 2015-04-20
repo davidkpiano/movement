@@ -51,6 +51,20 @@
     }
 }
 
+@include test-module('m-keyframes') {
+    @include test('should convert a map of keyframe offset-declarations to a list of keyframes') {
+        $keyframe-rules: (
+            0%: (left: 100px),
+            10%: (left: 200px),
+            90%: (left: 300px)
+        );
+
+        $keyframes: m-keyframes($keyframe-rules);
+
+        @include assert-true(_every($keyframes), _instance-of Keyframe);
+    }
+}
+
 @include test-module('m-timing') {
     $default-timing: m-timing();
     $timing-1: m-timing(150ms, 1s);

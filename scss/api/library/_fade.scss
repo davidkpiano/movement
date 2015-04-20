@@ -1,6 +1,11 @@
 
 
-@include m-shared-keyframe-list('fade-active', m-keyframes((
-  0%: (opacity: 0),
-  100%: (opacity: 1)  
-)));
+@include m-shared-keyframe-list('fade-active', (
+    0%: (opacity: 0),
+    100%: (opacity: 1)  
+));
+
+@include m-shared-keyframe-list('fade-inactive', (
+    0%: (opacity: 1),
+    100%: (opacity: 0)
+));

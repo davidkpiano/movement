@@ -26,3 +26,9 @@
 
     @return $keyframes;
 }
+
+@function m-shared-keyframe-list($name, $keyframes) {
+    $keyframes: static-set('m-keyframes' $name, $keyframes);
+
+    @return $keyframes;
+}

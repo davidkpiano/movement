@@ -15,3 +15,11 @@
         }
     }
 }
+
+@mixin m-shared-keyframe-list($name, $keyframes: ()) {
+    $keyframes: m-shared-keyframe-list($name, $keyframes);
+
+    @keyframes #{$name} {
+        @include _rules($keyframes);
+    }
+}

@@ -61,7 +61,15 @@
 
         $keyframes: m-keyframes($keyframe-rules);
 
-        @include assert-true(_every($keyframes), _instance-of Keyframe);
+        @include assert-true(_every($keyframes, _instance-of Keyframe));
+
+        $keys: _keys($keyframe-rules);
+        $index: 1;
+        
+        @each $keyframe in $keyframes {
+            @include assert-equal(_get($keyframe, 'offset'), nth($keys, $index));
+            $index: $index + 1;
+        }
     }
 }
 

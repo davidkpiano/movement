@@ -1,7 +1,7 @@
 
 
 @function Keyframe($declarations: (), $offset: null) {
-    $offset: _either($offset, _get($declarations, 'offset'));
+    $offset: if(not _is-null($offset), $offset, _get($declarations, 'offset'));
     $declarations: map-remove($declarations, 'offset');
 
     @return (
@@ -10,7 +10,7 @@
     );
 }
 
-@function m-keyframe($declarations: (), $offset: null) {    
+@function m-keyframe($declarations: (), $offset: null) {   
     @return _new(Keyframe, (
         declarations: $declarations,
         offset: $offset

@@ -1,0 +1,31 @@
+
+
+@function _m-set-offset($effect, $mode: 'none') {
+    $parent: _get($effect, 'parent');
+    $parent-offset-start: 0;
+    $parent-offset-end: 0;
+
+    @if $parent {    
+        $parent-offset-start: _get($parent, 'options' 'offset-start');
+        $parent-offset-end: _get($parent, 'options' 'offset-end');
+    }
+
+    $offset-start:
+        _get($effect, 'options' 'offset-start')
+        + _get($effect, 'options' 'delay')
+        + $parent-offset-start;
+
+    $offset-end:
+        _get($effect, 'options' 'offset-end')
+        + _get($effect, 'options' 'delay')
+        + $parent-offset-end;
+
+    $effect: _set($effect, 'options' 'offset-start', $offset-start);
+    $effect: _set($effect, 'options' 'offset-end', $offset-end);
+
+    @if $mode == 'none' {
+        $effect: _set($effect, 'calculated' 'delay', $offset-start);
+    }
+
+    @return $effect;
+}

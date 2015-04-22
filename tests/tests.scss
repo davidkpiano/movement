@@ -2,6 +2,8 @@
 @import '../node_modules/sassdash/scss/_sassdash';
 @import '../scss/movement';
 
+@import 'offset-tests';
+
 @include test-module('m-keyframe') {
     $single-decl: (left: 100px);
     $multiple-decls: (left: 100px, color: green);

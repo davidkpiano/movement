@@ -16,7 +16,9 @@
         easing: $easing,
         iterations: $iterations,
         fill: $fill,
-        direction: $direction
+        direction: $direction,
+        offset-start: 0,
+        offset-end: 0
     );
 }
 

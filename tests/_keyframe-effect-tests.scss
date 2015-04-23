@@ -1,0 +1,69 @@
+
+
+
+@include test-module('keyframe effect') {
+    $effect: m-keyframe-effect('.foo', (left: 100px), 'bar');
+
+    @include test('should return a new KeyframeEffect map') {
+        @include assert-true(_instance-of($effect, 'KeyframeEffect'));
+
+        $empty-effect: m-keyframe-effect();
+
+        @include assert-true(_instance-of($empty-effect, 'KeyframeEffect'));
+    }
+
+    @include test('should include KeyframeEffectOptions as options property') {
+        $options: _get($effect, 'options');
+
+        @include assert-true(_instance-of($options, 'KeyframeEffectOptions'));
+    }
+
+    @include test('options should extend AnimationEffectTimingProperties') {
+        $options: _get($effect, 'options');
+
+        @include assert-equal(_get($options, '_extends'), 'AnimationEffectTimingProperties');
+
+        @include assert-true(_has($options, 'duration'));
+    }
+
+    @include test('should space frames using "distribute spacing mode" by default') {
+        $effect: m-keyframe-effect('.foo', ((left: 100px), (left: 200px)));
+        
+        $frames: _get($effect, 'frames');
+
+        @include assert-equal(_get($frames, 1 'offset'), 0%);
+        @include assert-equal(_get($frames, 2 'offset'), 100%);
+
+        $effect: m-keyframe-effect('.foo', ((left: 100px), (left: 200px), (left: 300px)));
+
+        $frames: _get($effect, 'frames');
+
+        @include assert-equal(_get($frames, 1 'offset'), 0%);
+        @include assert-equal(_get($frames, 2 'offset'), 50%);
+        @include assert-equal(_get($frames, 3 'offset'), 100%);
+    }
+
+    @include test('should set solitary frame using "distribute spacing mode" to offset 100%') {
+        $effect: m-keyframe-effect('.foo', (left: 100px), 'bar');
+        
+        $frames: _get($effect, 'frames');
+
+        @include assert-equal(_get($frames, 1 'offset'), 100%);
+    }
+
+    @include test('should set duration in AnimationEffectTimingProperties if $options is a time value') {
+        @each $value in 3s, 3ms {
+            $effect: m-keyframe-effect('.foo', (), $value);
+
+            @include assert-equal(_get($effect, 'options' 'duration'), $value);
+
+            @include assert-unequal(_get($effect, 'options' 'name'), $value);
+        }
+    }
+
+    @include test('should treat a single frame as a single-item collection of frames') {
+        $effect: m-keyframe-effect('.foo', (left: 100px, top: 100px));
+
+        @include assert-equal(length(_get($effect, 'frames')), 1);
+    }
+}

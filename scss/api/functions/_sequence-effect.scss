@@ -1,0 +1,52 @@
+
+
+@function SequenceEffect(
+    $target: &,
+    $effects: (),
+    $options: null
+) {
+    $id: _unique-id('se-');
+    $options: _new(SequenceEffectOptions, $options, $extends: AnimationEffectTimingProperties);
+
+    $effects: _map($effects, _m-effect-set-parent $id);
+    $effects: _m-offset-sequence($effects, _get($options, 'duration'));
+
+    @return (
+        id: $id,
+        target: $target,
+        effects: $effects,
+        options: $options
+    );
+}
+
+@function SequenceEffectOptions(
+    $name: null
+) {
+    $duration: null;
+
+    @if _is-time($name) {
+        $duration: $name;
+        $name: null;
+    }
+
+    $name: _either($name, _unique-id('se-'));
+
+    @return (
+        name: $name,
+        duration: $duration
+    );
+}
+
+@function m-sequence-effect(
+    $target: &,
+    $effects: (),
+    $options: null
+) {
+    @return _m-register-effect(
+        _new(SequenceEffect, (
+            target: $target,
+            effects: $effects,
+            options: $options
+        ))
+    );
+}

@@ -69,9 +69,11 @@
     $frames: (),
     $options: null
 ) {
-    @return _new(KeyframeEffect, (
-        target: $target,
-        frames: $frames,
-        options: $options
-    ));
+    @return _m-register-effect(
+        _new(KeyframeEffect, (
+            target: $target,
+            frames: $frames,
+            options: $options
+        ))
+    );
 }

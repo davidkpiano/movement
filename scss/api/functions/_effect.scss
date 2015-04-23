@@ -1,0 +1,13 @@
+
+
+@function _m-effect-set-parent($effect, $parent: null) {
+    @return _set($effect, 'parent', $parent);
+}
+
+@function _m-get-effect($id) {
+    @return static-get('m-effects' $id);
+}
+
+@function _m-register-effect($effect) {
+    @return static-set('m-effects' _get($effect, 'id'), $effect);
+}

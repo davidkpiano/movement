@@ -30,19 +30,6 @@
     @return $effect;
 }
 
-@function _m-offset-sequence-iteratee($effect, $args...) {
-    $previous-duration: __this('previous-duration');
-    $remaining-duration: __this('remaining-duration');
-    $duration: _min(_get($effect, 'duration'), $remaining-duration);
-
-    $effect: _set($effect, 'options' 'offset-start', $previous-duration);
-    $effect: _set($effect, 'options' 'offset-end', $remaining-duration - $duration);
-
-    $previous-duration: __this('previous-duration', $previous-duration + $duration);
-    $remaining-duration: __this('remaining-duration', $remaining-duration - $previous-duration);
-
-    @return $effect;
-}
 @function _m-offset-sequence($effects, $duration) {
     $offset-effects: ();
 

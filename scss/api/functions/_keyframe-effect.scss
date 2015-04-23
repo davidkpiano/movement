@@ -50,7 +50,7 @@
 ) {
     $duration: null;
 
-    @if _is-time($name) {
+    @if _is-time($name) or $name == 'auto' {
         $duration: $name;
         $name: null;
     }

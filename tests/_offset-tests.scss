@@ -46,4 +46,42 @@
             $index: $index + 1;
         }
     }
+
+    @include test('should truncate effects overlapping past duration of parent') {
+        $effects: _m-offset-sequence($effects, 4s);
+
+        $expected-start-offsets: (0s, 1s, 3s);
+        $expected-end-offsets: (3s, 1s, 0s);
+        $expected-durations: (1s, 2s, 1s);
+
+        $index: 1;
+        @while $index <= length($effects) {
+            $effect: nth($effects, $index);
+
+            @include assert-equal(_get($effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
+            @include assert-equal(_get($effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
+            @include assert-equal(_get($effect, 'options' 'duration'), nth($expected-durations, $index));
+
+            $index: $index + 1;
+        }
+    }
+
+    // @include test('should work with a sequence duration of auto') {
+    //     // @debug _map($effects, 'options');
+    //     $effects: _m-offset-sequence($effects, 'auto');
+
+    //     $expected-start-offsets: (0s, 1s, 3s);
+    //     $expected-end-offsets: (5s, 3s, 0s);
+
+    //     $index: 1;
+    //     @while $index <= length($effects) {
+    //         $effect: nth($effects, $index);
+
+    //         @include assert-equal(_get($effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
+    //         @include assert-equal(_get($effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
+
+
+    //         $index: $index + 1;
+    //     }
+    // }
 }

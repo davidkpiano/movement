@@ -34,23 +34,30 @@
     $offset-effects: ();
 
     @if $duration == 'auto' {
-        // TODO
-    } @else {
-        $previous-duration: 0s;
-        $remaining-duration: $duration;
+        @if _any(_map($effects, 'options'), ('duration': 'auto')) {
+            @warn 'Cannot have child effect with a duration of "auto" inside a parent effect with a duration of "auto"';
 
-        @each $effect in $effects {
-            $duration: min(_get($effect, 'options' 'duration'), $remaining-duration);
-
-            $remaining-duration: $remaining-duration - $duration;
-
-            $effect: _set($effect, 'options' 'offset-start', $previous-duration);
-            $effect: _set($effect, 'options' 'offset-end', $remaining-duration);
-
-            $previous-duration: $previous-duration + $duration;
-
-            $offset-effects: append($offset-effects, $effect);
+            @return ();
         }
+
+        $duration: _sum(_map($effects, 'options'), 'duration');
+    }
+
+    $previous-duration: 0s;
+    $remaining-duration: $duration;
+
+    @each $effect in $effects {
+        $duration: min(_get($effect, 'options' 'duration'), $remaining-duration);
+
+        $remaining-duration: $remaining-duration - $duration;
+
+        $effect: _set($effect, 'options' 'offset-start', $previous-duration);
+        $effect: _set($effect, 'options' 'offset-end', $remaining-duration);
+        $effect: _set($effect, 'options' 'duration', $duration);
+
+        $previous-duration: $previous-duration + $duration;
+
+        $offset-effects: append($offset-effects, $effect);
     }
 
     @return $offset-effects;

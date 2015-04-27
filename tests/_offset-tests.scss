@@ -66,22 +66,27 @@
         }
     }
 
-    // @include test('should work with a sequence duration of auto') {
-    //     // @debug _map($effects, 'options');
-    //     $effects: _m-offset-sequence($effects, 'auto');
+    @include test('should work with a sequence duration of auto') {
+        $e-1: m-keyframe-effect(null, (), 1s);
+        $e-2: m-keyframe-effect(null, (), 2s);
+        $e-3: m-keyframe-effect(null, (), 3s);
 
-    //     $expected-start-offsets: (0s, 1s, 3s);
-    //     $expected-end-offsets: (5s, 3s, 0s);
+        $effects: ($e-1, $e-2, $e-3);
 
-    //     $index: 1;
-    //     @while $index <= length($effects) {
-    //         $effect: nth($effects, $index);
+        $effects: _m-offset-sequence($effects, 'auto');
 
-    //         @include assert-equal(_get($effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
-    //         @include assert-equal(_get($effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
+        $expected-start-offsets: (0s, 1s, 3s);
+        $expected-end-offsets: (5s, 3s, 0s);
+
+        $index: 1;
+        @while $index <= length($effects) {
+            $effect: nth($effects, $index);
+
+            @include assert-equal(_get($effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
+            @include assert-equal(_get($effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
 
 
-    //         $index: $index + 1;
-    //     }
-    // }
+            $index: $index + 1;
+        }
+    }
 }

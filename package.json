@@ -4,9 +4,11 @@
   "description": "SCSS animation framework for creating, composing, sequencing, and using animations similar to the W3C Web Animations spec.",
   "main": "gulpfile.js",
   "dependencies": {
-    "sassdash": "^0.3.0"
+    "sassdash": "^0.4.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sassdash": "^0.4.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -4,90 +4,11 @@
 
 @import 'offset-tests';
 @import 'effect-tests';
+@import 'timing-tests';
+@import 'keyframe-tests';
+@import 'keyframes-tests';
 @import 'keyframe-effect-tests';
 @import 'sequence-effect-tests';
-
-@include test-module('m-keyframe') {
-    $single-decl: (left: 100px);
-    $multiple-decls: (left: 100px, color: green);
-    $single-decl-offset: (left: 100px, offset: 0.1);
-    $multiple-decls-offset: (left: 100px, color: green, offset: 0.1);
-
-    $decls-list: $single-decl, $multiple-decls, $single-decl-offset, $multiple-decls-offset;
-
-    @include test('should return a new Keyframe map') {
-        @each $decls in $decls-list {
-            $keyframe: m-keyframe($decls);
-
-            @include assert-true(_instance-of($keyframe, 'Keyframe'));
-        }
-    }
-
-    @include test('should default offset to null') {
-        @each $decls in $single-decl, $multiple-decls {
-            $keyframe: m-keyframe($decls);
-
-            @include assert-equal(_get($keyframe, 'offset'), null);
-        }
-    }
-
-    @include test('should set offset when present in declarations') {
-        @each $decls in $single-decl-offset, $multiple-decls-offset {
-            $keyframe: m-keyframe($decls);
-
-            @include assert-equal(_get($keyframe, 'offset'), 0.1);
-        }
-    }
-
-    @include test('should override offset if explicitly provided in arguments') {
-        @each $decls in $single-decl-offset, $multiple-decls-offset {
-            $keyframe: m-keyframe($decls, $offset: 0.2);
-
-            @include assert-equal(_get($keyframe, 'offset'), 0.2);
-        }
-    }
-
-    @include test('should exclude offset from declarations') {
-        @each $decls in $single-decl-offset, $multiple-decls-offset {
-            $keyframe: m-keyframe($decls);
-
-            @include assert-false(_has(_get($keyframe, 'declarations'), 'offset'));
-        }
-    }
-}
-
-@include test-module('m-keyframes') {
-    @include test('should convert a map of keyframe offset-declarations to a list of keyframes') {
-        $keyframe-rules: (
-            0%: (left: 100px),
-            10%: (left: 200px),
-            90%: (left: 300px)
-        );
-
-        $keyframes: m-keyframes($keyframe-rules);
-
-        @include assert-true(_every($keyframes, _instance-of Keyframe));
-
-        $keys: _keys($keyframe-rules);
-        $index: 1;
-        
-        @each $keyframe in $keyframes {
-            @include assert-equal(_get($keyframe, 'offset'), nth($keys, $index));
-            $index: $index + 1;
-        }
-    }
-}
-
-@include test-module('m-timing') {
-    $default-timing: m-timing();
-    $timing-1: m-timing(150ms, 1s);
-
-    @include test('should return a new AnimationEffectTimingProperties map') {
-        @each $timing in $default-timing, $timing-1 {
-            @include assert-true(_instance-of($timing, 'AnimationEffectTimingProperties'));
-        }
-    }
-}
 
 
 

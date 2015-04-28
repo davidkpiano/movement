@@ -1,17 +1,35 @@
 
 
 @mixin m-keyframes($effect) {
-    $frames: _get($effect, 'frames');
-    $name: _get($effect, 'options' 'name');
+    @if _instance-of($effect, 'KeyframeEffect') {
+        $effect: _m-set-offset($effect);
 
-    @keyframes #{$name} {    
-        @each $keyframe in $frames {
-            $offset: _get($keyframe, 'offset');
-            $declarations: _get($keyframe, 'declarations');
+        $target: _get($effect, 'target');
+        $frames: _get($effect, 'frames');
+        $options: _get($effect, 'options');
+        $animation: (
+            name: _get($options, 'name'),
+            duration: _get($effect, 'calculated' 'duration'),
+            delay: _get($effect, 'calculated' 'delay')
+        );
 
-            #{$offset} {
-                @include _declare($declarations);
+        $playlist: append($playlist, ($target: $animation)) !global;
+
+        @keyframes #{_get($animation, 'name')} {    
+            @each $keyframe in $frames {
+                $offset: _get($keyframe, 'offset');
+                $declarations: _get($keyframe, 'declarations');
+
+                #{$offset} {
+                    @include _declare($declarations);
+                }
             }
+        }
+    } @else {
+        $child-effects: _get($effect, 'effects');
+
+        @each $child-effect in $child-effects {
+            @include m-keyframes($child-effect);
         }
     }
 }

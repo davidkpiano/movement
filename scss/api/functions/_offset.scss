@@ -2,8 +2,8 @@
 
 @function _m-set-offset($effect, $mode: 'none') {
     $parent: _m-get-effect(_get($effect, 'parent'));
-    $parent-offset-start: 0;
-    $parent-offset-end: 0;
+    $parent-offset-start: 0s;
+    $parent-offset-end: 0s;
 
     @if $parent {    
         $parent-offset-start: _get($parent, 'options' 'offset-start');
@@ -24,6 +24,7 @@
     $effect: _set($effect, 'options' 'offset-end', $offset-end);
 
     @if $mode == 'none' {
+        $effect: _set($effect, 'calculated' 'duration', _get($effect, 'options' 'duration'));
         $effect: _set($effect, 'calculated' 'delay', $offset-start);
     }
 

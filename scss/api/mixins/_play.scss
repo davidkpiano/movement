@@ -1,11 +1,16 @@
-
+$playlist: () !global;
 
 @mixin m-play($effect: null) {
+    $playlist: () !global;
     $options: _get($effect, 'options');
 
-    animation-name: _get($options, 'name');
-    animation-duration: _get($options, 'duration');
-    animation-delay: _get($options, 'delay');
-
     @include m-keyframes($effect);
+
+    @each $target, $animations in _group-by-keys($playlist) {
+        #{$target} {        
+            @include _declare(_group-by-keys($animations));
+        }
+    }
+
+    $playlist: () !global;
 }

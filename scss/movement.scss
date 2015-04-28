@@ -4,6 +4,14 @@
 $foo: m-keyframe-effect('.foo', ((left: 100px), (left: 200px), (left: 300px), (left: 400px)), 1s);
 
 
-.foo {
-    @include m-play($foo);
+body {
+    $e-1: m-keyframe-effect('.foo', ((left: 100px), (left: 200px)), 1s);
+    $e-2: m-keyframe-effect('.bar', ((left: 300px), (left: 200px)), 1s);
+    $e-3: m-keyframe-effect('.foo', ((left: 200px), (left: 300px), (left: 400px)), 1s);
+
+    $bar: m-sequence-effect(null, $e-1 $e-2 $e-3, 3s);
+
+    &:hover {
+        @include m-play($bar);
+    }
 }

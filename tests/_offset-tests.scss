@@ -6,7 +6,7 @@
     @include test('should set offset of effect via delay property') {
         $actual: _m-set-offset($effect, 'none');
 
-        @include assert-equal(_get($actual, 'calculated' 'delay'), 0);
+        @include assert-equal(_get($actual, 'calculated' 'delay'), 0s);
 
         // Give effect 1s delay
         $actual-effect: _set($effect, 'options' 'delay', 1s);
@@ -19,6 +19,24 @@
         $actual: _m-set-offset($actual-effect, 'none');
 
         @include assert-equal(_get($actual, 'calculated' 'delay'), 3s);
+    }
+}
+
+@include test-module('offset (mode: both)') {
+    $parent-effect: m-sequence-effect(null, (), 4s);
+    $parent-effect: _set($parent-effect, options, (offset-start: 1s, offset-end: 2s));
+    $parent-effect: _m-register-effect($parent-effect);
+
+    $child-effect: m-keyframe-effect(null, (left: 100px) (left: 200px), 1s);
+    $child-effect: _set($child-effect, 'parent', _get($parent-effect, 'id'));
+
+    @include test('should set keyframe offsets relative to start and end offsets') {
+        $actual: _m-set-offset($child-effect, $mode: 'both');
+        $expected-offsets: (25%, 50%);
+
+        @each $index, $keyframe in __to-map(_get($actual, 'frames')) {
+            @include assert-equal(_get($keyframe, 'offset'), nth($expected-offsets, $index));
+        }
     }
 }
 

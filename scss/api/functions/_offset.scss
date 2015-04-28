@@ -23,9 +23,28 @@
     $effect: _set($effect, 'options' 'offset-start', $offset-start);
     $effect: _set($effect, 'options' 'offset-end', $offset-end);
 
-    @if $mode == 'none' {
-        $effect: _set($effect, 'calculated' 'duration', _get($effect, 'options' 'duration'));
-        $effect: _set($effect, 'calculated' 'delay', $offset-start);
+    @if _instance-of($effect, 'KeyframeEffect') {    
+        @if $mode == 'none' {
+            $effect: _set($effect, 'calculated' 'duration', _get($effect, 'options' 'duration'));
+            $effect: _set($effect, 'calculated' 'delay', $offset-start);
+        } @else if $mode == 'both' {
+            $calculated-frames: ();
+
+            $active-duration: _get($effect, 'options' 'duration');
+            $total-duration: $active-duration + $offset-start + $offset-end;
+            $relative-offset-start: percentage($offset-start / $total-duration);
+            $relative-offset-end: 100% - percentage($offset-end / $total-duration);
+            $relative-active-duration: percentage($active-duration / $total-duration);
+
+            @each $keyframe in _get($effect, 'frames') {
+                $offset: (_get($keyframe, 'offset') * $relative-active-duration) / 100% + $relative-offset-start;
+                $keyframe: _set($keyframe, 'offset', $offset);
+
+                $calculated-frames: append($calculated-frames, $keyframe);
+            }
+
+            $effect: _set($effect, 'frames', $calculated-frames);
+        }
     }
 
     @return $effect;

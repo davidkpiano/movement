@@ -27,11 +27,19 @@
         @if $mode == 'none' {
             $effect: _set($effect, 'calculated' 'duration', _get($effect, 'options' 'duration'));
             $effect: _set($effect, 'calculated' 'delay', $offset-start);
-        } @else if $mode == 'both' {
+        } @else {
             $calculated-frames: ();
-
             $active-duration: _get($effect, 'options' 'duration');
-            $total-duration: $active-duration + $offset-start + $offset-end;
+            $total-duration: 0;
+
+            @if $mode == 'both' {            
+                $total-duration: $active-duration + $offset-start + $offset-end;
+            } @else if $mode == 'before' {
+                $total-duration: $active-duration + $offset-start;
+            } @else if $mode == 'after' {
+                $total-duration: $active-duration + $offset-end;
+            }
+
             $relative-offset-start: percentage($offset-start / $total-duration);
             $relative-offset-end: 100% - percentage($offset-end / $total-duration);
             $relative-active-duration: percentage($active-duration / $total-duration);

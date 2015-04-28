@@ -8,12 +8,7 @@
 }
 
 @function _m-render-SequenceEffect($effect) {
-    $child-effects: _get($effect, 'effects');
-    $duration: _get($effect, 'options' 'duration');
-
-    $rendered-child-effects: _m-offset-SequenceEffect($child-effects, $duration);
-
-    $rendered-effect: _set($effect, 'effects', $rendered-child-effects);
+    $rendered-effect: _m-offset-SequenceEffect($effect);
 
     @return $rendered-effect;
 }

@@ -7,15 +7,16 @@
         $target: _get($effect, 'target');
         $frames: _get($effect, 'frames');
         $options: _get($effect, 'options');
+        $name: _get($options, 'name');
         $animation: (
-            name: _get($options, 'name'),
-            duration: _get($effect, 'calculated' 'duration'),
-            delay: _get($effect, 'calculated' 'delay')
+            -webkit-animation-name: _get($options, 'name'),
+            -webkit-animation-duration: _get($effect, 'calculated' 'duration'),
+            -webkit-animation-delay: _get($effect, 'calculated' 'delay')
         );
 
         $playlist: append($playlist, ($target: $animation)) !global;
 
-        @keyframes #{_get($animation, 'name')} {    
+        @-webkit-keyframes #{$name} {    
             @each $keyframe in $frames {
                 $offset: _get($keyframe, 'offset');
                 $declarations: _get($keyframe, 'declarations');

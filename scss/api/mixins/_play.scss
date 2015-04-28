@@ -2,6 +2,9 @@ $playlist: () !global;
 
 @mixin m-play($effect: null) {
     $playlist: () !global;
+
+    $effect: _m-render($effect);
+    
     $options: _get($effect, 'options');
 
     @include m-keyframes($effect);

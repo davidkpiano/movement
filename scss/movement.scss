@@ -4,6 +4,30 @@
 $foo: m-keyframe-effect('.foo', ((left: 100px), (left: 200px), (left: 300px), (left: 400px)), 1s);
 
 
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+* {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.foo, .bar {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    background: red;
+    top: calc(50vh - 0.5rem);
+    left: calc(50vw - 0.5rem);
+}
+
+.bar {
+    background: blue;
+}
+
 body {
     $e-1: m-keyframe-effect('.foo', ((left: 100px), (left: 200px)), 1s);
     $e-2: m-keyframe-effect('.bar', ((left: 300px), (left: 200px)), 1s);

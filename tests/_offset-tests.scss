@@ -4,19 +4,19 @@
     $effect: m-keyframe-effect('', (), 2s);
 
     @include test('should set offset of effect via delay property') {
-        $actual: _m-set-offset($effect, 'none');
+        $actual: _m-render-offset($effect, 'none');
 
         @include assert-equal(_get($actual, 'calculated' 'delay'), 0s);
 
         // Give effect 1s delay
         $actual-effect: _set($effect, 'options' 'delay', 1s);
-        $actual: _m-set-offset($actual-effect, 'none');
+        $actual: _m-render-offset($actual-effect, 'none');
 
         @include assert-equal(_get($actual, 'calculated' 'delay'), 1s);
 
         // Give 1s-delay effect 2s offset-start
         $actual-effect: _set($actual-effect, 'options' 'offset-start', 2s);
-        $actual: _m-set-offset($actual-effect, 'none');
+        $actual: _m-render-offset($actual-effect, 'none');
 
         @include assert-equal(_get($actual, 'calculated' 'delay'), 3s);
     }
@@ -31,7 +31,7 @@
     $child-effect: _set($child-effect, 'parent', _get($parent-effect, 'id'));
 
     @include test('should set keyframe offsets relative to start and end offsets') {
-        $actual: _m-set-offset($child-effect, $mode: 'both');
+        $actual: _m-render-offset($child-effect, $mode: 'both');
         $expected-offsets: (25%, 50%);
 
         @each $index, $keyframe in __to-map(_get($actual, 'frames')) {
@@ -40,25 +40,25 @@
     }
 }
 
-@include test-module('_m-offset-sequence') {
+@include test-module('_m-offset-SequenceEffect') {
     $e-1: m-keyframe-effect(null, (), 1s);
     $e-2: m-keyframe-effect(null, (), 2s);
     $e-3: m-keyframe-effect(null, (), 3s);
 
-    $effects: ($e-1, $e-2, $e-3);
+    $effect: m-sequence-effect(null, ($e-1, $e-2, $e-3), 6s);
 
     @include test('should add the proper offset-start and offset-end to each effect') {
-        $effects: _m-offset-sequence($effects, 6s);
+        $effects: _get(_m-offset-SequenceEffect($effect), 'effects');
 
         $expected-start-offsets: (0s, 1s, 3s);
         $expected-end-offsets: (5s, 3s, 0s);
 
         $index: 1;
         @while $index <= length($effects) {
-            $effect: nth($effects, $index);
+            $child-effect: nth($effects, $index);
 
-            @include assert-equal(_get($effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
-            @include assert-equal(_get($effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
+            @include assert-equal(_get($child-effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
+            @include assert-equal(_get($child-effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
 
 
             $index: $index + 1;
@@ -66,7 +66,8 @@
     }
 
     @include test('should truncate effects overlapping past duration of parent') {
-        $effects: _m-offset-sequence($effects, 4s);
+        $effect: m-sequence-effect(null, ($e-1, $e-2, $e-3), 4s);
+        $effects: _get(_m-offset-SequenceEffect($effect), 'effects');
 
         $expected-start-offsets: (0s, 1s, 3s);
         $expected-end-offsets: (3s, 1s, 0s);
@@ -74,11 +75,11 @@
 
         $index: 1;
         @while $index <= length($effects) {
-            $effect: nth($effects, $index);
+            $child-effect: nth($effects, $index);
 
-            @include assert-equal(_get($effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
-            @include assert-equal(_get($effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
-            @include assert-equal(_get($effect, 'options' 'duration'), nth($expected-durations, $index));
+            @include assert-equal(_get($child-effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
+            @include assert-equal(_get($child-effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
+            @include assert-equal(_get($child-effect, 'options' 'duration'), nth($expected-durations, $index));
 
             $index: $index + 1;
         }
@@ -89,19 +90,19 @@
         $e-2: m-keyframe-effect(null, (), 2s);
         $e-3: m-keyframe-effect(null, (), 3s);
 
-        $effects: ($e-1, $e-2, $e-3);
+        $effect: m-sequence-effect(null, ($e-1, $e-2, $e-3), 'auto');
 
-        $effects: _m-offset-sequence($effects, 'auto');
+        $effects: _get(_m-offset-SequenceEffect($effect), 'effects');
 
         $expected-start-offsets: (0s, 1s, 3s);
         $expected-end-offsets: (5s, 3s, 0s);
 
         $index: 1;
         @while $index <= length($effects) {
-            $effect: nth($effects, $index);
+            $child-effect: nth($effects, $index);
 
-            @include assert-equal(_get($effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
-            @include assert-equal(_get($effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
+            @include assert-equal(_get($child-effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
+            @include assert-equal(_get($child-effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
 
 
             $index: $index + 1;

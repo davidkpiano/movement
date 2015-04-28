@@ -1,6 +1,6 @@
 
 
-@function _m-set-offset($effect, $mode: 'none') {
+@function _m-render-offset($effect, $mode: 'none') {
     $parent: _m-get-effect(_get($effect, 'parent'));
     $parent-offset-start: 0s;
     $parent-offset-end: 0s;
@@ -50,35 +50,41 @@
     @return $effect;
 }
 
-@function _m-offset-sequence($effects, $duration) {
+@function _m-offset-SequenceEffect($effect) {
     $offset-effects: ();
+    $duration: _get($effect, 'options' 'duration');
+    $child-effects: _get($effect, 'effects');
 
     @if $duration == 'auto' {
-        @if _any(_map($effects, 'options'), ('duration': 'auto')) {
+        @if _any(_map($child-effects, 'options'), ('duration': 'auto')) {
             @warn 'Cannot have child effect with a duration of "auto" inside a parent effect with a duration of "auto"';
 
             @return ();
         }
 
-        $duration: _sum(_map($effects, 'options'), 'duration');
+        $duration: _sum(_map($child-effects, 'options'), 'duration');
+
+        $effect: _set($effect, 'options' 'duration', $duration);
     }
 
     $previous-duration: 0s;
     $remaining-duration: $duration;
 
-    @each $effect in $effects {
-        $duration: min(_get($effect, 'options' 'duration'), $remaining-duration);
+    @each $child-effect in $child-effects {
+        $duration: min(_get($child-effect, 'options' 'duration'), $remaining-duration);
 
         $remaining-duration: $remaining-duration - $duration;
 
-        $effect: _set($effect, 'options' 'offset-start', $previous-duration);
-        $effect: _set($effect, 'options' 'offset-end', $remaining-duration);
-        $effect: _set($effect, 'options' 'duration', $duration);
+        $child-effect: _set($child-effect, 'options' 'offset-start', $previous-duration);
+        $child-effect: _set($child-effect, 'options' 'offset-end', $remaining-duration);
+        $child-effect: _set($child-effect, 'options' 'duration', $duration);
 
         $previous-duration: $previous-duration + $duration;
 
-        $offset-effects: append($offset-effects, $effect);
+        $offset-effects: append($offset-effects, $child-effect);
     }
 
-    @return $offset-effects;
+    $effect: _set($effect, 'effects', $offset-effects);
+
+    @return $effect;
 }

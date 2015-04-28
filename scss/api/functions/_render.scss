@@ -1,0 +1,19 @@
+
+
+@function _m-render($effect) {
+    $type: _get($effect, '_type');
+    $render-function: '_m-render-#{$type}';
+
+    @return call($render-function, $effect);
+}
+
+@function _m-render-SequenceEffect($effect) {
+    $child-effects: _get($effect, 'effects');
+    $duration: _get($effect, 'options' 'duration');
+
+    $rendered-child-effects: _m-offset-SequenceEffect($child-effects, $duration);
+
+    $rendered-effect: _set($effect, 'effects', $rendered-child-effects);
+
+    @return $rendered-effect;
+}

@@ -1,0 +1,10 @@
+
+
+@include test-module('_m-render') {
+    $e-1: m-keyframe-effect(null, (), 1s);
+    $e-2: m-keyframe-effect(null, (), 2s);
+    $e-3: m-keyframe-effect(null, (), 3s);
+    $effect: m-sequence-effect(null, $e-1 $e-2 $e-3, auto);
+
+    
+}

@@ -9,7 +9,6 @@
     $options: _new(SequenceEffectOptions, $options, $extends: AnimationEffectTimingProperties);
 
     $effects: _map($effects, _m-effect-set-parent $id);
-    $effects: _m-offset-sequence($effects, _get($options, 'duration'));
 
     @return (
         id: $id,

@@ -8,7 +8,17 @@
 }
 
 @function _m-render-SequenceEffect($effect) {
+    $child-effects: _map(_get($effect, 'effects'), _ary(_m-render));
+
+    $effect: _set($effect, 'effects', $child-effects);
+
     $rendered-effect: _m-offset-SequenceEffect($effect);
+
+    @return $rendered-effect;
+}
+
+@function _m-render-KeyframeEffect($effect) {
+    $rendered-effect: _m-space($effect);
 
     @return $rendered-effect;
 }

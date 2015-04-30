@@ -1,0 +1,29 @@
+
+@function _m-space-distribute(
+    $frame,
+    $index,
+    $frames
+) {
+    $length: length($frames);
+
+    @if $length == 1 {
+        @return _set($frame, 'offset', 100%);
+    }
+
+    $offset: percentage(($index - 1) / ($length - 1));
+
+    @return _set($frame, 'offset', $offset);
+}
+
+@function _m-space($effect) {
+    $frames: _get($effect, 'frames');
+    $spacing: _get($effect, 'options' 'spacing');
+
+    $spacing-function: '_m-space-' + $spacing;
+
+    $frames: _map($frames, $spacing-function);
+
+    $effect: _set($effect, 'frames', $frames);
+
+    @return $effect;
+}

@@ -30,6 +30,8 @@
     $child-effect: m-keyframe-effect(null, (left: 100px) (left: 200px), 1s);
     $child-effect: _set($child-effect, 'parent', _get($parent-effect, 'id'));
 
+    $child-effect: _m-render($child-effect);
+
     @include test('should set keyframe offsets relative to start and end offsets') {
         $actual: _m-render-offset($child-effect, $mode: 'both');
         $expected-offsets: (25%, 50%);

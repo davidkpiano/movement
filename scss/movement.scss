@@ -22,10 +22,12 @@ body, html {
     background: red;
     top: calc(50vh - 0.5rem);
     left: calc(50vw - 0.5rem);
+    -webkit-animation-fill-mode: forwards, both;
 }
 
 .bar {
     background: blue;
+    -webkit-animation-fill-mode: both;
 }
 
 body {

@@ -54,8 +54,10 @@
             }
         }
 
-        $declarations: _set($declarations, transform,
-            _join(_map(_pairs($transforms), _reduce _ary(_str-concat, 2)), ' '));
+        @if length($transforms) > 0 {
+            $declarations: _set($declarations, transform,
+                _join(_map(_pairs($transforms), _reduce _ary(_str-concat, 2)), ' '));            
+        }
 
         $declarations: _map-values($declarations, unquote);
 
@@ -63,6 +65,7 @@
 
         $mapped-keyframes: append($mapped-keyframes, $keyframe);
     }
+
 
     $effect: _set($effect, 'frames', $mapped-keyframes);
 

@@ -1,0 +1,70 @@
+
+
+@function _m-normalize-KeyframeEffect($effect) {
+    $keyframes: _get($effect, 'frames');
+    $normalized-keyframes: ();
+    $properties: ();
+
+    @each $keyframe in $keyframes {
+        $declarations: _get($keyframe, 'declarations');
+        
+        $properties: _concat($properties, _keys($declarations));
+    }
+
+    $properties: _union($properties);
+
+    @each $keyframe in $keyframes {
+        $declarations: _get($keyframe, 'declarations');
+        $normalized-declarations: ();
+
+        @each $property in $properties {
+            $normalized-declarations: _set($normalized-declarations, $property, _get($declarations, $property));
+        }
+
+        $normalized-keyframe: _set($keyframe, 'declarations', $normalized-declarations);
+
+        $normalized-keyframes: append($normalized-keyframes, $normalized-keyframe);
+    }
+
+    @return _set($effect, 'frames', $normalized-keyframes);
+}
+
+@function _m-map-KeyframeEffect($effect) {
+    $keyframes: _get($effect, 'frames');
+    $mapped-keyframes: ();
+    $transform-properties-map: (
+        'x': 'translateX',
+        'y': 'translateY',
+        'z': 'translateZ'
+    );
+    $transform-properties: _concat(_keys($transform-properties-map),
+        'scale', 'rotate');
+
+    @each $keyframe in $keyframes {
+        $transforms: ();
+        $declarations: _get($keyframe, 'declarations');
+
+        @each $property, $value in $declarations {
+            @if _includes($transform-properties, $property) {
+                $mapped-property: _either(_get($transform-properties-map, $property), $property);
+
+                $transforms: _set($transforms, $mapped-property, '(#{$value})');
+
+                $declarations: map-remove($declarations, $property);
+            }
+        }
+
+        $declarations: _set($declarations, transform,
+            _join(_map(_pairs($transforms), _reduce _ary(_str-concat, 2)), ' '));
+
+        $declarations: _map-values($declarations, unquote);
+
+        $keyframe: _set($keyframe, 'declarations', $declarations);
+
+        $mapped-keyframes: append($mapped-keyframes, $keyframe);
+    }
+
+    $effect: _set($effect, 'frames', $mapped-keyframes);
+
+    @return $effect;
+}

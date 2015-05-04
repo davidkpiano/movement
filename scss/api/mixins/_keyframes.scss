@@ -11,7 +11,8 @@
         $animation: (
             -webkit-animation-name: _get($options, 'name'),
             -webkit-animation-duration: _get($effect, 'calculated' 'duration'),
-            -webkit-animation-delay: _get($effect, 'calculated' 'delay')
+            -webkit-animation-delay: _get($effect, 'calculated' 'delay'),
+            -webkit-animation-fill-mode: forwards
         );
 
         $playlist: append($playlist, ($target: $animation)) !global;

@@ -1,0 +1,29 @@
+
+
+@include test-module('_m-map-KeyframeEffect') {
+    $keyframes: (
+        (x: 1),
+        (x: 2, y: 2),
+        (x: 3, y: 3, z: 3),
+        (x: 4, scale: 4),
+        (x: 5, rotate: 5),
+        (x: 6, margin: 6)
+    );
+
+    @include test('should aggregate transforms') {
+        $effect: m-keyframe-effect(null, $keyframes, 1s);
+
+        $expected-keyframes: (
+            (transform: translateX(1))
+            (transform: translateX(2) translateY(2))
+            (transform: translateX(3) translateY(3) translateZ(3))
+            (transform: translateX(4) scale(4))
+            (transform: translateX(5) rotate(5))
+            (margin: 6, transform: translateX(6))
+        );
+
+        $actual-keyframes: _get(_m-map-KeyframeEffect($effect), 'frames');
+
+        @include assert-true(_is-equal(_pluck($actual-keyframes, 'declarations'), $expected-keyframes));
+    }
+}

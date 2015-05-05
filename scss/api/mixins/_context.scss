@@ -1,0 +1,21 @@
+
+
+@mixin _m-context($effect) {
+    $previous-effect: $m-current-effect;
+
+    $m-current-effect: $effect !global;
+
+    @content;
+
+    @if $previous-effect {
+        $previous-child-effects: _get($previous-effect, 'effects');
+        $previous-child-effects: append($previous-child-effects, $effect);
+        $previous-effect: _set($previous-effect, 'effects', $previous-child-effects);
+    } @else {
+        @at-root {
+            @include m-play($m-current-effect);
+        }
+    }
+
+    $m-current-effect: $previous-effect !global;
+}

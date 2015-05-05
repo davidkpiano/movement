@@ -38,7 +38,9 @@
         'z': 'translateZ'
     );
     $transform-properties: _concat(_keys($transform-properties-map),
-        'scale', 'rotate');
+        'scale',
+        'rotate',
+        'skew');
 
     @each $keyframe in $keyframes {
         $transforms: ();

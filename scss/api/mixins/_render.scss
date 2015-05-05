@@ -1,6 +1,6 @@
 
 
-@mixin m-keyframes($effect) {
+@mixin m-render($effect) {
     @if _instance-of($effect, 'KeyframeEffect') {
         $effect: _m-render-offset($effect);
 
@@ -15,7 +15,7 @@
             -webkit-animation-fill-mode: forwards
         );
 
-        $playlist: append($playlist, ($target: $animation)) !global;
+        $timeline: append($timeline, ($target: $animation)) !global;
 
         @-webkit-keyframes #{$name} {    
             @each $keyframe in $frames {
@@ -31,7 +31,7 @@
         $child-effects: _get($effect, 'effects');
 
         @each $child-effect in $child-effects {
-            @include m-keyframes($child-effect);
+            @include m-render($child-effect);
         }
     }
 }

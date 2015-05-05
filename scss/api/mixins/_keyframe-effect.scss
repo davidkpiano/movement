@@ -1,0 +1,9 @@
+
+
+@mixin m-keyframe-effect($keyframes: (), $options: ()) {
+    $effect: m-keyframe-effect(#{&}, $keyframes, $options);
+
+    @include _m-context($effect) {
+        @content;
+    }
+}

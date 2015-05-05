@@ -1,19 +1,19 @@
-$playlist: () !global;
+$timeline: () !global;
 
 @mixin m-play($effect: null) {
-    $playlist: () !global;
+    $timeline: () !global;
 
     $effect: _m-render($effect);
     
     $options: _get($effect, 'options');
 
-    @include m-keyframes($effect);
+    @include m-render($effect);
 
-    @each $target, $animations in _group-by-keys($playlist) {
+    @each $target, $animations in _group-by-keys($timeline) {
         #{$target} {        
             @include _declare(_group-by-keys($animations));
         }
     }
 
-    $playlist: () !global;
+    $timeline: () !global;
 }

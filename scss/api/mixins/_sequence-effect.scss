@@ -1,0 +1,9 @@
+
+
+@mixin m-sequence-effect($effects: (), $options: ()) {
+    $effect: m-sequence-effect(#{&}, $effects, $options);
+
+    @include _m-context($effect) {
+        @content;
+    }
+}

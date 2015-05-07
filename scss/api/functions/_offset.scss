@@ -50,7 +50,7 @@
 }
 
 @function _m-offset-SequenceEffect($effect) {
-    $offset-effects: ();
+    $calculated-effects: ();
     $duration: _get($effect, 'options' 'duration');
     $iterations: _get($effect, 'options' 'iterations');
     $child-effects: _get($effect, 'effects');
@@ -62,7 +62,14 @@
             @return ();
         }
 
-        $duration: _sum(_map($child-effects, 'options'), 'duration');
+        $duration: 0s;
+
+        @each $child-effect in $child-effects {
+            $child-duration: _get($child-effect, 'options' 'duration');
+            $child-iterations: _get($child-effect, 'options' 'iterations');
+
+            $duration: $duration + ($child-duration * $child-iterations);
+        }
 
         $effect: _set($effect, 'options' 'duration', $duration);
     }
@@ -71,20 +78,24 @@
     $remaining-duration: $duration;
 
     @each $child-effect in $child-effects {
-        $duration: min(_get($child-effect, 'options' 'duration'), $remaining-duration);
+        $child-duration: _get($child-effect, 'options' 'duration');
+        $child-iterations: _get($child-effect, 'options' 'iterations');
+        $child-total-duration: $child-duration * $child-iterations;
+
+        $duration: min($child-total-duration, $remaining-duration);
 
         $remaining-duration: $remaining-duration - $duration;
 
         $child-effect: _set($child-effect, 'options' 'offset-start', $previous-duration);
         $child-effect: _set($child-effect, 'options' 'offset-end', $remaining-duration);
-        $child-effect: _set($child-effect, 'options' 'duration', $duration);
+        $child-effect: _set($child-effect, 'options' 'duration', $duration / $child-iterations);
 
         $previous-duration: $previous-duration + $duration;
 
-        $offset-effects: append($offset-effects, $child-effect);
+        $calculated-effects: append($calculated-effects, $child-effect);
     }
 
-    $effect: _set($effect, 'effects', $offset-effects);
+    $effect: _set($effect, 'effects', $calculated-effects);
 
     @return $effect;
 }

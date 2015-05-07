@@ -18,14 +18,6 @@
         @include assert-true(_instance-of($options, 'KeyframeEffectOptions'));
     }
 
-    @include test('options should extend AnimationEffectTimingProperties') {
-        $options: _get($effect, 'options');
-
-        @include assert-equal(_get($options, '_extends'), 'AnimationEffectTimingProperties');
-
-        @include assert-true(_has($options, 'duration'));
-    }
-
     @include test('should space frames using "distribute spacing mode" by default') {
         $effect: m-keyframe-effect('.foo', ((left: 100px), (left: 200px)));
 

@@ -110,11 +110,36 @@
 
     $effect: m-sequence-effect(null, ($e-1, $e-2, $e-3), 6s);
 
+    $e-4: m-keyframe-effect(null, (), 1s);
+    $e-5: m-keyframe-effect(null, (), (duration: 2s, iterations: 2));
+    $e-6: m-keyframe-effect(null, (), 3s);
+
+    $effect-with-child-iterations: m-sequence-effect(null, ($e-4, $e-5, $e-6), 8s);
+
     @include test('should add the proper offset-start and offset-end to each effect') {
         $effects: _get(_m-offset-SequenceEffect($effect), 'effects');
 
         $expected-start-offsets: (0s, 1s, 3s);
         $expected-end-offsets: (5s, 3s, 0s);
+
+        $index: 1;
+        @while $index <= length($effects) {
+            $child-effect: nth($effects, $index);
+
+            @include assert-equal(_get($child-effect, 'options' 'offset-start'), nth($expected-start-offsets, $index));
+            @include assert-equal(_get($child-effect, 'options' 'offset-end'), nth($expected-end-offsets, $index));
+
+
+            $index: $index + 1;
+        }
+
+    }
+
+    @include test('should add the proper offset-start and offset-end to each effect and respect child effect(s) with multiple iterations') {
+        $effects: _get(_m-offset-SequenceEffect($effect-with-child-iterations), 'effects');
+
+        $expected-start-offsets: (0s, 1s, 5s);
+        $expected-end-offsets: (7s, 3s, 0s);
 
         $index: 1;
         @while $index <= length($effects) {

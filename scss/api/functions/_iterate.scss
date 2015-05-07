@@ -1,0 +1,5 @@
+
+
+@function _m-iterate-SequenceEffect($effect) {
+    $effect-iterations: _get($effect, 'options' 'iterations');
+}

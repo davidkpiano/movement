@@ -6,7 +6,7 @@
         (x: 2, y: 2),
         (x: 3, y: 3, z: 3),
         (x: 4, scale: 4),
-        (x: 5, rotate: 5),
+        (x: 5, scale: 5),
         (x: 6, margin: 6)
     );
 
@@ -14,16 +14,19 @@
         $effect: m-keyframe-effect(null, $keyframes, 1s);
 
         $expected-keyframes: (
-            (transform: translateX(1))
-            (transform: translateX(2) translateY(2))
-            (transform: translateX(3) translateY(3) translateZ(3))
-            (transform: translateX(4) scale(4))
-            (transform: translateX(5) rotate(5))
-            (margin: 6, transform: translateX(6))
+            (transform: 'translateX(1)')
+            (transform: 'translateX(2) translateY(2)')
+            (transform: 'translateX(3) translateY(3) translateZ(3)')
+            (transform: 'translateX(4) scale(4)')
+            (transform: 'translateX(5) scale(5)')
+            (margin: 6, transform: 'translateX(6)')
         );
 
-        $actual-keyframes: _get(_m-map-KeyframeEffect($effect), 'frames');
+        $actual-keyframes: _pluck(_get(_m-map-KeyframeEffect($effect), 'frames'), 'declarations');
 
-        @include assert-true(_is-equal(_pluck($actual-keyframes, 'declarations'), $expected-keyframes));
+        @for $i from 1 through length($actual-keyframes) {
+            @debug _map(_pluck(nth($actual-keyframes, $i) nth($expected-keyframes, $i), 'transform'), length);
+            @include assert-equal(nth($actual-keyframes, $i), nth($expected-keyframes, $i));
+        }
     }
 }

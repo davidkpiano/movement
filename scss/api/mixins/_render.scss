@@ -2,8 +2,6 @@
 
 @mixin m-render($effect) {
     @if _instance-of($effect, 'KeyframeEffect') {
-        $effect: _m-render-offset($effect);
-
         $target: _get($effect, 'target');
         $frames: _get($effect, 'frames');
         $options: _get($effect, 'options');

@@ -25,7 +25,6 @@
         $actual-keyframes: _pluck(_get(_m-map-KeyframeEffect($effect), 'frames'), 'declarations');
 
         @for $i from 1 through length($actual-keyframes) {
-            @debug _map(_pluck(nth($actual-keyframes, $i) nth($expected-keyframes, $i), 'transform'), length);
             @include assert-equal(nth($actual-keyframes, $i), nth($expected-keyframes, $i));
         }
     }

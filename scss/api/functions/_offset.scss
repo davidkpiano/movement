@@ -1,59 +1,50 @@
 
+@function _m-offset-KeyframeEffect($effect, $mode) {
+    $calculated-keyframes: ();
 
-@function _m-render-offset($effect, $mode: 'none') {
+    $effect-duration: _get($effect, 'options' 'duration');
+    $effect-offset-end: _get($effect, 'options' 'offset-end');
+
     $parent: _m-get-effect(_get($effect, 'parent'));
+    $parent-duration: $effect-duration;
+    $parent-delay: 0s;
     $parent-offset-start: 0s;
-    $parent-offset-end: 0s;
 
     @if $parent {    
+        $parent-duration: _get($parent, 'options' 'duration');
+        $parent-delay: _get($parent, 'options' 'delay');
         $parent-offset-start: _get($parent, 'options' 'offset-start');
-        $parent-offset-end: _get($parent, 'options' 'offset-end');
     }
 
-    $offset-start:
-        _get($effect, 'options' 'offset-start')
-        + _get($effect, 'options' 'delay')
+    $calculated-duration: $effect-duration;
+
+    @if $mode == 'continuous' {
+        $calculated-duration: $parent-duration;
+    } @else if $mode == 'terminal' {
+        $calculated-duration: $effect-duration + $effect-offset-end;
+    }
+
+    $relative-offset-start: 0%;
+    $relative-offset-end: $effect-duration / $calculated-duration;
+
+    @each $keyframe in _get($effect, 'frames') {
+        $keyframe-offset: _get($keyframe, 'offset');
+
+        $keyframe: _set($keyframe, 'offset', $relative-offset-end * $keyframe-offset);
+
+        $calculated-keyframes: append($calculated-keyframes, $keyframe);
+    }
+
+    $effect: _set($effect, 'frames', $calculated-keyframes);
+
+    // Set proper delay
+    $effect-delay: _get($effect, 'options' 'delay')
+        + _get($effect, 'options' 'offset-start')
+        + $parent-delay
         + $parent-offset-start;
 
-    $offset-end:
-        _get($effect, 'options' 'offset-end')
-        + _get($effect, 'options' 'delay')
-        + $parent-offset-end;
-
-    $effect: _set($effect, 'options' 'offset-start', $offset-start);
-    $effect: _set($effect, 'options' 'offset-end', $offset-end);
-
-    @if _instance-of($effect, 'KeyframeEffect') {    
-        @if $mode == 'none' {
-            $effect: _set($effect, 'calculated' 'duration', _get($effect, 'options' 'duration'));
-            $effect: _set($effect, 'calculated' 'delay', $offset-start);
-        } @else {
-            $calculated-frames: ();
-            $active-duration: _get($effect, 'options' 'duration');
-            $total-duration: 0;
-
-            @if $mode == 'both' {            
-                $total-duration: $active-duration + $offset-start + $offset-end;
-            } @else if $mode == 'before' {
-                $total-duration: $active-duration + $offset-start;
-            } @else if $mode == 'after' {
-                $total-duration: $active-duration + $offset-end;
-            }
-
-            $relative-offset-start: percentage($offset-start / $total-duration);
-            $relative-offset-end: 100% - percentage($offset-end / $total-duration);
-            $relative-active-duration: percentage($active-duration / $total-duration);
-
-            @each $keyframe in _get($effect, 'frames') {
-                $offset: (_get($keyframe, 'offset') * $relative-active-duration) / 100% + $relative-offset-start;
-                $keyframe: _set($keyframe, 'offset', $offset);
-
-                $calculated-frames: append($calculated-frames, $keyframe);
-            }
-
-            $effect: _set($effect, 'frames', $calculated-frames);
-        }
-    }
+    $effect: _set($effect, 'calculated' 'delay', $effect-delay);
+    $effect: _set($effect, 'calculated' 'duration', $calculated-duration);
 
     @return $effect;
 }
@@ -61,6 +52,7 @@
 @function _m-offset-SequenceEffect($effect) {
     $offset-effects: ();
     $duration: _get($effect, 'options' 'duration');
+    $iterations: _get($effect, 'options' 'iterations');
     $child-effects: _get($effect, 'effects');
 
     @if $duration == 'auto' {

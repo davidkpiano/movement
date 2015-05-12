@@ -15,6 +15,7 @@
             -webkit-animation-name: _get($options, 'name'),
             -webkit-animation-duration: _get($effect, 'calculated' 'duration'),
             -webkit-animation-delay: _get($effect, 'calculated' 'delay'),
+            -webkit-animation-iteration-count: _get($effect, 'options' 'iterations'),
             -webkit-animation-fill-mode: forwards
         );
 

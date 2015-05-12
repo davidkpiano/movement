@@ -42,13 +42,13 @@ body, html {
 
 body {
     &:hover {
-        @include m-sequence-effect((), 3s) {
+        @include m-sequence-effect(()) {
             .foo {
                 @include m-keyframe-effect((x: 100px) (x: 200px), 1s);
             }
 
             .bar {
-                @include m-keyframe-effect((x: 300px) (x:200px), (
+                @include m-keyframe-effect((x: 300px) (x:200px) (x: 300px), (
                     duration: 1s,
                     iterations: 3
                 ));

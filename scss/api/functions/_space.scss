@@ -1,5 +1,5 @@
 
-@function _m-space-distribute(
+@function _m-space-KeyframeEffect-distribute(
     $frame,
     $index,
     $frames
@@ -15,11 +15,11 @@
     @return _set($frame, 'offset', $offset);
 }
 
-@function _m-space($effect) {
+@function _m-space-KeyframeEffect($effect) {
     $frames: _get($effect, 'frames');
     $spacing: _get($effect, 'options' 'spacing');
 
-    $spacing-function: '_m-space-' + $spacing;
+    $spacing-function: '_m-space-KeyframeEffect-' + $spacing;
 
     $frames: _map($frames, $spacing-function);
 

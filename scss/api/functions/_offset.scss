@@ -1,5 +1,5 @@
 
-@function _m-offset-KeyframeEffect($effect, $mode) {
+@function _m-offset-KeyframeEffect($effect, $mode: 'auto') {
     $calculated-keyframes: ();
 
     $effect-duration: _get($effect, 'options' 'duration');
@@ -14,6 +14,10 @@
         $parent-duration: _get($parent, 'options' 'duration');
         $parent-delay: _get($parent, 'options' 'delay');
         $parent-offset-start: _get($parent, 'options' 'offset-start');
+
+        @if $mode == 'auto' {
+            $mode: _get($parent, 'options' 'iterations') > 1;
+        }
     }
 
     $calculated-duration: $effect-duration;
@@ -92,10 +96,19 @@
 
         $previous-duration: $previous-duration + $duration;
 
+        $child-effect: _m-offset($child-effect);
+
         $calculated-effects: append($calculated-effects, $child-effect);
     }
 
     $effect: _set($effect, 'effects', $calculated-effects);
 
     @return $effect;
+}
+
+@function _m-offset($effect) {
+    $type: _get($effect, '_type');
+    $offset-function: '_m-offset-#{$type}';
+
+    @return call($offset-function, $effect);
 }

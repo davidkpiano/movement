@@ -19,7 +19,7 @@
 
 @function _m-render-KeyframeEffect($effect) {
     $rendered-effect: _m-map-KeyframeEffect($effect);
-    $rendered-effect: _m-space($rendered-effect);
+    $rendered-effect: _m-space-KeyframeEffect($rendered-effect);
 
     @return $rendered-effect;
 }

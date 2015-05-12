@@ -1,11 +1,16 @@
 
 
 @mixin m-render($effect) {
+    $effect: _m-render($effect);
+
     @if _instance-of($effect, 'KeyframeEffect') {
         $target: _get($effect, 'target');
         $frames: _get($effect, 'frames');
         $options: _get($effect, 'options');
         $name: _get($options, 'name');
+
+        @debug _get($effect, 'options');
+
         $animation: (
             -webkit-animation-name: _get($options, 'name'),
             -webkit-animation-duration: _get($effect, 'calculated' 'duration'),

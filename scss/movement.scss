@@ -48,8 +48,11 @@ body {
             }
 
             .bar {
-                @include m-keyframe-effect((x: 300px) (x:200px), 1s);
-            }
+                @include m-keyframe-effect((x: 300px) (x:200px), (
+                    duration: 1s,
+                    iterations: 3
+                ));
+            }   
 
             .foo {
                 @include m-keyframe-effect((x: 200px) (x: 300px) (x: 400px), 1s);

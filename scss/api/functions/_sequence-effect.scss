@@ -20,7 +20,12 @@
 
 @function SequenceEffectOptions(
     $name: null,
-    $duration: 'auto'
+    $duration: auto,
+    $delay: 0,
+    $easing: linear,
+    $iterations: 1,
+    $fill: auto,
+    $direction: normal
 ) {
     @if _is-time($name) or $name == 'auto' {
         $duration: $name;
@@ -31,7 +36,14 @@
 
     @return (
         name: $name,
-        duration: $duration
+        duration: $duration,
+        delay: $delay,
+        easing: $easing,
+        iterations: $iterations,
+        fill: $fill,
+        direction: $direction,
+        offset-start: 0s,
+        offset-end: 0s
     );
 }
 

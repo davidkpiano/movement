@@ -21,9 +21,13 @@
 
     $spacing-function: '_m-space-KeyframeEffect-' + $spacing;
 
-    $frames: _map($frames, $spacing-function);
+    @if function-exists($spacing-function) {    
+        $frames: _map($frames, $spacing-function);
 
-    $effect: _set($effect, 'frames', $frames);
+        $effect: _set($effect, 'frames', $frames);
+
+        $effect: _set($effect, 'options' 'spacing', 'explicit');
+    }
 
     @return $effect;
 }

@@ -8,9 +8,7 @@
     @content;
 
     @if $previous-effect {
-        $previous-child-effects: _get($previous-effect, 'effects');
-        $previous-child-effects: append($previous-child-effects, $effect);
-        $previous-effect: _set($previous-effect, 'effects', $previous-child-effects);
+        $previous-effect: _m-push($previous-effect, $effect);
     } @else {
         @at-root {
             @include m-play($m-current-effect);

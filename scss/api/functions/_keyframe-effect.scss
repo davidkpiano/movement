@@ -5,12 +5,14 @@
     $frames: (),
     $options: null
 ) {
+    $id: _unique-id('ke-');
     $options: _new(KeyframeEffectOptions, $options);
 
     $frames: if(_is-map($frames), ($frames,), $frames);
     $frames: _map($frames, _ary(m-keyframe));
 
     @return (
+        id: $id,
         target: $target,
         frames: $frames,
         options: $options
@@ -25,9 +27,7 @@
     $easing: linear,
     $iterations: 1,
     $fill: auto,
-    $direction: normal,
-    $end-delay: 0,
-    $iteration-start: 0
+    $direction: normal
 ) {
     @if _is-time($name) or $name == 'auto' {
         $duration: $name;

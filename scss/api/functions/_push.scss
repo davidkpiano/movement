@@ -1,0 +1,19 @@
+
+
+@function _m-push($parent-effect, $child-effect) {
+    $parent-effect-id: _get($parent-effect, 'id');
+    $child-effect: _m-effect-set-parent($child-effect, $parent-effect-id);
+
+    $child-effects: _get($parent-effect, 'effects');
+    $child-effects: append($child-effects, $child-effect);
+
+    $parent-effect: _set($parent-effect, 'effects', $child-effects);
+
+    @return $parent-effect;
+}
+
+@function _m-set($effect, $args...) {
+    $effect: _set($effect, $args...);
+
+    @return _m-register-effect($effect);
+}

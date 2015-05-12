@@ -2,8 +2,6 @@ $timeline: () !global;
 
 @mixin m-play($effect: null) {
     $timeline: () !global;
-
-    $effect: _m-render($effect);
     
     $options: _get($effect, 'options');
 

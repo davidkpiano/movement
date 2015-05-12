@@ -8,6 +8,8 @@
 }
 
 @function _m-render-SequenceEffect($effect) {
+    $effect: _m-iterate-SequenceEffect($effect);
+    
     $child-effects: _map(_get($effect, 'effects'), _ary(_m-render));
 
     $effect: _set($effect, 'effects', $child-effects);

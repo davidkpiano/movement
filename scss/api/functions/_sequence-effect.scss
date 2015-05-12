@@ -19,10 +19,9 @@
 }
 
 @function SequenceEffectOptions(
-    $name: null
+    $name: null,
+    $duration: 'auto'
 ) {
-    $duration: null;
-
     @if _is-time($name) or $name == 'auto' {
         $duration: $name;
         $name: null;

@@ -17,7 +17,7 @@
 
 @function _m-space-KeyframeEffect($effect) {
     $frames: _get($effect, 'frames');
-    $spacing: _get($effect, 'options' 'spacing');
+    $spacing: _get($effect, 'spacing');
 
     $spacing-function: '_m-space-KeyframeEffect-' + $spacing;
 
@@ -26,7 +26,7 @@
 
         $effect: _set($effect, 'frames', $frames);
 
-        $effect: _set($effect, 'options' 'spacing', 'explicit');
+        $effect: _set($effect, 'spacing', 'explicit');
     }
 
     @return $effect;

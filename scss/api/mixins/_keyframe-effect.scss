@@ -1,7 +1,14 @@
 
 
-@mixin m-keyframe-effect($keyframes: (), $options: ()) {
-    $effect: m-keyframe-effect(#{&}, $keyframes, $options);
+@mixin m-keyframe-effect(
+    $keyframes,
+    $duration: 0s,
+    $iterations: 1
+) {
+    $effect: m-keyframe-effect(#{&}, $keyframes, 
+        $duration: $duration,
+        $iterations: $iterations
+    );
 
     @include _m-context($effect) {
         @content;

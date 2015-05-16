@@ -1,7 +1,13 @@
 
 
-@mixin m-sequence-effect($effects: (), $options: ()) {
-    $effect: m-sequence-effect(#{&}, $effects, $options);
+@mixin m-sequence-effect(
+    $duration: 0s,
+    $iterations: 1
+) {
+    $effect: m-sequence-effect(#{&}, (),
+        $duration: $duration,
+        $iterations: $iterations
+    );
 
     @include _m-context($effect) {
         @content;

@@ -3,10 +3,15 @@
 @function KeyframeEffect(
     $target: &,
     $frames: (),
-    $options: null
+    $duration: auto,
+    $delay: 0,
+    $easing: linear,
+    $iterations: 1,
+    $fill: auto,
+    $direction: normal,
+    $spacing: 'distribute'
 ) {
     $id: _unique-id('ke-');
-    $options: _new(KeyframeEffectOptions, $options);
 
     $frames: if(_is-map($frames), ($frames,), $frames);
     $frames: _map($frames, _ary(m-keyframe));
@@ -15,29 +20,6 @@
         id: $id,
         target: $target,
         frames: $frames,
-        options: $options
-    )
-}
-
-@function KeyframeEffectOptions(
-    $name: null,
-    $spacing: 'distribute',
-    $duration: auto,
-    $delay: 0,
-    $easing: linear,
-    $iterations: 1,
-    $fill: auto,
-    $direction: normal
-) {
-    @if _is-time($name) or $name == 'auto' {
-        $duration: $name;
-        $name: null;
-    }
-
-    $name: _either($name, _unique-id('ke-'));
-
-    @return (
-        name: $name,
         spacing: $spacing,
         duration: $duration,
         delay: $delay,
@@ -47,19 +29,11 @@
         direction: $direction,
         offset-start: 0s,
         offset-end: 0s
-    );
+    )
 }
 
-@function m-keyframe-effect(
-    $target: &,
-    $frames: (),
-    $options: null
-) {
+@function m-keyframe-effect($args...) {
     @return _m-register-effect(
-        _new(KeyframeEffect, (
-            target: $target,
-            frames: $frames,
-            options: $options
-        ))
+        _new(KeyframeEffect, $args)
     );
 }

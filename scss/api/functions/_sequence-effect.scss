@@ -3,23 +3,6 @@
 @function SequenceEffect(
     $target: &,
     $effects: (),
-    $options: null
-) {
-    $id: _unique-id('se-');
-    $options: _new(SequenceEffectOptions, $options, $extends: AnimationEffectTimingProperties);
-
-    $effects: _map($effects, _m-effect-set-parent $id);
-
-    @return (
-        id: $id,
-        target: $target,
-        effects: $effects,
-        options: $options
-    );
-}
-
-@function SequenceEffectOptions(
-    $name: null,
     $duration: auto,
     $delay: 0,
     $easing: linear,
@@ -27,15 +10,15 @@
     $fill: auto,
     $direction: normal
 ) {
-    @if _is-time($name) or $name == 'auto' {
-        $duration: $name;
-        $name: null;
-    }
+    $id: _unique-id('se-');
 
-    $name: _either($name, _unique-id('se-'));
+    $effects: _map($effects, _m-effect-set-parent $id);
 
     @return (
-        name: $name,
+        name: $id,
+        id: $id,
+        target: $target,
+        effects: $effects,
         duration: $duration,
         delay: $delay,
         easing: $easing,
@@ -47,16 +30,8 @@
     );
 }
 
-@function m-sequence-effect(
-    $target: &,
-    $effects: (),
-    $options: null
-) {
+@function m-sequence-effect($args...) {
     @return _m-register-effect(
-        _new(SequenceEffect, (
-            target: $target,
-            effects: $effects,
-            options: $options
-        ))
+        _new(SequenceEffect, $args)
     );
 }

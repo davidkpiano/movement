@@ -1,73 +1,10 @@
 
-@function _m-offset-KeyframeEffect($effect, $mode: 'auto') {
-    $calculated-keyframes: ();
-
-    $effect-duration: _get($effect, 'options' 'duration');
-    $effect-offset-end: _get($effect, 'options' 'offset-end');
-
-    $parent: _m-get-effect(_get($effect, 'parent'));
-    $parent-duration: $effect-duration;
-    $parent-delay: 0s;
-    $parent-offset-start: 0s;
-
-    @if $parent {    
-        $parent-duration: _get($parent, 'options' 'duration');
-        $parent-delay: _get($parent, 'options' 'delay');
-        $parent-offset-start: _get($parent, 'options' 'offset-start');
-        $parent-iterations: _get($parent, 'options' 'iterations');
-
-        @if $mode == 'auto' {
-            $mode: if($parent-iterations == 'infinite' or $parent-iterations > 1, 'continuous', null);
-        }
-    }
-
-    $calculated-duration: $effect-duration;
-
-    @if $mode == 'continuous' {
-        $calculated-duration: $parent-duration;
-    } @else if $mode == 'terminal' {
-        $calculated-duration: $effect-duration + $effect-offset-end;
-    }
-
-    $relative-offset-start: 0%;
-    $relative-offset-end: $effect-duration / $calculated-duration;
-
-    $keyframes: _get($effect, 'frames');
-
-    @each $keyframe in $keyframes {
-        $keyframe-offset: _get($keyframe, 'offset');
-        $calculated-offset: $relative-offset-end * $keyframe-offset;
-
-        $keyframe: _m-set($keyframe, 'offset', $calculated-offset);
-
-        $calculated-keyframes: append($calculated-keyframes, $keyframe);
-    }
-
-    @if $relative-offset-end < 1 {
-        $last-keyframe: _last($keyframes);
-        $last-keyframe: _set($last-keyframe, 'offset', 100%);
-
-        $calculated-keyframes: append($calculated-keyframes, $last-keyframe);
-    }
-
-    $effect: _m-set($effect, 'frames', $calculated-keyframes);
-
-    // Set proper delay
-    $effect-delay: _get($effect, 'options' 'delay')
-        + _get($effect, 'options' 'offset-start')
-        + $parent-delay
-        + $parent-offset-start;
-
-    $effect: _m-set($effect, 'calculated' 'delay', $effect-delay);
-    $effect: _m-set($effect, 'calculated' 'duration', $calculated-duration);
-
-    @return $effect;
-}
-
 @function _m-offset-SequenceEffect($effect) {
     $calculated-effects: ();
-    $duration: _get($effect, 'options' 'duration');
-    $iterations: _get($effect, 'options' 'iterations');
+    $duration: _get($effect, 'duration');
+    $iterations: _get($effect, 'iterations');
+    $offset-start: _get($effect, 'offset-start');
+    $offset-end: _get($effect, 'offset-end');
     $child-effects: _get($effect, 'effects');
 
     @if $duration == 'auto' {
@@ -80,34 +17,39 @@
         $duration: 0s;
 
         @each $child-effect in $child-effects {
-            $child-duration: _get($child-effect, 'options' 'duration');
-            $child-iterations: _get($child-effect, 'options' 'iterations');
+            $child-duration: _get($child-effect, 'duration');
+            $child-iterations: _get($child-effect, 'iterations');
 
             $duration: $duration + ($child-duration * $child-iterations);
         }
 
-        $effect: _m-set($effect, 'options' 'duration', $duration);
+        $effect: _m-set($effect, 'duration', $duration);
     }
 
     $previous-duration: 0s;
     $remaining-duration: $duration;
 
     @each $child-effect in $child-effects {
-        $child-duration: _get($child-effect, 'options' 'duration');
-        $child-iterations: _get($child-effect, 'options' 'iterations');
+        $child-duration: _get($child-effect, 'duration');
+        $child-iterations: _get($child-effect, 'iterations');
         $child-total-duration: $child-duration * $child-iterations;
 
         $duration: min($child-total-duration, $remaining-duration);
 
+        @if $child-total-duration > $remaining-duration {
+            @error 'Total duration of child effects exceed duration of sequence effect';
+        }
+
         $remaining-duration: $remaining-duration - $duration;
 
-        $child-effect: _m-set($child-effect, 'options' 'offset-start', $previous-duration);
-        $child-effect: _m-set($child-effect, 'options' 'offset-end', $remaining-duration);
-        $child-effect: _m-set($child-effect, 'options' 'duration', $duration / $child-iterations);
+        $child-effect: _m-set($child-effect,
+            'offset-start',
+            $previous-duration + $offset-start);
+        $child-effect: _m-set($child-effect,
+            'offset-end',
+            $remaining-duration + $offset-end);
 
         $previous-duration: $previous-duration + $duration;
-
-        $child-effect: _m-offset($child-effect);
 
         $calculated-effects: append($calculated-effects, $child-effect);
     }

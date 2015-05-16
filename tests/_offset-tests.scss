@@ -1,107 +1,107 @@
 
 
-@include test-module('_m-offset-KeyframeEffect') {
-    $keyframes: (left: 1, offset: 0%) (left: 2, offset: 50%) (left: 3, offset: 100%);
-    $e-1: m-keyframe-effect(null, (), 1s);
-    $e-2: m-keyframe-effect(null, (), 2s);
-    $e-3: m-keyframe-effect(null, $keyframes, 3s);
+// @include test-module('_m-offset-KeyframeEffect') {
+//     $keyframes: (left: 1, offset: 0%) (left: 2, offset: 50%) (left: 3, offset: 100%);
+//     $e-1: m-keyframe-effect(null, (), 1s);
+//     $e-2: m-keyframe-effect(null, (), 2s);
+//     $e-3: m-keyframe-effect(null, $keyframes, 3s);
 
-    $effect: m-sequence-effect(null, ($e-1, $e-2, $e-3), 6s);
-    $effect: _m-offset-SequenceEffect($effect);
+//     $effect: m-sequence-effect(null, ($e-1, $e-2, $e-3), 6s);
+//     $effect: _m-offset-SequenceEffect($effect);
 
-    @include test('(continuous) should set proper delay for child effects of SequenceEffect') {
-        $expected-delays: 0s 1s 3s;
-        $index: 1;
+//     @include test('(continuous) should set proper delay for child effects of SequenceEffect') {
+//         $expected-delays: 0s 1s 3s;
+//         $index: 1;
 
-        @each $child-effect in _get($effect, 'effects') {
-            $child-effect: _m-offset-KeyframeEffect($child-effect, 'continuous');
-            $actual: _get($child-effect, 'calculated' 'delay');
-            $expected: nth($expected-delays, $index);
+//         @each $child-effect in _get($effect, 'effects') {
+//             $child-effect: _m-offset-KeyframeEffect($child-effect, 'continuous');
+//             $actual: _get($child-effect, 'calculated' 'delay');
+//             $expected: nth($expected-delays, $index);
 
-            @include assert-equal($actual, $expected);
+//             @include assert-equal($actual, $expected);
 
-            $index: $index + 1;
-        }
-    }
+//             $index: $index + 1;
+//         }
+//     }
 
-    @include test('(continuous) should set proper durations for child effects of SequenceEffect') {
-        $expected-duration: 6s;
+//     @include test('(continuous) should set proper durations for child effects of SequenceEffect') {
+//         $expected-duration: 6s;
 
-        @each $child-effect in _get($effect, 'effects') {
-            $child-effect: _m-offset-KeyframeEffect($child-effect, 'continuous');
-            $actual: _get($child-effect, 'calculated' 'duration');
-            $expected: $expected-duration;
+//         @each $child-effect in _get($effect, 'effects') {
+//             $child-effect: _m-offset-KeyframeEffect($child-effect, 'continuous');
+//             $actual: _get($child-effect, 'calculated' 'duration');
+//             $expected: $expected-duration;
 
-            @include assert-equal($actual, $expected);
-        }
-    }
+//             @include assert-equal($actual, $expected);
+//         }
+//     }
 
-    @include test('(continuous) should set proper relative offsets for keyframes of child effects of SequenceEffect') {
-        $expected-offsets: (0%, 25%, 50%);
-        $index: 1;
+//     @include test('(continuous) should set proper relative offsets for keyframes of child effects of SequenceEffect') {
+//         $expected-offsets: (0%, 25%, 50%);
+//         $index: 1;
 
-        $child-effect: nth(_get($effect, 'effects'), 3);
+//         $child-effect: nth(_get($effect, 'effects'), 3);
 
-        $child-effect: _m-offset-KeyframeEffect($child-effect, 'continuous');
+//         $child-effect: _m-offset-KeyframeEffect($child-effect, 'continuous');
 
-        @each $keyframe in _get($child-effect, 'frames') {
-            $actual-offset: _get($keyframe, 'offset');
-            $expected-offset: nth($expected-offsets, $index);
+//         @each $keyframe in _get($child-effect, 'frames') {
+//             $actual-offset: _get($keyframe, 'offset');
+//             $expected-offset: nth($expected-offsets, $index);
 
-            @include assert-equal($actual-offset, $expected-offset);
+//             @include assert-equal($actual-offset, $expected-offset);
 
-            $index: $index + 1;
-        }
-    }
+//             $index: $index + 1;
+//         }
+//     }
 
-    @include test('(terminal) should set proper delay for child effects of SequenceEffect') {
-        $expected-delays: 0s 1s 3s;
-        $index: 1;
+//     @include test('(terminal) should set proper delay for child effects of SequenceEffect') {
+//         $expected-delays: 0s 1s 3s;
+//         $index: 1;
 
-        @each $child-effect in _get($effect, 'effects') {
-            $child-effect: _m-offset-KeyframeEffect($child-effect, 'terminal');
-            $actual: _get($child-effect, 'calculated' 'delay');
-            $expected: nth($expected-delays, $index);
+//         @each $child-effect in _get($effect, 'effects') {
+//             $child-effect: _m-offset-KeyframeEffect($child-effect, 'terminal');
+//             $actual: _get($child-effect, 'calculated' 'delay');
+//             $expected: nth($expected-delays, $index);
 
-            @include assert-equal($actual, $expected);
+//             @include assert-equal($actual, $expected);
 
-            $index: $index + 1;
-        }
-    }
+//             $index: $index + 1;
+//         }
+//     }
 
-    @include test('(terminal) should set proper durations for child effects of SequenceEffect') {
-        $expected-durations: 6s 5s 3s;
-        $index: 1;
+//     @include test('(terminal) should set proper durations for child effects of SequenceEffect') {
+//         $expected-durations: 6s 5s 3s;
+//         $index: 1;
 
-        @each $child-effect in _get($effect, 'effects') {
-            $child-effect: _m-offset-KeyframeEffect($child-effect, 'terminal');
-            $actual: _get($child-effect, 'calculated' 'duration');
-            $expected: nth($expected-durations, $index);
+//         @each $child-effect in _get($effect, 'effects') {
+//             $child-effect: _m-offset-KeyframeEffect($child-effect, 'terminal');
+//             $actual: _get($child-effect, 'calculated' 'duration');
+//             $expected: nth($expected-durations, $index);
 
-            @include assert-equal($actual, $expected);
+//             @include assert-equal($actual, $expected);
 
-            $index: $index + 1;
-        }
-    }
+//             $index: $index + 1;
+//         }
+//     }
 
-    @include test('(terminal) should set proper relative offsets for keyframes of child effects of SequenceEffect') {
-        $expected-offsets: (0%, 50%, 100%);
-        $index: 1;
+//     @include test('(terminal) should set proper relative offsets for keyframes of child effects of SequenceEffect') {
+//         $expected-offsets: (0%, 50%, 100%);
+//         $index: 1;
 
-        $child-effect: nth(_get($effect, 'effects'), 3);
+//         $child-effect: nth(_get($effect, 'effects'), 3);
 
-        $child-effect: _m-offset-KeyframeEffect($child-effect, 'terminal');
+//         $child-effect: _m-offset-KeyframeEffect($child-effect, 'terminal');
 
-        @each $keyframe in _get($child-effect, 'frames') {
-            $actual-offset: _get($keyframe, 'offset');
-            $expected-offset: nth($expected-offsets, $index);
+//         @each $keyframe in _get($child-effect, 'frames') {
+//             $actual-offset: _get($keyframe, 'offset');
+//             $expected-offset: nth($expected-offsets, $index);
 
-            @include assert-equal($actual-offset, $expected-offset);
+//             @include assert-equal($actual-offset, $expected-offset);
 
-            $index: $index + 1;
-        }
-    }
-}
+//             $index: $index + 1;
+//         }
+//     }
+// }
 
 @include test-module('_m-offset-SequenceEffect') {
     $e-1: m-keyframe-effect(null, (), 1s);

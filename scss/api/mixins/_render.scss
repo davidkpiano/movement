@@ -4,22 +4,10 @@
     $effect: _m-render($effect);
 
     @if _instance-of($effect, 'KeyframeEffect') {
-        $target: _get($effect, 'target');
         $frames: _get($effect, 'frames');
-        $options: _get($effect, 'options');
-        $name: _get($options, 'name');
+        $name: _get($effect, 'name');
 
-        @debug _get($effect, 'options');
-
-        $animation: (
-            -webkit-animation-name: _get($options, 'name'),
-            -webkit-animation-duration: _get($effect, 'calculated' 'duration'),
-            -webkit-animation-delay: _get($effect, 'calculated' 'delay'),
-            -webkit-animation-iteration-count: _get($effect, 'options' 'iterations'),
-            -webkit-animation-fill-mode: forwards
-        );
-
-        $timeline: append($timeline, ($target: $animation)) !global;
+        $timeline: append($timeline, $effect) !global;
 
         @-webkit-keyframes #{$name} {    
             @each $keyframe in $frames {

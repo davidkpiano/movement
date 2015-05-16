@@ -17,6 +17,7 @@
     $frames: _map($frames, _ary(m-keyframe));
 
     @return (
+        name: $id,
         id: $id,
         target: $target,
         frames: $frames,

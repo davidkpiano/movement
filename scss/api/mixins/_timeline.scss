@@ -1,0 +1,22 @@
+
+$timeline: () !global;
+
+@mixin _m-timeline() {
+    $rendered-timeline: ();
+
+    @each $effect in $timeline {
+        $target: _get($effect, 'target');
+
+        $animation: (
+            -webkit-animation-name: _get($effect, 'name'),
+            -webkit-animation-duration: _get($effect, 'duration'),
+            -webkit-animation-delay: _get($effect, 'delay') + _get($effect, 'offset-start'),
+            -webkit-animation-iteration-count: _get($effect, 'iterations'),
+            -webkit-animation-fill-mode: forwards
+        );
+
+        $rendered-timeline: append($rendered-timeline, ($target: $animation));
+    }
+
+    $timeline: $rendered-timeline !global;
+}

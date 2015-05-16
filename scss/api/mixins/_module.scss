@@ -1,6 +1,7 @@
 
 $m-current-effect: null !global;
 
+@import 'timeline';
 @import 'context';
 @import 'render';
 @import 'play';

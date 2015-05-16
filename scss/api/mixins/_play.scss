@@ -1,11 +1,11 @@
-$timeline: () !global;
+
 
 @mixin m-play($effect: null) {
     $timeline: () !global;
     
-    $options: _get($effect, 'options');
-
     @include m-render($effect);
+
+    @include _m-timeline();
 
     @each $target, $animations in _group-by-keys($timeline) {
         #{$target} {        

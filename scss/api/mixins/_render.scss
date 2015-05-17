@@ -9,7 +9,7 @@
 
         $timeline: append($timeline, $effect) !global;
 
-        @-webkit-keyframes #{$name} {    
+        @-webkit-keyframes #{$name} {
             @each $keyframe in $keyframes {
                 $offset: _get($keyframe, 'offset');
                 $declarations: _get($keyframe, 'declarations');

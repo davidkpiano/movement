@@ -1,0 +1,15 @@
+
+
+@mixin m-group-effect(
+    $duration: auto,
+    $iterations: 1
+) {
+    $effect: m-group-effect(#{&}, (),
+        $duration: $duration,
+        $iterations: $iterations
+    );
+
+    @include _m-context($effect) {
+        @content;
+    }
+}

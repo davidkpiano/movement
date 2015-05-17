@@ -40,6 +40,38 @@
     @return $effect;
 }
 
+@function _m-offset-GroupEffect($effect) {
+    $calculated-effects: ();
+    $duration: _get($effect, 'duration');
+    $iterations: _get($effect, 'iterations');
+    $offset-start: _get($effect, 'offset-start');
+    $offset-end: _get($effect, 'offset-end');
+    $child-effects: _get($effect, 'effects');
+
+    @each $child-effect in $child-effects {
+        $child-duration: _get($child-effect, 'duration');
+        $child-iterations: _get($child-effect, 'iterations');
+        $child-total-duration: $child-duration * $child-iterations;
+
+        @if $child-total-duration > $duration {
+            @error 'Total duration of child effects exceed duration of sequence effect';
+        }
+
+        $child-effect: _m-set($child-effect,
+            'offset-start',
+            $offset-start);
+        $child-effect: _m-set($child-effect,
+            'offset-end',
+            $offset-end);
+
+        $calculated-effects: append($calculated-effects, $child-effect);
+    }
+
+    $effect: _m-set($effect, 'effects', $calculated-effects);
+
+    @return $effect;
+}
+
 @function _m-offset($effect) {
     $type: _get($effect, '_type');
     $offset-function: '_m-offset-#{$type}';

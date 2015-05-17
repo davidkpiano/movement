@@ -2,7 +2,7 @@
 
 @function _m-render($effect) {
     $effect: _m-timing($effect);
-    
+
     $type: _get($effect, '_type');
     $render-function: '_m-render-#{$type}';
 
@@ -12,6 +12,13 @@
 @function _m-render-SequenceEffect($effect) {
     $effect: _m-iterate-SequenceEffect($effect);
     $effect: _m-offset-SequenceEffect($effect);
+
+    @return $effect;
+}
+
+@function _m-render-GroupEffect($effect) {
+    $effect: _m-iterate-GroupEffect($effect);
+    $effect: _m-offset-GroupEffect($effect);
 
     @return $effect;
 }

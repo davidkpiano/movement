@@ -1,0 +1,37 @@
+
+
+@function GroupEffect(
+    $target: &,
+    $effects: (),
+    $duration: auto,
+    $delay: 0,
+    $easing: linear,
+    $iterations: 1,
+    $fill: auto,
+    $direction: normal
+) {
+    $id: _unique-id('ge-');
+
+    $effects: _map($effects, _m-effect-set-parent $id);
+
+    @return (
+        name: $id,
+        id: $id,
+        target: $target,
+        effects: $effects,
+        duration: $duration,
+        delay: $delay,
+        easing: $easing,
+        iterations: $iterations,
+        fill: $fill,
+        direction: $direction,
+        offset-start: 0s,
+        offset-end: 0s
+    );
+}
+
+@function m-group-effect($args...) {
+    @return _m-register-effect(
+        _new(GroupEffect, $args)
+    );
+}

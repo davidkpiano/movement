@@ -49,22 +49,20 @@ body, html {
 //     }
 // }
 
-.test {
+body:hover {
     @include m-sequence-effect() {
-        @include m-sequence-effect() {
-            .foo {
-                @include m-keyframe-effect((x: 200px) (x: 400px), 1s);
-            }
-            .bar {
-                @include m-keyframe-effect((y: 200px) (y: 400px), 1s);
-            }
+        .foo {
+            @include m-keyframe-effect((x: 200px) (x: 400px) (x:200px), 1s);
         }
-        @include m-sequence-effect() {
+        .bar {
+            @include m-keyframe-effect((y: 200px) (y: 400px) (y:200px), 1s);
+        }
+        @include m-group-effect() {
             .foo {
-                @include m-keyframe-effect((x: 200px) (x: 400px), 1s);
+                @include m-keyframe-effect((x: 200px) (x: 400px)(x:200px), 1s);
             }
             .bar {
-                @include m-keyframe-effect((y: 200px) (y: 400px), 1s);
+                @include m-keyframe-effect((y: 200px) (y: 400px)(y:200px), 1s);
             }
         }
     }

@@ -13,3 +13,7 @@
         @content;
     }
 }
+
+@mixin m-sequence($args...) {
+    @include m-sequence-effect($args...) { @content; }
+}

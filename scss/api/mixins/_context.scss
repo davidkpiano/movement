@@ -7,8 +7,6 @@
 
     @content;
 
-    @debug _get($m-current-effect, 'effects');
-
     @if $previous-effect {
         $previous-effect: _m-push($previous-effect, $m-current-effect);
     } @else {

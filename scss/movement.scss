@@ -1,7 +1,7 @@
 
 @import 'api/module';
 
-$foo: m-keyframe-effect('.foo', ((left: 100px), (left: 200px), (left: 300px), (left: 400px)), 1s);
+// $foo: m-keyframes('.foo', ((left: 100px), (left: 200px), (left: 300px), (left: 400px)), 1s);
 
 
 body, html {
@@ -50,29 +50,11 @@ body, html {
 // }
 
 body:hover {
-    @include m-sequence-effect() {
-        .foo {
-            @include m-keyframe-effect((x: 200px) (x: \-300px) (x:\+300px), 1s);
-        }
-        .bar {
-            @include m-keyframe-effect((y: 200px) (y: 400px) (y:200px), 1s);
-        }
-        @include m-group-effect() {
-            .foo {
-                @include m-keyframe-effect((x: 200px) (x: 400px)(x:200px), 1s);
-            }
-            .bar {
-                @include m-keyframe-effect((y: 200px) (y: 400px)(y:200px), 1s);
-            }
-        }
-        @include m-stagger-effect() {
-            .foo {
-                @include m-keyframe-effect((x:0) (x:-100px) (x:0), 1s);
-            }
-            .bar {
-                @include m-keyframe-effect((y:0)(y:-100px) (y:0), 1s);
-            }
-        }
+    @include m-sequence() {
+        .foo { @include m-to((x: 100px), 1s); }
+        .bar { @include m-to((y: 100px), 1s); }
+        .foo { @include m-to((x: \+100px), 1s); }
+        .bar { @include m-to((y: \+100px), 1s); }
     }
 }
 

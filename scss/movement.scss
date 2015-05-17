@@ -29,34 +29,44 @@ body, html {
 }
 
 // body {
-//     $e-1: m-keyframe-effect('.foo', ((x: 100px), (x: 200px)), 1s);
-//     $e-2: m-keyframe-effect('.bar', ((x: 300px), (x: 200px)), 1s);
-//     $e-3: m-keyframe-effect('.foo', ((x: 200px), (x: 300px), (x: 400px)), 1s);
-
-//     $bar: m-sequence-effect(null, $e-1 $e-2 $e-3, 3s);
-
 //     &:hover {
-//         @include m-play($bar);
+//         @include m-sequence-effect(auto, $iterations: infinite) {
+//             .foo {
+//                 @include m-keyframe-effect((x: 0) (x: 200px), 1s);
+//             }
+
+//             .bar {
+//                 @include m-keyframe-effect((x: 300px) (x:200px) (x: 300px),
+//                     $duration: 1s,
+//                     $iterations: 3
+//                 );
+//             }   
+
+//             .foo {
+//                 @include m-keyframe-effect((x: 200px) (x: 300px) (x: 400px), 1s);
+//             }
+//         }
 //     }
 // }
 
-body {
-    &:hover {
-        @include m-sequence-effect(auto, $iterations: infinite) {
+.test {
+    @include m-sequence-effect() {
+        @include m-sequence-effect() {
             .foo {
-                @include m-keyframe-effect((x: 0) (x: 200px), 1s);
+                @include m-keyframe-effect((x: 200px) (x: 400px), 1s);
             }
-
             .bar {
-                @include m-keyframe-effect((x: 300px) (x:200px) (x: 300px),
-                    $duration: 1s,
-                    $iterations: 3
-                );
-            }   
-
+                @include m-keyframe-effect((y: 200px) (y: 400px), 1s);
+            }
+        }
+        @include m-sequence-effect() {
             .foo {
-                @include m-keyframe-effect((x: 200px) (x: 300px) (x: 400px), 1s);
+                @include m-keyframe-effect((x: 200px) (x: 400px), 1s);
+            }
+            .bar {
+                @include m-keyframe-effect((y: 200px) (y: 400px), 1s);
             }
         }
     }
 }
+

@@ -1,7 +1,7 @@
 
 
 @mixin m-sequence-effect(
-    $duration: 0s,
+    $duration: auto,
     $iterations: 1
 ) {
     $effect: m-sequence-effect(#{&}, (),

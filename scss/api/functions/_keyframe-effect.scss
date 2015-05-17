@@ -9,16 +9,15 @@
     $iterations: 1,
     $fill: auto,
     $direction: normal,
-    $spacing: 'distribute'
+    $spacing: 'distribute',
+    $name: _unique-id('ke-')
 ) {
-    $id: _unique-id('ke-');
-
     $frames: if(_is-map($frames), ($frames,), $frames);
     $frames: _map($frames, _ary(m-keyframe));
 
     @return (
-        name: $id,
-        id: $id,
+        name: $name,
+        id: $name,
         target: $target,
         frames: $frames,
         spacing: $spacing,

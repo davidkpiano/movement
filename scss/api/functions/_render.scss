@@ -1,6 +1,8 @@
 
 
 @function _m-render($effect) {
+    $effect: _m-timing($effect);
+    
     $type: _get($effect, '_type');
     $render-function: '_m-render-#{$type}';
 
@@ -9,19 +11,14 @@
 
 @function _m-render-SequenceEffect($effect) {
     $effect: _m-iterate-SequenceEffect($effect);
-    
-    $child-effects: _map(_get($effect, 'effects'), _ary(_m-render));
+    $effect: _m-offset-SequenceEffect($effect);
 
-    $effect: _set($effect, 'effects', $child-effects);
-
-    $rendered-effect: _m-offset-SequenceEffect($effect);
-
-    @return $rendered-effect;
+    @return $effect;
 }
 
 @function _m-render-KeyframeEffect($effect) {
-    $rendered-effect: _m-map-KeyframeEffect($effect);
-    $rendered-effect: _m-space-KeyframeEffect($rendered-effect);
+    $effect: _m-map-KeyframeEffect($effect);
+    $effect: _m-space-KeyframeEffect($effect);
 
-    @return $rendered-effect;
+    @return $effect;
 }

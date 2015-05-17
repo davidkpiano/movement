@@ -7,7 +7,9 @@
     $child-effects: _get($parent-effect, 'effects');
     $child-effects: append($child-effects, $child-effect);
 
-    $parent-effect: _set($parent-effect, 'effects', $child-effects);
+    $parent-effect: _m-set($parent-effect, 'effects', $child-effects);
+
+    @debug 'Pushing #{_get($child-effect,id)} to #{_get($parent-effect,id)}';
 
     @return $parent-effect;
 }

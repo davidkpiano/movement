@@ -12,6 +12,7 @@ $timeline: () !global;
             -webkit-animation-duration: _get($effect, 'duration'),
             -webkit-animation-delay: _get($effect, 'delay') + _get($effect, 'offset-start'),
             -webkit-animation-iteration-count: _get($effect, 'iterations'),
+            -webkit-animation-timing-function: _get($effect, 'easing'),
             -webkit-animation-fill-mode: forwards
         );
 

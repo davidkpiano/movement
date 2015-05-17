@@ -1,0 +1,58 @@
+
+
+@function _m-calculate-KeyframeEffect($effect) {
+    $calculated-keyframes: ();
+
+    $keyframes: _get($effect, 'frames');
+
+    $keyframes: _map($keyframes, _m-calculate-KeyframeEffect-iteratee);
+
+    $effect: _set($effect, 'frames', $keyframes);
+
+    @return $effect;
+}
+
+@function _m-calculate-KeyframeEffect-iteratee($keyframe, $index, $keyframes) {
+    $operator-map: (
+        '+': 1,
+        '-': -1
+    );
+
+    $previous-keyframe: ();
+
+    @if $index > 1 {
+        $previous-keyframe: nth($keyframes, $index - 1);
+    }
+
+    $declarations: _get($keyframe, 'declarations');
+
+    $calculated-declarations: ();
+
+
+    @each $property, $value in $declarations {
+        @if _is-string($value) {
+            $value: if(_starts-with($value, '\\'), str-slice($value, 2), $value);
+            $value-operator: false;
+
+            @each $operator in _keys($operator-map) {
+                @if _starts-with($value, $operator) {
+                    $value-operator: $operator;
+                }
+            }
+
+            $value: _parse-float(str-slice($value, 2));
+
+            $previous-value: _get($previous-keyframe, 'declarations' $property);
+
+            $calculated-value: $previous-value + ($value * _get($operator-map, $value-operator));
+
+            $calculated-declarations: _set($calculated-declarations, $property, $calculated-value);
+        }
+    }
+
+    $declarations: map-merge($declarations, $calculated-declarations);
+
+    $keyframe: _set($keyframe, 'declarations', $declarations);
+
+    @return $keyframe;
+}

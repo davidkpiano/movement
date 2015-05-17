@@ -21,17 +21,6 @@
   }
 }
 
-@import 'offset-tests';
-@import 'effect-tests';
-@import 'timing-tests';
-@import 'render-tests';
-@import 'map-tests';
-@import 'keyframe-tests';
-@import 'keyframes-tests';
-@import 'keyframe-effect-tests';
-@import 'sequence-effect-tests';
-
-
 
 
 @include report();

@@ -29,3 +29,13 @@
 @function _m-iterate-GroupEffect($effect) {
     @return $effect;
 }
+
+@function _m-iterate-StaggerEffect($effect) {
+    @return $effect;
+}
+
+@function _m-iterate($effect) {
+    $type: _get($effect, '_type');
+
+    @return call('_m-iterate-#{$type}', $effect);
+}

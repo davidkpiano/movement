@@ -3,29 +3,13 @@
 @function _m-render($effect) {
     $effect: _m-timing($effect);
 
-    $type: _get($effect, '_type');
-    $render-function: '_m-render-#{$type}';
-
-    @return call($render-function, $effect);
-}
-
-@function _m-render-SequenceEffect($effect) {
-    $effect: _m-iterate-SequenceEffect($effect);
-    $effect: _m-offset-SequenceEffect($effect);
-
-    @return $effect;
-}
-
-@function _m-render-GroupEffect($effect) {
-    $effect: _m-iterate-GroupEffect($effect);
-    $effect: _m-offset-GroupEffect($effect);
-
-    @return $effect;
-}
-
-@function _m-render-KeyframeEffect($effect) {
-    $effect: _m-map-KeyframeEffect($effect);
-    $effect: _m-space-KeyframeEffect($effect);
+    @if not _instance-of($effect, 'KeyframeEffect') {
+        $effect: _m-iterate($effect);
+        $effect: _m-offset($effect);
+    } @else {
+        $effect: _m-map-KeyframeEffect($effect);
+        $effect: _m-space-KeyframeEffect($effect);
+    }
 
     @return $effect;
 }

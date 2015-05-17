@@ -65,6 +65,14 @@ body:hover {
                 @include m-keyframe-effect((y: 200px) (y: 400px)(y:200px), 1s);
             }
         }
+        @include m-stagger-effect() {
+            .foo {
+                @include m-keyframe-effect((x:0) (x:-100px) (x:0), 1s);
+            }
+            .bar {
+                @include m-keyframe-effect((y:0)(y:-100px) (y:0), 1s);
+            }
+        }
     }
 }
 

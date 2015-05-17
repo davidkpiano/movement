@@ -45,6 +45,32 @@
         $effect: _m-set($effect, 'effects', $calculated-child-effects);
     }
 
+    @if _instance-of($effect, 'StaggerEffect')
+        and $duration == auto
+    {
+        $interval: _get($effect, 'interval');
+
+        $duration: 0s;
+        $calculated-child-effects: ();
+        $current-offset: 0s;
+
+        @each $child-effect in $child-effects {
+            $child-effect: _m-timing-duration($child-effect);
+
+            $calculated-child-effects: append($calculated-child-effects, $child-effect);
+
+            $child-duration: _get($child-effect, 'duration');
+            $child-iterations: _get($child-effect, 'iterations');
+
+            $duration: max($duration, ($child-duration * $child-iterations) + $current-offset);
+
+            $current-offset: $current-offset + $interval;
+        }
+
+        $effect: _m-set($effect, 'duration', $duration);
+        $effect: _m-set($effect, 'effects', $calculated-child-effects);
+    }
+
     @return $effect;
 }
 

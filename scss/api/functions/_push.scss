@@ -9,8 +9,6 @@
 
     $parent-effect: _m-set($parent-effect, 'effects', $child-effects);
 
-    @debug 'Pushing #{_get($child-effect,id)} to #{_get($parent-effect,id)}';
-
     @return $parent-effect;
 }
 

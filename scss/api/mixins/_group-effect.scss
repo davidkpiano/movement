@@ -13,3 +13,7 @@
         @content;
     }
 }
+
+@mixin m-group($args...) {
+    @include m-group-effect($args...) { @content; }
+}

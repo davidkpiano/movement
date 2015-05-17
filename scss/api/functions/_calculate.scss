@@ -1,37 +1,47 @@
 
 
 @function _m-calculate-KeyframeEffect($effect) {
+    $previous-effect: static-get('m-previous-effect' _get($effect, 'target'));
     $calculated-keyframes: ();
 
     $keyframes: _get($effect, 'frames');
 
-    $keyframes: _map($keyframes, _m-calculate-KeyframeEffect-iteratee);
+    $index: 1;
+    @while $index <= length($keyframes) {
+        $previous-keyframe: if($index > 1,
+            nth($calculated-keyframes, $index - 1),
+            _last(_get($previous-effect, 'frames')));
 
-    $effect: _set($effect, 'frames', $keyframes);
+        $keyframe: nth($keyframes, $index);
+
+        $calculated-keyframe: _m-calculate-Keyframe($keyframe, $previous-keyframe);
+
+        $calculated-keyframes: append($calculated-keyframes, $calculated-keyframe);
+
+        $index: $index + 1;
+    }
+
+    $effect: _set($effect, 'frames', $calculated-keyframes);
+
+    $_: static-set('m-previous-effect' _get($effect, 'target'), $effect);
 
     @return $effect;
 }
 
-@function _m-calculate-KeyframeEffect-iteratee($keyframe, $index, $keyframes) {
+@function _m-calculate-Keyframe($keyframe, $previous-keyframe) {
     $operator-map: (
-        '+': 1,
-        '-': -1
+        '+=': 1,
+        '-=': -1,
+        '\\+': 1,
+        '\\-': -1
     );
-
-    $previous-keyframe: ();
-
-    @if $index > 1 {
-        $previous-keyframe: nth($keyframes, $index - 1);
-    }
 
     $declarations: _get($keyframe, 'declarations');
 
     $calculated-declarations: ();
 
-
     @each $property, $value in $declarations {
         @if _is-string($value) {
-            $value: if(_starts-with($value, '\\'), str-slice($value, 2), $value);
             $value-operator: false;
 
             @each $operator in _keys($operator-map) {
@@ -40,7 +50,7 @@
                 }
             }
 
-            $value: _parse-float(str-slice($value, 2));
+            $value: _parse-float(str-slice($value, str-length($value-operator) + 1));
 
             $previous-value: _get($previous-keyframe, 'declarations' $property);
 
@@ -52,7 +62,7 @@
 
     $declarations: map-merge($declarations, $calculated-declarations);
 
-    $keyframe: _set($keyframe, 'declarations', $declarations);
+    $keyframe: _m-set($keyframe, 'declarations', $declarations);
 
     @return $keyframe;
 }

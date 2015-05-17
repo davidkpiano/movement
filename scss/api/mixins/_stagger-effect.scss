@@ -15,3 +15,7 @@
         @content;
     }
 }
+
+@mixin m-stagger($args...) {
+    @include m-stagger-effect($args...) { @content; }
+}

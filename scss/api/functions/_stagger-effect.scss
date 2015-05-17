@@ -1,0 +1,39 @@
+
+
+@function StaggerEffect(
+    $target: &,
+    $effects: (),
+    $interval: 0.5s, // FIXME
+    $duration: auto,
+    $delay: 0,
+    $easing: linear,
+    $iterations: 1,
+    $fill: auto,
+    $direction: normal
+) {
+    $id: _unique-id('te-');
+
+    $effects: _map($effects, _m-effect-set-parent $id);
+
+    @return (
+        name: $id,
+        id: $id,
+        target: $target,
+        effects: $effects,
+        interval: $interval,
+        duration: $duration,
+        delay: $delay,
+        easing: $easing,
+        iterations: $iterations,
+        fill: $fill,
+        direction: $direction,
+        offset-start: 0s,
+        offset-end: 0s
+    );
+}
+
+@function m-stagger-effect($args...) {
+    @return _m-register-effect(
+        _new(StaggerEffect, $args)
+    );
+}

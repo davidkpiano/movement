@@ -1,0 +1,17 @@
+
+
+@mixin m-stagger-effect(
+    $interval: 0.5s,
+    $duration: auto,
+    $iterations: 1
+) {
+    $effect: m-stagger-effect(#{&}, (),
+        $interval: $interval,
+        $duration: $duration,
+        $iterations: $iterations
+    );
+
+    @include _m-context($effect) {
+        @content;
+    }
+}

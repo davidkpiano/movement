@@ -1,33 +1,33 @@
 
 
-@function _m-normalize-KeyframeEffect($effect) {
-    $keyframes: _get($effect, 'frames');
-    $normalized-keyframes: ();
-    $properties: ();
+// @function _m-normalize-KeyframeEffect($effect) {
+//     $keyframes: _get($effect, 'frames');
+//     $normalized-keyframes: ();
+//     $properties: ();
 
-    @each $keyframe in $keyframes {
-        $declarations: _get($keyframe, 'declarations');
+//     @each $keyframe in $keyframes {
+//         $declarations: _get($keyframe, 'declarations');
         
-        $properties: _concat($properties, _keys($declarations));
-    }
+//         $properties: _concat($properties, _keys($declarations));
+//     }
 
-    $properties: _union($properties);
+//     $properties: _union($properties);
 
-    @each $keyframe in $keyframes {
-        $declarations: _get($keyframe, 'declarations');
-        $normalized-declarations: ();
+//     @each $keyframe in $keyframes {
+//         $declarations: _get($keyframe, 'declarations');
+//         $normalized-declarations: ();
 
-        @each $property in $properties {
-            $normalized-declarations: _set($normalized-declarations, $property, _get($declarations, $property));
-        }
+//         @each $property in $properties {
+//             $normalized-declarations: _set($normalized-declarations, $property, _get($declarations, $property));
+//         }
 
-        $normalized-keyframe: _set($keyframe, 'declarations', $normalized-declarations);
+//         $normalized-keyframe: _set($keyframe, 'declarations', $normalized-declarations);
 
-        $normalized-keyframes: append($normalized-keyframes, $normalized-keyframe);
-    }
+//         $normalized-keyframes: append($normalized-keyframes, $normalized-keyframe);
+//     }
 
-    @return _set($effect, 'frames', $normalized-keyframes);
-}
+//     @return _set($effect, 'frames', $normalized-keyframes);
+// }
 
 @function _m-map-KeyframeEffect($effect) {
     $keyframes: _get($effect, 'frames');
@@ -57,7 +57,8 @@
         }
 
         @if length($transforms) > 0 {
-            $declarations: _set($declarations, transform,
+            $declarations: _set($declarations,
+                transform,
                 _join(_map(_pairs($transforms), _reduce _ary(_str-concat, 2)), ' '));            
         }
 
@@ -73,3 +74,4 @@
 
     @return $effect;
 }
+

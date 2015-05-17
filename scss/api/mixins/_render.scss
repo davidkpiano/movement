@@ -4,13 +4,13 @@
     $effect: _m-render($effect);
 
     @if _instance-of($effect, 'KeyframeEffect') {
-        $frames: _get($effect, 'frames');
+        $keyframes: _get($effect, 'frames');
         $name: _get($effect, 'name');
 
         $timeline: append($timeline, $effect) !global;
 
         @-webkit-keyframes #{$name} {    
-            @each $keyframe in $frames {
+            @each $keyframe in $keyframes {
                 $offset: _get($keyframe, 'offset');
                 $declarations: _get($keyframe, 'declarations');
 
@@ -20,9 +20,7 @@
             }
         }
     } @else {
-        $child-effects: _get($effect, 'effects');
-
-        @each $child-effect in $child-effects {
+        @each $child-effect in _get($effect, 'effects') {
             @include m-render($child-effect);
         }
     }

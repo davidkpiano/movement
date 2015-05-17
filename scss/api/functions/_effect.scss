@@ -1,7 +1,7 @@
 
 
 @function _m-effect-set-parent($effect, $parent: null) {
-    @return _set($effect, 'parent', $parent);
+    @return _m-set($effect, 'parent', $parent);
 }
 
 @function _m-get-effect($id) {

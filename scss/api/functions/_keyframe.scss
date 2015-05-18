@@ -17,7 +17,19 @@
     ));
 }
 
-@function m-keyframes($rules: ()) {
+@function m-keyframe-list($rules: ()) {
+    @if _is-list($rules) {
+        @return _map($rules, _ary(m-keyframe));
+    }
+
+    $offset-keywords: ('from', 'to');
+
+    @if not _includes($offset-keywords, _first(_keys($rules)))
+        or not unit(_first(_keys($rules))) == '%'
+    {
+        @return (m-keyframe($rules),);
+    }
+
     $keyframes: ();
 
     @each $offset, $declarations in $rules {

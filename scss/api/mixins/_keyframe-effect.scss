@@ -3,11 +3,13 @@
 @mixin m-keyframe-effect(
     $keyframes,
     $duration: 0s,
-    $iterations: 1
+    $iterations: 1,
+    $easing: linear
 ) {
     $effect: m-keyframe-effect(#{&}, $keyframes, 
         $duration: $duration,
-        $iterations: $iterations
+        $iterations: $iterations,
+        $easing: $easing
     );
 
     @include _m-context($effect) {

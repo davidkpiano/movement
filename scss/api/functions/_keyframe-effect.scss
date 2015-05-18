@@ -12,8 +12,7 @@
     $spacing: 'distribute',
     $name: _unique-id('ke-')
 ) {
-    $frames: if(_is-map($frames), ($frames,), $frames);
-    $frames: _map($frames, _ary(m-keyframe));
+    $frames: m-keyframe-list($frames);
 
     @return (
         name: $name,

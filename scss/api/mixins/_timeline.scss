@@ -4,6 +4,12 @@ $timeline: () !global;
 @mixin _m-timeline() {
     $rendered-timeline: ();
 
+    $target-effect-map: _group-by($timeline, 'target');
+
+    @each $target, $effects in $target-effect-map {
+        @debug _flatten(_map(_map(_map($effects, 'frames'), _map 'declarations'), _map _ary(_keys)), true);
+    }
+
     @each $effect in $timeline {
         $target: _get($effect, 'target');
 

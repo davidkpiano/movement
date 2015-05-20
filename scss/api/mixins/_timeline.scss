@@ -7,7 +7,7 @@ $timeline: () !global;
     $target-effect-map: _group-by($timeline, 'target');
 
     @each $target, $effects in $target-effect-map {
-        @debug _flatten(_map(_map(_map($effects, 'frames'), _map 'declarations'), _map _ary(_keys)), true);
+        @debug _map($effects, _m-get-animated-properties);
     }
 
     @each $effect in $timeline {
@@ -26,4 +26,14 @@ $timeline: () !global;
     }
 
     $timeline: $rendered-timeline !global;
+}
+
+@function _m-get-animated-properties($effect, $args...) {
+    @return _($effect,
+        _get 'frames',
+        _map 'declarations',
+        _map _ary(_keys),
+        _flatten true,
+        _reduce _concat,
+        _uniq);
 }

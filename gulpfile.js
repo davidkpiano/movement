@@ -1,7 +1,7 @@
 'use strict'
 
 var gulp = require('gulp');
-var sass = require('gulp-sass');
+var sass = require('gulp-ruby-sass');
 var auto = require('gulp-autoprefixer');
 
 var paths = {
@@ -13,8 +13,7 @@ var paths = {
 };
 
 gulp.task('build', function(){
-  return gulp.src(paths.sass.in)
-    .pipe(sass())
+  return sass('scss/', {style: 'expanded'})
     .pipe(auto())
     .pipe(gulp.dest(paths.sass.out));
 });

@@ -7,7 +7,50 @@ $timeline: () !global;
     $target-effect-map: _group-by($timeline, 'target');
 
     @each $target, $effects in $target-effect-map {
-        @debug _map($effects, _m-get-animated-properties);
+        $rendered-effects: ();
+
+        $animated-properties: _($effects,
+            _map _m-get-animated-properties,
+            _flatten,
+            _uniq);
+
+        @each $animated-property in $animated-properties {
+            $rendered-keyframes: ();
+            $animated-properties-map: ();
+
+            @each $effect in $effects {
+                $effect: _m-fill-keyframes($effect);
+                $effect: _m-absolute-offsets($effect);
+
+                @each $keyframe in _get($effect, 'frames') {
+                    @each $property, $value in _get($keyframe, 'declarations') {
+                        @if not map-has-key($animated-properties-map, $property) {
+                            $animated-properties-map: _set($animated-properties-map, $property, ());
+                        }
+
+                        $animated-property: _get($animated-properties-map, $property);
+
+                        $property-keyframe: m-keyframe(($property: $value), _get($keyframe, 'offset'));
+
+                        $animated-property: append($animated-property, $property-keyframe);
+
+                        $animated-properties-map: _set($animated-properties-map, $property, $animated-property);
+                    }
+                }
+
+
+                @debug $animated-properties-map;
+
+                @each $keyframe in _filter(_get($effect, 'frames'), _get ('declarations' $animated-property)) {
+                    $rendered-declarations: (
+                        $animated-property: _get($keyframe, 'declarations' $animated-property),
+                        easing: _get($effect, 'easing')
+                        );
+
+                    @debug $rendered-declarations;
+                }
+            }
+        }
     }
 
     @each $effect in $timeline {
@@ -33,7 +76,52 @@ $timeline: () !global;
         _get 'frames',
         _map 'declarations',
         _map _ary(_keys),
-        _flatten true,
-        _reduce _concat,
+        _flatten,
         _uniq);
 }
+
+@function _m-fill-keyframes($effect) {
+    $keyframes: _get($effect, 'frames');
+    $duration: _get($effect, 'duration');
+
+
+    $last-keyframe: _last($keyframes);
+    $EPSILON: 0.001s;
+
+    @if _get($last-keyframe, 'offset') != 100% {
+        $last-keyframe: _set($last-keyframe, 'offset', 100%);
+        $keyframes: append($keyframes, $last-keyframe);
+    }
+
+    $terminal-keyframe: _($keyframes,
+        _last,
+        _set 'offset' percentage(1 - $EPSILON / $duration));
+
+    $keyframes: set-nth($keyframes, length($keyframes), $terminal-keyframe);
+
+    $effect: _set($effect, 'frames', $keyframes);
+
+    @return $effect;
+}
+
+@function _m-absolute-offsets($effect) {
+    $offset-start: _get($effect, 'offset-start');
+    $offset-end: _get($effect, 'offset-end');
+    $duration: _get($effect, 'duration');
+    $keyframes: _get($effect, 'frames');
+    $calculated-keyframes: ();
+
+    @each $keyframe in $keyframes {
+        $keyframe-offset: _get($keyframe, 'offset');
+        $keyframe: _set($keyframe,
+            'offset',
+            $offset-start + ($keyframe-offset / 100%) * $duration);
+
+        $calculated-keyframes: append($calculated-keyframes, $keyframe);
+    }
+
+    $effect: _set($effect, 'frames', $calculated-keyframes);
+
+    @return $effect;
+}
+

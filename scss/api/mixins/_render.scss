@@ -8,17 +8,6 @@
         $name: _get($effect, 'name');
 
         $timeline: append($timeline, $effect) !global;
-
-        @-webkit-keyframes #{$name} {
-            @each $keyframe in $keyframes {
-                $offset: _get($keyframe, 'offset');
-                $declarations: _get($keyframe, 'declarations');
-
-                #{$offset} {
-                    @include _declare($declarations);
-                }
-            }
-        }
     } @else {
         @each $child-effect in _get($effect, 'effects') {
             @include m-render($child-effect);

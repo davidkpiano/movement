@@ -1,24 +1,30 @@
 
 
-@function Keyframe($declarations: (), $offset: null) {
+@function Keyframe($declarations: (), $offset: null, $easing: null) {
     $offset: if(not _is-null($offset), $offset, _get($declarations, 'offset'));
     $declarations: map-remove($declarations, 'offset');
 
     @return (
         declarations: $declarations,
-        offset: $offset
+        offset: $offset,
+        easing: $easing
     );
 }
 
-@function m-keyframe($declarations: (), $offset: null) {   
+@function m-keyframe($declarations: (), $offset: null, $easing: null) {   
     @return _new(Keyframe, (
         declarations: $declarations,
-        offset: $offset
+        offset: $offset,
+        easing: $easing
     ));
 }
 
 @function m-keyframe-list($rules: ()) {
     @if _is-list($rules) {
+        @if _all($rules, _instance-of 'Keyframe') {
+            @return $rules;
+        }
+        
         @return _map($rules, _ary(m-keyframe));
     }
 

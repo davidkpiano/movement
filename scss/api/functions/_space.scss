@@ -15,6 +15,22 @@
     @return _set($frame, 'offset', $offset);
 }
 
+@function _m-space-KeyframeEffect-to(
+    $frame,
+    $index,
+    $frames
+) {
+    $length: length($frames);
+
+    @if $length == 1 {
+        @return _set($frame, 'offset', 100%);
+    }
+
+    $offset: percentage($index / $length);
+
+    @return _set($frame, 'offset', $offset);
+}
+
 @function _m-space-KeyframeEffect($effect) {
     $frames: _get($effect, 'frames');
     $spacing: _get($effect, 'spacing');

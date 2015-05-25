@@ -1,6 +1,6 @@
 
 
-@function _m-iterate-SequenceEffect($effect) {
+@function _m-iterate-SequenceEffect($effect, $iterations) {
     $effect-iterations: _get($effect, 'iterations');
 
     @if $effect-iterations == 'infinite'
@@ -26,16 +26,37 @@
     @return $effect;
 }
 
-@function _m-iterate-GroupEffect($effect) {
-    @return $effect;
+@function _m-iterate-StaggerEffect($effect, $iterations) {
+    @return _m-iterate-GroupEffect($effect, $iterations);
 }
 
-@function _m-iterate-StaggerEffect($effect) {
+@function _m-iterate-GroupEffect($effect, $iterations) {
+    $calculated-effects: ();
+
+    @each $child-effect in _get($effect, 'effects') {
+        $iterated-effects: ();
+        $child-effect-iterations: _get($child-effect, 'iterations');
+        $child-effect: _set($child-effect, 'iterations', 1);
+
+        @for $index from 1 through $child-effect-iterations {
+            $iterated-effects: append($iterated-effects, $child-effect);
+        }
+
+        $sequence-effect: m-sequence-effect(_get($effect, 'target'), $iterated-effects);
+
+        $sequence-effect: _m-timing($sequence-effect);
+
+        $calculated-effects: append($calculated-effects, $sequence-effect);
+    }
+
+    $effect: _m-set($effect, 'effects', $calculated-effects);
+
     @return $effect;
 }
 
 @function _m-iterate($effect) {
     $type: _get($effect, '_type');
+    $iterations: _get($effect, 'iterations');
 
-    @return call('_m-iterate-#{$type}', $effect);
+    @return call('_m-iterate-#{$type}', $effect, $iterations);
 }

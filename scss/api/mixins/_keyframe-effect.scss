@@ -6,7 +6,9 @@
     $iterations: 1,
     $easing: linear
 ) {
-    $effect: m-keyframe-effect(#{&}, $keyframes, 
+    $effect: m-keyframe-effect(
+        $target: #{&},
+        $keyframes: $keyframes, 
         $duration: $duration,
         $iterations: $iterations,
         $easing: $easing
@@ -17,8 +19,24 @@
     }
 }
 
-@mixin m-to($args...) {
-    @include m-keyframe-effect($args...) { @content; }
+@mixin m-to(
+    $keyframes,
+    $duration: 0s,
+    $iterations: 1,
+    $easing: linear
+) {
+    $effect: m-keyframe-effect(
+        $target: #{&},
+        $frames: $keyframes, 
+        $duration: $duration,
+        $iterations: $iterations,
+        $easing: $easing,
+        $spacing: 'to'
+    );
+
+    @include _m-context($effect) {
+        @content;
+    }
 }
 
 @mixin m-keyframes($args...) {

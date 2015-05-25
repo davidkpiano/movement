@@ -90,7 +90,7 @@
         $child-total-duration: $child-duration * $child-iterations;
 
         @if $child-total-duration + $current-offset > $duration {
-            @error 'Total duration of child effects exceed duration of sequence effect';
+            @error 'Total duration of child effects exceed duration of Stagger effect';
         }
 
         $child-effect: _m-set($child-effect,

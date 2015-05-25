@@ -54,10 +54,11 @@ body, html {
 // }
 
 body:hover {
-    @include m-stagger(0.1s, $iterations: 3) {
-        .foo { @include m-to((x: 100px) (x: 0), 0.5s, $iterations: 3); }
+    @include m-sequence() {
+        .foo { @include m-to((x: 100px) (x: \-10px) (x: \+10px) (x: \=) (x: 0), 0.5s); }
         .bar { @include m-to((x: 100px) (x: 0), 0.5s, $iterations: 3); }
         .baz { @include m-to((x: 100px) (x: 0), 0.5s, $iterations: 3); }
+        .foo { @include m-to((x: \+300px), 0.5s); }
     }
 }
 

@@ -8,8 +8,6 @@
         $effect: _m-offset($effect);
     } @else {
         $effect: _m-space-KeyframeEffect($effect);
-        $effect: _m-calculate-KeyframeEffect($effect);
-        $effect: _m-map-KeyframeEffect($effect);
     }
 
     @return $effect;

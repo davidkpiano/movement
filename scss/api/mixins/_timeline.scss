@@ -126,7 +126,7 @@ $timeline: () !global;
                         _get($last-keyframe, 'offset') - $EPSILON);
 
                     $keyframes: set-nth($keyframes, length($keyframes), $last-keyframe);
-                } @else {
+                } @else if _get($next-effect, 'offset-start') != _get($last-keyframe, 'offset') {
                     $terminal-keyframe: _set($last-keyframe, 'offset', _get($next-effect, 'offset-start'));
 
                     $keyframes: append($keyframes, $terminal-keyframe);
@@ -162,6 +162,8 @@ $timeline: () !global;
 
             $index: $index + 1;
         }
+
+        @debug $rendered-keyframes;
 
         $rendered-effect: m-keyframe-effect(
             $target: $target,

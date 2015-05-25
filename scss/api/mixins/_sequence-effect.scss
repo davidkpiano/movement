@@ -2,11 +2,13 @@
 
 @mixin m-sequence-effect(
     $duration: auto,
-    $iterations: 1
+    $iterations: 1,
+    $easing: linear
 ) {
     $effect: m-sequence-effect(#{&}, (),
         $duration: $duration,
-        $iterations: $iterations
+        $iterations: $iterations,
+        $easing: $easing
     );
 
     @include _m-context($effect) {

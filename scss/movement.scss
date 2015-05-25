@@ -51,10 +51,11 @@ body, html {
 
 body:hover {
     @include m-sequence() {
-        .foo { @include m-to((x: 100px, color: green) (x: \+100px) (x: \-200px), 1s, $easing: ease-in-out); }
-        .bar { @include m-to((y: 100px, color: blue), 1s); }
-        .foo { @include m-to((x: 100px, color: red), 1s); }
-        .bar { @include m-to((y: 100px, color: white), 1s); }
+        .foo { @include m-to((x: 100px, background: green) (x: \+50px, background: blue), 1s); }
+        .bar { @include m-to((y: 100px), 1s); }
+        .foo { @include m-to((x: 0), 1s); }
+        .bar { @include m-to((y: 200px), 1s); }
+        .foo { @include m-to((background: gray) (y:100px), 1s); }
     }
 }
 

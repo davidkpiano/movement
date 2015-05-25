@@ -8,7 +8,12 @@ $timeline: () !global;
     $target-effect-map: _group-by($timeline, 'target');
 
     @each $target, $effects in $target-effect-map {
-        $effects: _m-effects-by-prop($effects);
+        $calculated-effects: _m-effects-by-prop($effects, $target);
+
+        @each $effect in $calculated-effects {
+            @debug $effect;
+            $rendered-effects: append($rendered-effects, $effect);
+        }
     }
 
     @each $effect in $rendered-effects {
@@ -28,10 +33,11 @@ $timeline: () !global;
         $name: _get($effect, 'name');
         $keyframes: _get($effect, 'frames');
         $duration: _get($effect, 'duration');
+        $delay: _get($effect, 'delay');
 
         @-webkit-keyframes #{$name} {
             @each $keyframe in $keyframes {
-                $offset: percentage(_get($keyframe, 'offset') / $duration);
+                $offset: percentage((_get($keyframe, 'offset') - $delay) / $duration);
                 $declarations: _get($keyframe, 'declarations');
 
                 #{$offset} {
@@ -41,12 +47,10 @@ $timeline: () !global;
         }
     }
 
-    
-
     $timeline: $rendered-timeline !global;
 }
 
-@function _m-effects-by-prop($effects) {
+@function _m-effects-by-prop($effects, $target) {
     $rendered-effects: ();
 
     $prop-map: ();
@@ -92,7 +96,102 @@ $timeline: () !global;
         $index: $index + 1;
     }
 
+    $EPSILON: 0.001s;
+
+    @each $prop, $effects in $prop-map {
+        $effects: _map($effects, _ary(_m-absolute-offsets));
+        $effects: _map($effects, _ary(_m-set-easings));
+        $rendered-keyframes: ();
+        $rendered-duration: 0s;
+        $rendered-delay: 0s;
+        $rendered-offset-start: null;
+
+        $index: 1;
+        @while $index <= length($effects) {
+            $effect: nth($effects, $index);
+            $keyframes: _get($effect, 'frames');
+
+            $is-first: $index == 1;
+            $is-last: $index == length($effects);
+
+            $last-keyframe: _last($keyframes);
+
+            @if not $is-last {
+                $next-effect: nth($effects, $index + 1);
+
+                $next-keyframe: _first(_get($next-effect, 'frames'));
+
+                @if _get($next-keyframe, 'offset') == _get($last-keyframe, 'offset') {
+                    $last-keyframe: _set($last-keyframe,
+                        'offset',
+                        _get($last-keyframe, 'offset') - $EPSILON);
+
+                    $keyframes: set-nth($keyframes, length($keyframes), $last-keyframe);
+                } @else {
+                    $terminal-keyframe: _set($last-keyframe, 'offset', _get($next-effect, 'offset-start'));
+
+                    $keyframes: append($keyframes, $terminal-keyframe);
+                }
+            }
+
+            @if $is-first {
+                $rendered-delay: _get($effect, 'offset-start');
+            }
+
+            @if $is-last {
+                $rendered-duration:
+                    _get($effect, 'offset-start')
+                    + _get($effect, 'duration')
+                    + _get($effect, 'offset-end')
+                    - $rendered-delay;
+
+                @if _get($last-keyframe, 'offset') != $rendered-duration + $rendered-delay {                
+                    $terminal-keyframe: _set($last-keyframe, 'offset', $rendered-duration + $rendered-delay);
+
+                    $keyframes: append($keyframes, $terminal-keyframe);
+                }
+            }
+
+            @each $keyframe in $keyframes {
+                $rendered-keyframes: append($rendered-keyframes, $keyframe);
+            }
+
+            $index: $index + 1;
+        }
+
+        $rendered-effect: m-keyframe-effect(
+            $target: $target,
+            $frames: $rendered-keyframes, 
+            $duration: $rendered-duration,
+            $delay: $rendered-delay);
+
+        $rendered-effects: append($rendered-effects, $rendered-effect);
+    }
+
     @return $rendered-effects;
+}
+
+@function _m-absolute-offsets($effect) {
+    $duration: _get($effect, 'duration');
+    $offset-start: _get($effect, 'offset-start');
+    $offset-end: _get($effect, 'offset-end');
+    $total-duration: $duration + $offset-start + $offset-end;
+
+    $rendered-keyframes: ();
+
+    @each $keyframe in _get($effect, 'frames') {
+        $keyframe-offset:
+            $offset-start
+            + ((_get($keyframe, 'offset') / 100%) * $duration);
+
+        $keyframe: _set($keyframe, 'offset', $keyframe-offset);
+
+        $rendered-keyframes: append($rendered-keyframes, $keyframe);
+    }
+
+    $effect: _set($effect, 'frames', $rendered-keyframes);
+
+    @return $effect;
 }
 
 @function _m-set-easings($effect) {

@@ -10,7 +10,9 @@
     $fill: auto,
     $direction: normal,
     $spacing: 'distribute',
-    $name: _unique-id('ke-')
+    $name: _unique-id('ke-'),
+    $offset-start: 0s,
+    $offset-end: 0s
 ) {
     $frames: m-keyframe-list($frames);
 

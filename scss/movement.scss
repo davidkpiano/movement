@@ -15,7 +15,7 @@ body, html {
     box-sizing: border-box;
 }
 
-.foo, .bar {
+.foo, .bar, .baz {
     height: 1rem;
     width: 1rem;
     border-radius: 50%;
@@ -26,6 +26,10 @@ body, html {
 
 .bar {
     background: blue;
+}
+
+.baz {
+    background: green;
 }
 
 // body {
@@ -51,11 +55,20 @@ body, html {
 
 body:hover {
     @include m-sequence($iterations: 3) {
-        .foo { @include m-to((x: 100px, background: green) (x: \+50px, background: blue), 1s); }
-        .bar { @include m-to((y: 100px), 1s); }
-        .foo { @include m-to((x: 0), 1s); }
-        .bar { @include m-to((y: 200px), 1s); }
-        .foo { @include m-to((background: gray) (y:100px), 1s); }
+        .foo {
+            @include m-to((x: 0) (x:100px) (y:-100px, x:100px) (x:0, y:-100px) (y:0), 1s);
+        }
+
+        .bar {
+            @include m-to(
+                (x: 0)
+                (x: -100px)
+                (x: -100px, y: 100px)
+                (x: 0, y: 100px)
+                (y: 0),
+                1s
+            );
+        }
     }
 }
 

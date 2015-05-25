@@ -39,6 +39,8 @@
     );
     $transform-properties: _concat(_keys($transform-properties-map),
         'scale',
+        'scaleX',
+        'scaleY',
         'rotate',
         'skew');
 

@@ -1,31 +1,29 @@
 
 
 @function _m-calculate-KeyframeEffect($effect) {
-    $keyframes: _get($effect, 'frames');
-
-    @if length($keyframes) <= 1 {
-        @return $effect;
-    }
-
+    $previous-effect: static-get('m-previous-effect' _get($effect, 'target'));
     $calculated-keyframes: ();
+
+    $keyframes: _get($effect, 'frames');
 
     $index: 1;
     @while $index <= length($keyframes) {
+        $previous-keyframe: if($index > 1,
+            nth($calculated-keyframes, $index - 1),
+            _last(_get($previous-effect, 'frames')));
+
         $keyframe: nth($keyframes, $index);
-        $calculated-keyframe: $keyframe;
 
-        @if $index > 1 {        
-            $previous-keyframe: nth($calculated-keyframes, $index - 1);
-
-            $calculated-keyframe: _m-calculate-Keyframe($keyframe, $previous-keyframe);
-        }
+        $calculated-keyframe: _m-calculate-Keyframe($keyframe, $previous-keyframe);
 
         $calculated-keyframes: append($calculated-keyframes, $calculated-keyframe);
 
         $index: $index + 1;
     }
 
-    $effect: _m-set($effect, 'frames', $calculated-keyframes);
+    $effect: _set($effect, 'frames', $calculated-keyframes);
+
+    $_: static-set('m-previous-effect' _get($effect, 'target'), $effect);
 
     @return $effect;
 }

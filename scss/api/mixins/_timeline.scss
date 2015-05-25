@@ -170,9 +170,6 @@ $timeline: () !global;
             $delay: $rendered-delay,
             $iterations: $rendered-iterations);
 
-        $rendered-effect: _m-calculate-KeyframeEffect($rendered-effect);
-        $rendered-effect: _m-map-KeyframeEffect($rendered-effect);
-
         $rendered-effects: append($rendered-effects, $rendered-effect);
     }
 

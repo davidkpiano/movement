@@ -104,7 +104,7 @@ $timeline: () !global;
         $rendered-keyframes: ();
         $rendered-duration: 0s;
         $rendered-delay: 0s;
-        $rendered-offset-start: null;
+        $rendered-iterations: 1;
 
         $index: 1;
         @while $index <= length($effects) {
@@ -142,8 +142,13 @@ $timeline: () !global;
                 $rendered-duration:
                     _get($effect, 'offset-start')
                     + _get($effect, 'duration')
-                    + _get($effect, 'offset-end')
-                    - $rendered-delay;
+                    + _get($effect, 'offset-end');
+
+                @if _get($root-effect, 'iterations') == 1 {
+                    $rendered-duration: $rendered-duration - $rendered-delay;
+                } @else {
+                    $rendered-iterations: _get($root-effect, 'iterations');
+                }
 
                 @if _get($last-keyframe, 'offset') != $rendered-duration + $rendered-delay {                
                     $terminal-keyframe: _set($last-keyframe, 'offset', $rendered-duration + $rendered-delay);
@@ -163,7 +168,8 @@ $timeline: () !global;
             $target: $target,
             $frames: $rendered-keyframes, 
             $duration: $rendered-duration,
-            $delay: $rendered-delay);
+            $delay: $rendered-delay,
+            $iterations: $rendered-iterations);
 
         $rendered-effects: append($rendered-effects, $rendered-effect);
     }

@@ -1,7 +1,8 @@
-
+$root-effect: null !global;
 
 @mixin m-play($effect: null) {
     $timeline: () !global;
+    $root-effect: $effect !global;
     
     @include m-render($effect);
 

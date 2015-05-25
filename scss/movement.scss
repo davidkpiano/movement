@@ -50,7 +50,7 @@ body, html {
 // }
 
 body:hover {
-    @include m-sequence() {
+    @include m-sequence($iterations: 3) {
         .foo { @include m-to((x: 100px, background: green) (x: \+50px, background: blue), 1s); }
         .bar { @include m-to((y: 100px), 1s); }
         .foo { @include m-to((x: 0), 1s); }

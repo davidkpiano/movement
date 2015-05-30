@@ -1,21 +1,13 @@
 
 $timeline: () !global;
 
-@mixin _m-timeline() {
+@mixin _m-execute-tasks() {
     $rendered-timeline: ();
     $rendered-effects: ();
 
-    $target-effect-map: _group-by($timeline, 'target');
+    $effects: _m-task-group-timeline-effects($timeline);
 
-    @each $target, $effects in $target-effect-map {
-        $calculated-effects: _m-effects-by-prop($effects, $target);
-
-        @each $effect in $calculated-effects {
-            $rendered-effects: append($rendered-effects, $effect);
-        }
-    }
-
-    @each $effect in $rendered-effects {
+    @each $effect in $effects {
         $target: _get($effect, 'target');
 
         $animation: (
@@ -49,7 +41,22 @@ $timeline: () !global;
     $timeline: $rendered-timeline !global;
 }
 
-@function _m-effects-by-prop($effects, $target) {
+@function _m-task-group-timeline-effects($timeline) {
+    $target-effect-map: _group-by($timeline, 'target');
+    $rendered-effects: ();
+
+    @each $target, $effects in $target-effect-map {
+        $calculated-effects: _m-subtask-group-effects-by-prop($effects, $target);
+
+        @each $effect in $calculated-effects {
+            $rendered-effects: append($rendered-effects, $effect);
+        }
+    }
+
+    @return $rendered-effects;
+}
+
+@function _m-subtask-group-effects-by-prop($effects, $target) {
     $rendered-effects: ();
 
     $prop-map: ();

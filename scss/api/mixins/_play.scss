@@ -6,7 +6,7 @@ $root-effect: null !global;
     
     @include m-render($effect);
 
-    @include _m-timeline();
+    @include _m-execute-tasks();
 
     @each $target, $animations in _group-by-keys($timeline) {
         #{$target} {        

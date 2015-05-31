@@ -4,14 +4,16 @@
     $keyframes,
     $duration: 0s,
     $iterations: 1,
-    $easing: linear
+    $easing: linear,
+    $loop: false
 ) {
     $effect: m-keyframe-effect(
         $target: #{&},
-        $keyframes: $keyframes, 
+        $frames: $keyframes, 
         $duration: $duration,
         $iterations: $iterations,
-        $easing: $easing
+        $easing: $easing,
+        $loop: $loop
     );
 
     @include _m-context($effect) {

@@ -5,7 +5,7 @@ $timeline: () !global;
     $rendered-timeline: ();
     $rendered-effects: ();
 
-    $effects: _m-task-group-timeline-effects($timeline);
+    $effects: _m-task-timeline-group-effects($timeline);
 
     @each $effect in $effects {
         $target: _get($effect, 'target');
@@ -41,12 +41,12 @@ $timeline: () !global;
     $timeline: $rendered-timeline !global;
 }
 
-@function _m-task-group-timeline-effects($timeline) {
+@function _m-task-timeline-group-effects($timeline) {
     $target-effect-map: _group-by($timeline, 'target');
     $rendered-effects: ();
 
     @each $target, $effects in $target-effect-map {
-        $calculated-effects: _m-subtask-group-effects-by-prop($effects, $target);
+        $calculated-effects: _m-task-effects-group-by-prop($effects, $target);
 
         @each $effect in $calculated-effects {
             $rendered-effects: append($rendered-effects, $effect);
@@ -56,7 +56,7 @@ $timeline: () !global;
     @return $rendered-effects;
 }
 
-@function _m-subtask-group-effects-by-prop($effects, $target) {
+@function _m-task-effects-group-by-prop($effects, $target) {
     $rendered-effects: ();
 
     $prop-map: ();

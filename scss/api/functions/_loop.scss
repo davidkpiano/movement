@@ -1,0 +1,13 @@
+
+
+@function _m-loop-KeyframeEffect($effect) {
+  @if _get($effect, 'loop') {  
+    $keyframes: _get($effect, 'frames');
+
+    $keyframes: _concat($keyframes, _drop(_reverse($keyframes)));
+
+    $effect: _m-set($effect, 'frames', $keyframes);
+  }
+
+  @return $effect;
+}

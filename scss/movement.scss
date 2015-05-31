@@ -38,7 +38,7 @@ body {
   &:hover {
     @include m-sequence($easing: ease-in-out) {    
       .square:nth-child(2) {
-        @include m-to((y: 0), 0.5s);
+        @include m-keyframes((y:-300%) (y: 0), 0.5s, $loop: true);
       }
 
       .squares {

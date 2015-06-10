@@ -22,6 +22,8 @@
 
         $effect: _m-set($effect, 'duration', $duration);
         $effect: _m-set($effect, 'effects', $calculated-child-effects);
+
+        @debug _pluck(_get($effect, 'effects'), 'duration');
     }
 
     @if _instance-of($effect, 'GroupEffect')

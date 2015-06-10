@@ -170,6 +170,21 @@ $timeline: () !global;
             $index: $index + 1;
         }
 
+        $index: 1;
+        @while $index < length($rendered-keyframes) {
+            $rendered-keyframe: nth($rendered-keyframes, $index);
+            $next-rendered-keyframe: nth($rendered-keyframes, $index + 1);
+
+            @if _get($rendered-keyframe, 'offset') == _get($next-rendered-keyframe, 'offset') {
+                $new-offset: _get($rendered-keyframe, 'offset') - $EPSILON;
+                $rendered-keyframe: _set($rendered-keyframe, 'offset', $new-offset);
+            }
+
+            $rendered-keyframes: set-nth($rendered-keyframes, $index, $rendered-keyframe);
+
+            $index: $index + 1;
+        }
+
         $rendered-effect: m-keyframe-effect(
             $target: $target,
             $frames: $rendered-keyframes, 

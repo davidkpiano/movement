@@ -64,8 +64,6 @@
                 _join(_map(_pairs($transforms), _reduce _ary(_str-concat, 2)), ' '));            
         }
 
-        $declarations: _map-values($declarations, unquote);
-
         $keyframe: _set($keyframe, 'declarations', $declarations);
 
         $mapped-keyframes: append($mapped-keyframes, $keyframe);

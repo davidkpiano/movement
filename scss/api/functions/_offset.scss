@@ -17,8 +17,8 @@
 
         $duration: min($child-total-duration, $remaining-duration);
 
-        @if $child-total-duration > $remaining-duration {
-            @error 'Total duration of child effects exceed duration of sequence effect';
+        @if $child-total-duration > $remaining-duration + 0.001s {
+            @error 'Total duration of child effects exceed duration of sequence effect - #{$child-total-duration} > #{$remaining-duration}';
         }
 
         $remaining-duration: $remaining-duration - $duration;
@@ -89,7 +89,7 @@
         $child-iterations: _get($child-effect, 'iterations');
         $child-total-duration: $child-duration * $child-iterations;
 
-        @if $child-total-duration + $current-offset > $duration {
+        @if $child-total-duration + $current-offset > $duration + 0.001s {
             @error 'Total duration of child effects exceed duration of Stagger effect';
         }
 

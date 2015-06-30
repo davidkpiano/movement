@@ -1,99 +1,12 @@
-
 @import 'api/module';
 
-$tempo: 130; // bpm
-$beat: 1/4; // quarter note
-$grid-size: 8;
-$tile-color: #444444;
+@include m-group() {
+  @include m-group() {
+    @include m-keyframes();
+    @include m-keyframes();
+  }
 
-$colors: (
-  'red': #e7417b,
-  'orange': #f7a64a,
-  'yellow': #fcff94,
-  'green': #4ae69e
-);
-
-@function beats($beats) {
-  @return (60s / $tempo / $beat) * $beats;
-}
-
-@debug beats(1);
-
-*, *:before, *:after {
-  position: relative;
-  box-sizing: border-box;
-}
-
-html, body {
-  background: #000;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.launchpad {
-  width: 50vmax;
-  height: 50vmax;
-  float: left;
-}
-
-.tile {
-  width: percentage(1/$grid-size);
-  height: percentage(1/$grid-size);
-  background-color: #444444;
-  float: left;
-  border: 0.5rem solid transparent;
-  background-clip: content-box;
-}
-
-@mixin lp($x, $y) {
-  .tile:nth-child(#{$grid-size * ($y - 1) + $x}) {
-    @content;
+  @include m-group() {
+    @include m-keyframes();
   }
 }
-
-@mixin lp-flash($x, $y, $color, $dur) {
-  @include lp($x, $y) {  
-    @include m-keyframes(
-      (background-color: map-get($colors, $color))
-      (background-color: $tile-color),
-      $dur);
-  }
-}
-
-@mixin a-1($x, $y, $colors) {
-  $dur: beats(1/16);
-
-  @include m-stagger(beats(1/32), beats(1/8)) {
-    @include lp-flash($x, $y, nth($colors, 1), $dur);
-
-    @include m-group($dur) {
-      @include lp-flash($x, $y + 1, nth($colors, 2), $dur);
-      @include lp-flash($x, $y - 1, nth($colors, 2), $dur);
-      @include lp-flash($x + 1, $y, nth($colors, 2), $dur);
-      @include lp-flash($x - 1, $y, nth($colors, 2), $dur);
-    }
-    
-    @include m-group($dur) {
-      @include lp-flash($x, $y + 2, nth($colors, 2), $dur);
-      @include lp-flash($x, $y - 2, nth($colors, 2), $dur);
-      @include lp-flash($x + 2, $y, nth($colors, 2), $dur);
-      @include lp-flash($x - 2, $y, nth($colors, 2), $dur);
-    }
-  }
-}
-
-@include m-sequence() {
-  @include a-1(5, 5, 'red' 'orange' 'yellow');
-  @include a-1(4, 4, 'red' 'orange' 'yellow');
-  @include a-1(5, 5, 'red' 'orange' 'yellow');
-  @include a-1(4, 4, 'red' 'orange' 'yellow');
-  @include a-1(5, 4, 'green' 'red' 'green');
-  @include a-1(4, 5, 'green' 'red' 'green');
-  @include a-1(5, 4, 'green' 'red' 'green');
-  @include a-1(4, 5, 'green' 'red' 'green');
-}
-
-
-

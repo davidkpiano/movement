@@ -1,7 +1,7 @@
 
 
 @function GroupEffect(
-    $target: &,
+    $target: #{&},
     $effects: (),
     $duration: auto,
     $delay: 0,

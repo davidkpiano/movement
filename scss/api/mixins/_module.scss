@@ -2,10 +2,7 @@
 $m-current-effect: null !global;
 
 @import 'timeline';
-@import 'context';
 @import 'render';
 @import 'play';
-@import 'keyframe-effect';
-@import 'group-effect';
-@import 'sequence-effect';
-@import 'stagger-effect';
+@import 'keyframes';
+@import 'group';

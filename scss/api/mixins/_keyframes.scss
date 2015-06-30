@@ -1,0 +1,51 @@
+
+@function m-keyframe($effects) {
+    @return ('a': $effects);
+}
+
+@function append-keyframe($parent, $effects) {
+    @return append($parent, m-keyframe($effects));
+}
+
+@mixin m-keyframes(
+    $keyframes: (a:1,b:2),
+    $duration: 0s,
+    $iterations: 1,
+    $easing: linear,
+    $loop: false
+) {
+    // $effect: m-keyframes(
+    //     $target: #{&},
+    //     $frames: $keyframes, 
+    //     $duration: $duration,
+    //     $iterations: $iterations,
+    //     $easing: $easing,
+    //     $loop: $loop
+    // );
+
+    $effects: ($keyframes);
+
+    @include _context($effects, append-keyframe) {
+        @content;
+    }
+}
+
+@mixin m-to(
+    $keyframes,
+    $duration: 0s,
+    $iterations: 1,
+    $easing: linear
+) {
+    $effect: m-keyframes(
+        $target: #{&},
+        $frames: $keyframes, 
+        $duration: $duration,
+        $iterations: $iterations,
+        $easing: $easing,
+        $spacing: 'to'
+    );
+
+    @include _m-context($effect) {
+        @content;
+    }
+}

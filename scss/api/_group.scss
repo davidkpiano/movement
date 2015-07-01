@@ -1,0 +1,50 @@
+
+
+@function MovementGroup(
+  $type: 'group',
+  $effects: (),
+  $duration: auto,
+  $delay: 0,
+  $easing: linear,
+  $iterations: 1,
+  $direction: normal
+) {
+  $id: _unique-id('#{$type}-');
+
+  $effect: (
+    id: $id,
+    effects: $effects,
+    duration: $duration,
+    delay: $delay,
+    easing: $easing,
+    iterations: $iterations,
+    direction: $direction,
+    offset-start: 0s,
+    offset-end: 0s,
+    type: $type
+  );
+
+  @return $effect;
+}
+
+
+@function m-group($args...) {
+  @return MovementGroup('group', $args...);
+}
+
+
+@function _m-append-group($parent, $effects) {
+  @return append($parent, m-group($effects));
+}
+
+
+@mixin m-group(
+  $duration: auto,
+  $iterations: 1
+) {
+  $effects: ();
+
+  @include _context($effects, _m-append-group) {
+    @content;
+  }
+}

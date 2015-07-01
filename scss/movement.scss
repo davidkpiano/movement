@@ -1,12 +1,13 @@
 @import 'api/module';
 
 @include m-group() {
-  @include m-group() {
-    @include m-keyframes();
-    @include m-keyframes();
-  }
+  @include m-group();
 
   @include m-group() {
     @include m-keyframes();
+
+    @include m-keyframes();
   }
 }
+
+@debug _context-get();

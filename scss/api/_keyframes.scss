@@ -1,0 +1,58 @@
+
+
+@function MovementKeyframes(
+  $keyframes: (),
+  $duration: auto,
+  $delay: 0,
+  $easing: null,
+  $iterations: 1,
+  $fill: auto,
+  $direction: normal,
+  $spacing: 'distribute',
+  $name: _unique-id('ke-'),
+  $offset-start: 0s,
+  $offset-end: 0s,
+  $loop: false,
+  $target: #{&}
+) {
+  $id: _unique-id('keyframes-');
+
+  @return (
+    id: $id,
+    keyframes: $keyframes,
+    spacing: $spacing,
+    duration: $duration,
+    delay: $delay,
+    easing: $easing,
+    iterations: $iterations,
+    fill: $fill,
+    direction: $direction,
+    offset-start: 0s,
+    offset-end: 0s,
+    loop: $loop,
+    target: $target
+  );
+}
+
+@function m-keyframes($args...) {
+  @return MovementKeyframes($args...);
+}
+
+
+@function _m-append-keyframes($parent, $effects) {
+    @return append($parent, m-keyframes($effects));
+}
+
+@mixin m-keyframes(
+    $keyframes: (),
+    $duration: 0s,
+    $iterations: 1,
+    $easing: linear,
+    $loop: false
+) {
+    $effects: $keyframes;
+
+    @include _context($effects, _m-append-keyframes) {
+        @content;
+    }
+}

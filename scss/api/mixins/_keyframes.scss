@@ -14,16 +14,7 @@
     $easing: linear,
     $loop: false
 ) {
-    // $effect: m-keyframes(
-    //     $target: #{&},
-    //     $frames: $keyframes, 
-    //     $duration: $duration,
-    //     $iterations: $iterations,
-    //     $easing: $easing,
-    //     $loop: $loop
-    // );
-
-    $effects: ($keyframes);
+    $effects: $keyframes;
 
     @include _context($effects, append-keyframe) {
         @content;

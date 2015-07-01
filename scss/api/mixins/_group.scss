@@ -1,24 +1,33 @@
 
-@function m-group($effects) {
-    @return ('g': $effects);
-}
 
 @function append-group($parent, $effects) {
     @return append($parent, m-group($effects));
 }
 
+@function append-sequence($parent, $effects) {
+    @return append($parent, m-sequence($effects));
+}
+
 @mixin m-group(
     $duration: auto,
-    $iterations: 1,
-    $type: 'group'
+    $iterations: 1
 ) {
     $effects: ();
 
     @include _context($effects, append-group) {
         @content;
-
-        $effects: m-group(_context-get());
     }
 
     @debug $effects;
+}
+
+@mixin m-sequence(
+    $duration: auto,
+    $iterations: 1
+) {
+    $effects: ();
+
+    @include _context($effects, append-sequence) {
+        @content;
+    }
 }

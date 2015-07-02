@@ -1,0 +1,42 @@
+
+
+@function MovementKeyframe(
+  $declarations: (),
+  $offset: null,
+  $easing: null,
+  $id: _unique-id('keyframe-')
+) {
+  $offset: if(
+    not _is-null($offset),
+    $offset,
+    _get($declarations, 'offset'));
+
+  $declarations: map-remove($declarations, 'offset');
+
+  @return (
+    declarations: $declarations,
+    offset: $offset,
+    easing: $easing,
+    id: $id
+  );
+}
+
+@function m-keyframe($declarations: (), $offset: null, $easing: null) {   
+  @return MovementKeyframe(
+    $declarations: $declarations,
+    $offset: $offset,
+    $easing: $easing
+  );
+}
+
+@mixin m-keyframe($declarations: (), $offset: null, $easing: null) {
+  $effect: m-keyframe(
+    $declarations: $declarations,
+    $offset: $offset,
+    $easing: $easing
+  );
+
+  @include _m-stack($effect);
+
+  @content;
+}

@@ -1,14 +1,3 @@
 
-@function MovementSequence(
-  $args...
-) {
-  @return MovementGroup(
-    $type: 'sequence',
-    $args...
-  );
-}
 
 
-@function m-sequence($args...) {
-  @return MovementSequence($args...);
-}

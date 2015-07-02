@@ -1,9 +1,12 @@
 
 @import '../../node_modules/sassdash/scss/sassdash';
 
+$STACK: () !global;
+
+@mixin _m-stack($effect) {
+  $STACK: append($STACK, $effect) !global;
+}
+
+@import 'keyframe';
 @import 'keyframes';
 @import 'group';
-@import 'sequence';
-
-@debug m-group();
-@debug m-sequence();

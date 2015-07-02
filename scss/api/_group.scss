@@ -1,4 +1,36 @@
 
+@function _m-offset-sequence-effects($effects, $duration) {
+  $calculated-effects: ();
+
+  $previous-duration: 0s;
+  $remaining-duration: $duration;
+
+  @each $effect in $effects {
+      $child-duration: _get($effect, 'duration');
+      $child-iterations: _get($effect, 'iterations');
+      $child-total-duration: $child-duration * $child-iterations;
+
+      $duration: min($child-total-duration, $remaining-duration);
+
+      @if $child-total-duration > $remaining-duration + 0.001s {
+          @error 'Total duration of child effects exceed duration of sequence effect - #{$child-total-duration} > #{$remaining-duration}';
+      }
+
+      $remaining-duration: $remaining-duration - $duration;
+
+      $effect: map-merge($effect, (
+        'offset-start': $previous-duration,
+        'offset-end': $remaining-duration
+      ));
+
+      $previous-duration: $previous-duration + $duration;
+
+      $calculated-effects: append($calculated-effects, $effect);
+  }
+
+  @return $calculated-effects;
+}
+
 
 @function MovementGroup(
   $type: 'group',
@@ -7,9 +39,24 @@
   $delay: 0,
   $easing: linear,
   $iterations: 1,
-  $direction: normal
+  $direction: normal,
+  $target: #{&}
 ) {
   $id: _unique-id('#{$type}-');
+
+  // DURATION
+  @if $duration == auto {
+    @if $type == 'group' {
+      $duration: _($effects, _pluck 'duration', _max);
+    } @else if $type == 'sequence' {
+      $duration: _($effects, _pluck 'duration', _sum);
+    }
+  }
+
+  // CHILD OFFSETS
+  @if $type == 'sequence' {
+    $effects: _m-offset-sequence-effects($effects, $duration);
+  }
 
   $effect: (
     id: $id,
@@ -21,7 +68,8 @@
     direction: $direction,
     offset-start: 0s,
     offset-end: 0s,
-    type: $type
+    type: $type,
+    target: $target
   );
 
   @return $effect;
@@ -29,12 +77,9 @@
 
 
 @function m-group($args...) {
-  @return MovementGroup('group', $args...);
-}
+  $effect: MovementGroup('group', $args...);
 
-
-@function _m-append-group($parent, $effects) {
-  @return append($parent, m-group($effects));
+  @return $effect;
 }
 
 
@@ -42,9 +87,36 @@
   $duration: auto,
   $iterations: 1
 ) {
-  $effects: ();
+  $prev: $STACK;
+  $STACK: () !global;
 
-  @include _context($effects, _m-append-group) {
-    @content;
-  }
+  @content;
+
+  $effect: m-group($effects: $STACK, $target: &);
+
+  $STACK: $prev !global;
+
+  @include _m-stack($effect);
+}
+
+
+@function m-sequence($args...) {
+  @return MovementGroup($type: 'sequence', $args...);
+}
+
+
+@mixin m-sequence(
+  $duration: auto,
+  $iterations: 1
+) {
+  $prev: $STACK;
+  $STACK: () !global;
+
+  @content;
+
+  $effect: m-sequence($effects: $STACK, $target: &);
+
+  $STACK: $prev !global;
+
+  @include _m-stack($effect);
 }

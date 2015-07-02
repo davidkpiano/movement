@@ -9,13 +9,17 @@
   $fill: auto,
   $direction: normal,
   $spacing: 'distribute',
-  $name: _unique-id('ke-'),
   $offset-start: 0s,
   $offset-end: 0s,
   $loop: false,
   $target: #{&}
 ) {
   $id: _unique-id('keyframes-');
+
+  // DURATION
+  @if $duration == auto {
+    $duration: _($keyframes, _pluck 'offset', _max);
+  }
 
   @return (
     id: $id,
@@ -35,24 +39,30 @@
 }
 
 @function m-keyframes($args...) {
-  @return MovementKeyframes($args...);
-}
+  $effect: MovementKeyframes($args...);
 
-
-@function _m-append-keyframes($parent, $effects) {
-    @return append($parent, m-keyframes($effects));
+  @return $effect;
 }
 
 @mixin m-keyframes(
     $keyframes: (),
-    $duration: 0s,
+    $duration: auto,
     $iterations: 1,
     $easing: linear,
     $loop: false
 ) {
-    $effects: $keyframes;
+  $prev: $STACK;
+  $STACK: () !global;
 
-    @include _context($effects, _m-append-keyframes) {
-        @content;
-    }
+  @content;
+
+  $effect: m-keyframes(
+    $keyframes: _concat($keyframes, $STACK),
+    $duration: $duration,
+    $target: &
+  );
+
+  $STACK: $prev !global;
+
+  @include _m-stack($effect);
 }

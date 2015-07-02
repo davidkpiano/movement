@@ -1,13 +1,16 @@
 @import 'api/module';
 
-@include m-group() {
-  @include m-group();
-
-  @include m-group() {
-    @include m-keyframes();
-
-    @include m-keyframes();
+.foo {
+  @include m-sequence() {
+    @include m-keyframes($duration: 3s);
+    @include m-keyframes($duration: 2s);
+    @include m-keyframes($duration: 6s);
+    @include m-keyframes() {
+      @include m-keyframe($offset: 0s);
+      @include m-keyframe($offset: 3s);
+      @include m-keyframe($offset: 7s);
+    }
   }
 }
 
-@debug _context-get();
+@debug $STACK;

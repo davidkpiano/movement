@@ -13,4 +13,32 @@
   }
 }
 
-@debug $STACK;
+// @debug $STACK;
+
+$KEYFRAMES: () !global;
+
+@function traverse($thing: (effects: $STACK, offset: 0s)) {
+  @if map-has-key($thing, 'effects') {
+    $effects: _get($thing, 'effects');
+    $offset: _get($thing, 'offset');
+
+    $effects: _($effects,
+      _map (_modify 'offset' (_add $offset)),
+      _map _ary(traverse));
+  } @else if map-has-key($thing, 'keyframes') {
+    $keyframes: _get($thing, 'keyframes');
+    $offset: _get($thing, 'offset');
+
+    $keyframes: _($keyframes,
+      _map (_modify 'offset' (_add $offset)),
+      _map (_set 'target' _get($thing, 'target')));
+
+    $KEYFRAMES: _concat($KEYFRAMES, $keyframes) !global;
+  }
+
+  @return $thing;
+}
+
+$_: traverse();
+
+@debug $KEYFRAMES;

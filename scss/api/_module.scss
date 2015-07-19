@@ -7,6 +7,7 @@ $STACK: () !global;
   $STACK: append($STACK, $effect) !global;
 }
 
+@import 'node';
 @import 'keyframe';
 @import 'keyframes';
 @import 'group';

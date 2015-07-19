@@ -9,8 +9,7 @@
   $fill: auto,
   $direction: normal,
   $spacing: 'distribute',
-  $offset-start: 0s,
-  $offset-end: 0s,
+  $offset: 0s,
   $loop: false,
   $target: #{&}
 ) {
@@ -31,8 +30,7 @@
     iterations: $iterations,
     fill: $fill,
     direction: $direction,
-    offset-start: 0s,
-    offset-end: 0s,
+    offset: 0s,
     loop: $loop,
     target: $target
   );
@@ -61,6 +59,7 @@
     $duration: $duration,
     $target: &
   );
+
 
   $STACK: $prev !global;
 

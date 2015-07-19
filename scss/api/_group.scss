@@ -18,10 +18,8 @@
 
       $remaining-duration: $remaining-duration - $duration;
 
-      $effect: map-merge($effect, (
-        'offset-start': $previous-duration,
-        'offset-end': $remaining-duration
-      ));
+      $effect: map-merge($effect,
+        ('offset': $previous-duration));
 
       $previous-duration: $previous-duration + $duration;
 
@@ -53,7 +51,7 @@
     }
   }
 
-  // CHILD OFFSETS
+  // CHILD RELATIVE OFFSETS
   @if $type == 'sequence' {
     $effects: _m-offset-sequence-effects($effects, $duration);
   }
@@ -66,8 +64,7 @@
     easing: $easing,
     iterations: $iterations,
     direction: $direction,
-    offset-start: 0s,
-    offset-end: 0s,
+    offset: 0s,
     type: $type,
     target: $target
   );

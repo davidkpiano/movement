@@ -1,0 +1,16 @@
+
+
+@function MovementNode(
+  $target,
+  $offset,
+  $duration,
+  $properties
+) {
+  @return (
+    type: 'node',
+    target: $target,
+    offset: $offset,
+    duration: $duration,
+    properties: $properties
+  );
+}

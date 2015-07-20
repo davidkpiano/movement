@@ -20,6 +20,10 @@
     $duration: _($keyframes, _pluck 'offset', _max);
   }
 
+  @if length($keyframes) > 0 {
+    $keyframes: _map($keyframes, _ary(m-keyframe));
+  }
+
   @return (
     id: $id,
     keyframes: $keyframes,

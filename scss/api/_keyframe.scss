@@ -2,7 +2,7 @@
 
 @function MovementKeyframe(
   $declarations: (),
-  $offset: null,
+  $offset: 0s,
   $easing: null,
   $id: _unique-id('keyframe-')
 ) {
@@ -14,6 +14,7 @@
   $declarations: map-remove($declarations, 'offset');
 
   @return (
+    type: 'keyframe',
     declarations: $declarations,
     offset: $offset,
     easing: $easing,
@@ -21,7 +22,11 @@
   );
 }
 
-@function m-keyframe($declarations: (), $offset: null, $easing: null) {   
+@function m-keyframe($declarations: (), $offset: 0s, $easing: null) {
+  @if _get($declarations, 'type') == 'keyframe' {
+    @return $declarations;
+  }
+  
   @return MovementKeyframe(
     $declarations: $declarations,
     $offset: $offset,
@@ -29,7 +34,7 @@
   );
 }
 
-@mixin m-keyframe($declarations: (), $offset: null, $easing: null) {
+@mixin m-keyframe($declarations: (), $offset: 0s, $easing: null) {
   $effect: m-keyframe(
     $declarations: $declarations,
     $offset: $offset,

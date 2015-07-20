@@ -2,13 +2,13 @@
 
 .foo {
   @include m-sequence() {
-    @include m-keyframes($duration: 3s);
-    @include m-keyframes($duration: 2s);
-    @include m-keyframes($duration: 6s);
+    @include m-keyframes((top: 10px) (top: 20px), $duration: 3s);
+    @include m-keyframes((top: 30px, left: 10px) (top: 40px), $duration: 2s);
+    @include m-keyframes((left: 20px) (top: -10px), $duration: 6s);
     @include m-keyframes() {
-      @include m-keyframe($offset: 0s);
-      @include m-keyframe($offset: 3s);
-      @include m-keyframe($offset: 7s);
+      @include m-keyframe((top: 30px, left: 20px), $offset: 0s);
+      @include m-keyframe((top: 20px, left: 30px), $offset: 3s);
+      @include m-keyframe((top: 10px, left: 40px), $offset: 7s);
     }
   }
 }
@@ -16,29 +16,48 @@
 // @debug $STACK;
 
 $KEYFRAMES: () !global;
+$NODES: () !global;
 
-@function traverse($thing: (effects: $STACK, offset: 0s)) {
-  @if map-has-key($thing, 'effects') {
-    $effects: _get($thing, 'effects');
-    $offset: _get($thing, 'offset');
+@function traverse($effect: (effects: $STACK, offset: 0s)) {
+  @if map-has-key($effect, 'effects') {
+    $effects: _get($effect, 'effects');
+    $offset: _get($effect, 'offset');
 
     $effects: _($effects,
       _map (_modify 'offset' (_add $offset)),
       _map _ary(traverse));
-  } @else if map-has-key($thing, 'keyframes') {
-    $keyframes: _get($thing, 'keyframes');
-    $offset: _get($thing, 'offset');
+  } @else if map-has-key($effect, 'keyframes') {
+    $keyframes: _get($effect, 'keyframes');
+    $offset: _get($effect, 'offset');
 
     $keyframes: _($keyframes,
       _map (_modify 'offset' (_add $offset)),
-      _map (_set 'target' _get($thing, 'target')));
+      _map (_set 'target' _get($effect, 'target')));
 
     $KEYFRAMES: _concat($KEYFRAMES, $keyframes) !global;
   }
 
-  @return $thing;
+  @return $effect;
 }
 
 $_: traverse();
 
 @debug $KEYFRAMES;
+
+@each $keyframe in $KEYFRAMES {
+  @each $selector in _get($keyframe, 'target') {
+    @each $property, $value in _get($keyframe, 'declarations') {
+      $node: MovementNode(
+        $target: $selector,
+        $offset: _get($keyframe, 'offset'),
+        $duration: null,
+        $property: $property,
+        $value: $value
+      );
+
+      $NODES: append($NODES, $node) !global;
+    }
+  }
+}
+
+@each $node in $NODES { @debug $node; }

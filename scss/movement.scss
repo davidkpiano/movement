@@ -3,9 +3,9 @@
 .foo {
   @include m-sequence() {
     @include m-keyframes((top: 10px) (top: 20px), $duration: 3s);
-    @include m-keyframes((top: 30px, left: 10px) (top: 40px), $duration: 2s);
-    @include m-keyframes((left: 20px) (top: -10px), $duration: 6s);
-    @include m-keyframes() {
+    @include m-to((top: 30px, left: 10px) (top: 40px), $duration: 2s);
+    @include m-to((left: 20px) (top: -10px), $duration: 6s);
+    @include m-to() {
       @include m-keyframe((top: 30px, left: 20px), $offset: 0s);
       @include m-keyframe((top: 20px, left: 30px), $offset: 3s);
       @include m-keyframe((top: 10px, left: 40px), $offset: 7s);

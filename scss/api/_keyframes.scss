@@ -1,4 +1,36 @@
+@function _m-space-MovementKeyframes-distribute(
+    $keyframe,
+    $index,
+    $keyframes
+) {
+    $length: length($keyframes);
 
+    @if $length == 1 {
+        @return _set($keyframe, 'offset', 100%);
+    }
+
+    @debug $keyframe, $index, $length;
+
+    $offset: ($index - 1) / ($length - 1);
+
+    @return map-merge($keyframe, (offset: $offset));
+}
+
+@function _m-space-MovementKeyframes-to(
+    $frame,
+    $index,
+    $frames
+) {
+    $length: length($frames);
+
+    @if $length == 1 {
+        @return _set($frame, 'offset', 100%);
+    }
+
+    $offset: $index / $length;
+
+    @return _set($frame, 'offset', $offset);
+}
 
 @function MovementKeyframes(
   $keyframes: (),
@@ -10,7 +42,6 @@
   $direction: normal,
   $spacing: 'distribute',
   $offset: 0s,
-  $loop: false,
   $target: #{&}
 ) {
   $id: _unique-id('keyframes-');
@@ -24,6 +55,28 @@
     $keyframes: _map($keyframes, _ary(m-keyframe));
   }
 
+  $calculated-keyframes: ();
+
+  @if $spacing == 'distribute' {
+    $keyframes: _map($keyframes, _m-space-MovementKeyframes-distribute);
+
+
+  } @else if $spacing == 'to' {
+    $keyframes: _map($keyframes, _m-space-MovementKeyframes-to);
+  }
+
+  @each $keyframe in $keyframes {
+    $keyframe-offset: _get($keyframe, 'offset');
+
+    @if unit($keyframe-offset) == '%' {
+      $keyframe-offset: ($keyframe-offset / 100%) * $duration;
+    }
+
+    $keyframe: _set($keyframe, 'offset', $keyframe-offset);
+
+    $calculated-keyframes: append($calculated-keyframes, $keyframe);
+  }
+
   @return (
     id: $id,
     keyframes: $keyframes,
@@ -35,7 +88,6 @@
     fill: $fill,
     direction: $direction,
     offset: 0s,
-    loop: $loop,
     target: $target
   );
 }
@@ -51,7 +103,7 @@
     $duration: auto,
     $iterations: 1,
     $easing: linear,
-    $loop: false
+    $spacing: 'distribute'
 ) {
   $prev: $STACK;
   $STACK: () !global;
@@ -69,3 +121,23 @@
 
   @include _m-stack($effect);
 }
+
+@mixin m-to(
+  $keyframes: (),
+  $duration: auto,
+  $iterations: 1,
+  $easing: linear
+) {
+  @include m-keyframes(
+    $keyframes: $keyframes,
+    $duration: $duration,
+    $iterations: $iterations,
+    $easing: $easing,
+    $spacing: 'to'
+  ) {
+    @content;
+  }
+}
+
+
+

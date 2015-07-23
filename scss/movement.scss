@@ -1,14 +1,21 @@
 @import 'api/module';
 
-.foo, .bar {
-  @include m-sequence() {
-    @include m-keyframes((top: 10px) (top: 20px), $duration: 3s);
-    @include m-to((top: 30px, left: 10px) (top: 40px), $duration: 2s);
-    @include m-to((left: 20px) (top: -10px), $duration: 6s);
-    @include m-to() {
-      @include m-keyframe((top: 30px, left: 20px), $offset: 0s);
-      @include m-keyframe((top: 20px, left: 30px), $offset: 3s);
-      @include m-keyframe((top: 10px, left: 40px), $offset: 7s);
+body.active {
+  @include m-sequence {
+    .foo {
+      @include m-keyframes((top: 0) (top: 1rem), 1s);
+    }
+
+    .bar {
+      @include m-keyframes((left: 0) (left: 1rem), 1s);
+    }
+
+    .foo {
+      @include m-to((top: 2rem), 1s);
+    }
+
+    .bar {
+      @include m-to((left: 2rem), 1s);
     }
   }
 }
@@ -38,7 +45,9 @@ $NODES: () !global;
   @return $effect;
 }
 
+
 $_: traverse();
+@debug _map(_map($KEYFRAMES, _ (_get 'target')), length);
 
 @each $keyframe in $KEYFRAMES {
   @each $selector in _get($keyframe, 'target') {
@@ -58,13 +67,12 @@ $_: traverse();
 
 @function m-split-target($node, $args...) {
   $selectors: _get($node, 'target'); // selector list
+  @debug $node, $selectors, length($selectors);
   $result: ();
 
   @each $selector in $selectors {
     $result: append($result, map-merge($node, ('target': $selector)));
   }
-
-  @debug $result;
 
   @return $result;
 }
@@ -74,4 +82,4 @@ $NODES: _($NODES,
   _flatten,
   _group-by 'target');
 
-@debug map-get($NODES, '.foo');
+@debug $NODES;

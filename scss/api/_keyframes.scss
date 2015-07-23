@@ -6,10 +6,8 @@
     $length: length($keyframes);
 
     @if $length == 1 {
-        @return _set($keyframe, 'offset', 100%);
+        @return _set($keyframe, 'offset', 1);
     }
-
-    @debug $keyframe, $index, $length;
 
     $offset: ($index - 1) / ($length - 1);
 
@@ -108,12 +106,14 @@
   $prev: $STACK;
   $STACK: () !global;
 
+  $selector: '#{&}';
+
   @content;
 
   $effect: m-keyframes(
     $keyframes: _concat($keyframes, $STACK),
     $duration: $duration,
-    $target: &
+    $target: $selector
   );
 
 

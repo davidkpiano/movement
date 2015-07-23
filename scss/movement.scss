@@ -1,6 +1,6 @@
 @import 'api/module';
 
-.foo {
+.foo, .bar {
   @include m-sequence() {
     @include m-keyframes((top: 10px) (top: 20px), $duration: 3s);
     @include m-to((top: 30px, left: 10px) (top: 40px), $duration: 2s);
@@ -12,8 +12,6 @@
     }
   }
 }
-
-// @debug $STACK;
 
 $KEYFRAMES: () !global;
 $NODES: () !global;
@@ -42,13 +40,11 @@ $NODES: () !global;
 
 $_: traverse();
 
-@debug $KEYFRAMES;
-
 @each $keyframe in $KEYFRAMES {
   @each $selector in _get($keyframe, 'target') {
     @each $property, $value in _get($keyframe, 'declarations') {
       $node: MovementNode(
-        $target: $selector,
+        $target: nth($selector, 1),
         $offset: _get($keyframe, 'offset'),
         $duration: null,
         $property: $property,
@@ -60,4 +56,22 @@ $_: traverse();
   }
 }
 
-@each $node in $NODES { @debug $node; }
+@function m-split-target($node, $args...) {
+  $selectors: _get($node, 'target'); // selector list
+  $result: ();
+
+  @each $selector in $selectors {
+    $result: append($result, map-merge($node, ('target': $selector)));
+  }
+
+  @debug $result;
+
+  @return $result;
+}
+
+$NODES: _($NODES,
+  _map m-split-target,
+  _flatten,
+  _group-by 'target');
+
+@debug map-get($NODES, '.foo');

@@ -82,4 +82,20 @@ $NODES: _($NODES,
   _flatten,
   _group-by 'target');
 
-@debug $NODES;
+@each $target, $nodes in $NODES {
+  $animation-name: _unique-id();
+  $total-duration: _($nodes, _last, _get 'offset');
+
+  #{$target} {
+    animation-name: $animation-name;
+    animation-duration: $total-duration;
+  }
+
+  @keyframes #{$animation-name} {
+    @each $node in $nodes {
+      #{percentage(_get($node, 'offset') / $total-duration)} {
+        #{_get($node, 'property')}: _get($node, 'value');
+      }
+    }
+  }
+}

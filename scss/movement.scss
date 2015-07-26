@@ -1,21 +1,20 @@
 @import 'api/module';
 
-body.active {
+* {
+  position: relative;
+}
+
+.foo {
+  height: 1rem;
+  width: 1rem;
+  background: red;
+}
+
+body:hover {
   @include m-sequence {
     .foo {
-      @include m-keyframes((top: 0) (top: 1rem), 1s);
-    }
-
-    .bar {
-      @include m-keyframes((left: 0) (left: 1rem), 1s);
-    }
-
-    .foo {
-      @include m-to((top: 2rem), 1s);
-    }
-
-    .bar {
-      @include m-to((left: 2rem), 1s);
+      @include m-keyframes((left: 0) (top: 0), 1s);
+      @include m-to((left: 10px, top: 10px) (left: 100px), 1s);
     }
   }
 }
@@ -87,7 +86,7 @@ $NODES: _($NODES,
   $total-duration: _($nodes, _last, _get 'offset');
 
   #{$target} {
-    animation-name: $animation-name;
+    animation-name: unquote($animation-name);
     animation-duration: $total-duration;
   }
 

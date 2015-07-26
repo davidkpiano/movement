@@ -1,33 +1,33 @@
 @function _m-space-MovementKeyframes-distribute(
-    $keyframe,
-    $index,
-    $keyframes
+  $keyframe,
+  $index,
+  $keyframes
 ) {
-    $length: length($keyframes);
+  $length: length($keyframes);
 
-    @if $length == 1 {
-        @return _set($keyframe, 'offset', 1);
-    }
+  @if $length == 1 {
+    @return _set($keyframe, 'offset', 1);
+  }
 
-    $offset: ($index - 1) / ($length - 1);
+  $offset: ($index - 1) / ($length - 1);
 
-    @return map-merge($keyframe, (offset: $offset));
+  @return map-merge($keyframe, (offset: $offset));
 }
 
 @function _m-space-MovementKeyframes-to(
-    $frame,
-    $index,
-    $frames
+  $frame,
+  $index,
+  $frames
 ) {
-    $length: length($frames);
+  $length: length($frames);
 
-    @if $length == 1 {
-        @return _set($frame, 'offset', 100%);
-    }
+  @if $length == 1 {
+    @return _set($frame, 'offset', 100%);
+  }
 
-    $offset: $index / $length;
+  $offset: $index / $length;
 
-    @return _set($frame, 'offset', $offset);
+  @return _set($frame, 'offset', $offset);
 }
 
 @function MovementKeyframes(
@@ -60,6 +60,7 @@
 
 
   } @else if $spacing == 'to' {
+    @debug 'tooooo';
     $keyframes: _map($keyframes, _m-space-MovementKeyframes-to);
   }
 
@@ -113,7 +114,8 @@
   $effect: m-keyframes(
     $keyframes: _concat($keyframes, $STACK),
     $duration: $duration,
-    $target: $selector
+    $target: $selector,
+    $spacing: $spacing
   );
 
 

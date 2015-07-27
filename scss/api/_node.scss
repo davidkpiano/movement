@@ -3,7 +3,6 @@
 @function MovementNode(
   $target,
   $offset,
-  $duration,
   $property,
   $value
 ) {
@@ -11,7 +10,6 @@
     type: 'node',
     target: $target,
     offset: $offset,
-    duration: $duration,
     property: $property,
     value: $value
   );

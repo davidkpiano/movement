@@ -13,8 +13,8 @@
 body:hover {
   @include m-sequence {
     .foo {
-      @include m-keyframes((left: 0) (top: 0), 1s);
-      @include m-to((left: 10px, top: 10px) (left: 100px), 1s);
+      @include m-keyframes((left: 0) (top: 0) (x: 3px, y: 39px), 1s);
+      @include m-to((left: 10px, top: 10px) (left: 100px) (y: 38px), 1s);
     }
   }
 }
@@ -46,7 +46,6 @@ $NODES: () !global;
 
 
 $_: traverse();
-@debug _map(_map($KEYFRAMES, _ (_get 'target')), length);
 
 @each $keyframe in $KEYFRAMES {
   @each $selector in _get($keyframe, 'target') {
@@ -54,7 +53,6 @@ $_: traverse();
       $node: MovementNode(
         $target: nth($selector, 1),
         $offset: _get($keyframe, 'offset'),
-        $duration: null,
         $property: $property,
         $value: $value
       );
@@ -76,25 +74,85 @@ $_: traverse();
   @return $result;
 }
 
+@function m-map-properties($node, $args...) {
+  $property: _get($node, 'property');
+
+  $transform-properties-map: (
+    'x': 'translateX',
+    'y': 'translateY',
+    'z': 'translateZ'
+  );
+
+  $transform-properties: _concat(_keys($transform-properties-map),
+    'scale',
+    'scaleX',
+    'scaleY',
+    'rotate',
+    'skew');
+
+  @if _includes($transform-properties, $property) {
+    $property: if(map-has-key($transform-properties-map, $property),
+      map-get($transform-properties-map, $property),
+      $property);
+
+    $node: _set($node, 'property', $property);
+    $node: _set($node, 'transform', true);
+  }
+
+  @return $node;
+}
+
+@function m-combine-transforms($nodes, $args...) {
+  $node-partition: _partition($nodes, 'transform');
+  $transform-nodes: nth($node-partition, 1);
+  
+  $transform-props: _($transform-nodes,
+    _pluck 'property',
+    _unique,
+    _map unquote);
+
+  $transform-nodes-iteratee: _bind(m-normalize-transform-node, ('properties': $transform-props));
+
+  $transform-nodes: _map($transform-nodes, $transform-nodes-iteratee);
+
+  @return $nodes;
+}
+
+@function m-normalize-transform-node($node, $index, $nodes) {
+  $properties: __this('properties');
+
+  $prop-map: _zip-map($properties, _fill($properties, 0));
+
+  @debug $prop-map;
+
+  @return true;
+}
+
 $NODES: _($NODES,
   _map m-split-target,
   _flatten,
   _group-by 'target');
 
 @each $target, $nodes in $NODES {
-  $animation-name: _unique-id();
-  $total-duration: _($nodes, _last, _get 'offset');
+  $nodes: _($nodes,
+    _map m-map-properties,
+    m-combine-transforms);
 
-  #{$target} {
-    animation-name: unquote($animation-name);
-    animation-duration: $total-duration;
-  }
+  @debug $nodes;
 
-  @keyframes #{$animation-name} {
-    @each $node in $nodes {
-      #{percentage(_get($node, 'offset') / $total-duration)} {
-        #{_get($node, 'property')}: _get($node, 'value');
-      }
-    }
-  }
+  // $animation-name: _unique-id();
+  // $total-duration: _($nodes, _last, _get 'offset');
+
+  // #{$target} {
+  //   animation-name: unquote($animation-name);
+  //   animation-duration: $total-duration;
+  // }
+
+  // @keyframes #{$animation-name} {
+  //   @each $node in $nodes {
+  //     #{percentage(_get($node, 'offset') / $total-duration)} {
+  //       #{_get($node, 'property')}: _get($node, 'value');
+  //     }
+  //   }
+  // }
 }

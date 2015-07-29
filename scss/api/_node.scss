@@ -4,13 +4,15 @@
   $target,
   $offset,
   $property,
-  $value
+  $value,
+  $easing
 ) {
   @return (
     type: 'node',
     target: $target,
     offset: $offset,
     property: $property,
-    value: $value
+    value: $value,
+    easing: $easing
   );
 }

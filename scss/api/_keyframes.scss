@@ -6,7 +6,7 @@
   $length: length($keyframes);
 
   @if $length == 1 {
-    @return _set($keyframe, 'offset', 1);
+    @return _set($keyframe, 'offset', 0);
   }
 
   $offset: ($index - 1) / ($length - 1);
@@ -22,7 +22,7 @@
   $length: length($frames);
 
   @if $length == 1 {
-    @return _set($frame, 'offset', 100%);
+    @return _set($frame, 'offset', 1);
   }
 
   $offset: $index / $length;
@@ -115,7 +115,8 @@
     $keyframes: _concat($keyframes, $STACK),
     $duration: $duration,
     $target: $selector,
-    $spacing: $spacing
+    $spacing: $spacing,
+    $easing: $easing
   );
 
 

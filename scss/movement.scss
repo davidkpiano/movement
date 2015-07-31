@@ -13,7 +13,7 @@
 body:hover {
   @include m-sequence {
     .foo {
-      @include m-keyframes(
+      @include m-effect(
         (top: 10px)
         (top: \*2)
         (top: \*2)

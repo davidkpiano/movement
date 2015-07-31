@@ -1,4 +1,4 @@
-@function _m-space-MovementKeyframes-distribute(
+@function _m-space-MovementEffect-distribute(
   $keyframe,
   $index,
   $keyframes
@@ -14,7 +14,7 @@
   @return map-merge($keyframe, (offset: $offset));
 }
 
-@function _m-space-MovementKeyframes-to(
+@function _m-space-MovementEffect-to(
   $frame,
   $index,
   $frames
@@ -30,7 +30,7 @@
   @return _set($frame, 'offset', $offset);
 }
 
-@function MovementKeyframes(
+@function MovementEffect(
   $keyframes: (),
   $duration: auto,
   $delay: 0,
@@ -42,7 +42,7 @@
   $offset: 0s,
   $target: #{&}
 ) {
-  $id: _unique-id('keyframes-');
+  $id: _unique-id('effect-');
 
   // DURATION
   @if $duration == auto {
@@ -56,12 +56,11 @@
   $calculated-keyframes: ();
 
   @if $spacing == 'distribute' {
-    $keyframes: _map($keyframes, _m-space-MovementKeyframes-distribute);
+    $keyframes: _map($keyframes, _m-space-MovementEffect-distribute);
 
 
   } @else if $spacing == 'to' {
-    @debug 'tooooo';
-    $keyframes: _map($keyframes, _m-space-MovementKeyframes-to);
+    $keyframes: _map($keyframes, _m-space-MovementEffect-to);
   }
 
   @each $keyframe in $keyframes {
@@ -91,13 +90,13 @@
   );
 }
 
-@function m-keyframes($args...) {
-  $effect: MovementKeyframes($args...);
+@function m-effect($args...) {
+  $effect: MovementEffect($args...);
 
   @return $effect;
 }
 
-@mixin m-keyframes(
+@mixin m-effect(
     $keyframes: (),
     $duration: auto,
     $iterations: 1,
@@ -111,7 +110,7 @@
 
   @content;
 
-  $effect: m-keyframes(
+  $effect: m-effect(
     $keyframes: _concat($keyframes, $STACK),
     $duration: $duration,
     $target: $selector,
@@ -131,7 +130,7 @@
   $iterations: 1,
   $easing: linear
 ) {
-  @include m-keyframes(
+  @include m-effect(
     $keyframes: $keyframes,
     $duration: $duration,
     $iterations: $iterations,

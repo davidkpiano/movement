@@ -89,7 +89,8 @@ $_: traverse();
   $transform-properties-map: (
     'x': 'translateX',
     'y': 'translateY',
-    'z': 'translateZ'
+    'z': 'translateZ',
+    '3d': 'translate3d'
   );
 
   $transform-properties: _concat(_keys($transform-properties-map),

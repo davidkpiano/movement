@@ -90,6 +90,8 @@ $_: traverse();
     'x': 'translateX',
     'y': 'translateY',
     'z': 'translateZ',
+    'xy': 'translate',
+    '2d': 'translate',
     '3d': 'translate3d'
   );
 

@@ -1,0 +1,38 @@
+@keyframes u2397cc1d {
+  0% {
+    transform: translateX(0);
+    animation-timing-function: linear; }
+  100% {
+    transform: translateX(100%);
+    animation-timing-function: linear; } }
+
+.dot:nth-child(1) {
+  animation-name: u2397cc1d;
+  animation-duration: 1s;
+  animation-fill-mode: forwards; }
+
+@keyframes ubce949ed {
+  50% {
+    transform: translateX(0);
+    animation-timing-function: linear; }
+  100% {
+    transform: translateX(100%);
+    animation-timing-function: linear; } }
+
+.dot:nth-child(2) {
+  animation-name: ubce949ed;
+  animation-duration: 2s;
+  animation-fill-mode: forwards; }
+
+@keyframes u77c958ac {
+  66.66667% {
+    transform: translateX(0);
+    animation-timing-function: linear; }
+  100% {
+    transform: translateX(100%);
+    animation-timing-function: linear; } }
+
+.dot:nth-child(3) {
+  animation-name: u77c958ac;
+  animation-duration: 3s;
+  animation-fill-mode: forwards; }

@@ -1,28 +1,14 @@
 @import 'api/module';
 
-* {
-  position: relative;
-}
-
-.foo {
-  height: 1rem;
-  width: 1rem;
-  background: red;
-}
-
-body:hover {
-  @include m-sequence {
-    .foo {
-      @include m-effect(
-        (top: 10px)
-        (top: \*2)
-        (top: \*2)
-        (top: \*2)
-        (top: \*2)
-        (top: \*2)
-        (top: \*2)
-        (top: \*2), 1s, $easing: linear);
-    }
+@include m-sequence {
+  .dot:nth-child(1) {
+    @include m-effect((x:0)(x: 100%), 1s);
+  }
+  .dot:nth-child(2) {
+    @include m-effect((x:0)(x: 100%), 1s);
+  }
+  .dot:nth-child(3) {
+    @include m-effect((x:0)(x: 100%), 1s);
   }
 }
 

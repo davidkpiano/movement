@@ -1,0 +1,20 @@
+@import '../../scss/movement';
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  position: relative;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.dot {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  background: red;
+  margin: 0.5rem;
+}

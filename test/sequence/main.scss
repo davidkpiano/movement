@@ -18,3 +18,5 @@ body, html {
   background: red;
   margin: 0.5rem;
 }
+
+@include _m-render();

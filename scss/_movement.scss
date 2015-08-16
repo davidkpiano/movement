@@ -13,7 +13,6 @@
 }
 
 $KEYFRAMES: () !global;
-$NODES: () !global;
 
 @function traverse($effect: (effects: $STACK, offset: 0s)) {
   @if map-has-key($effect, 'effects') {
@@ -41,21 +40,66 @@ $NODES: () !global;
 
 $_: traverse();
 
-@each $keyframe in $KEYFRAMES {
-  @each $selector in _get($keyframe, 'target') {
-    @each $property, $value in _get($keyframe, 'declarations') {
-      $node: MovementNode(
-        $target: nth($selector, 1),
-        $offset: _get($keyframe, 'offset'),
-        $property: $property,
-        $value: $value,
-        $easing: _get($keyframe, 'easing')
-      );
+@mixin _m-render() {
+  $NODES: ();
 
-      $NODES: append($NODES, $node) !global;
+  @each $keyframe in $KEYFRAMES {
+    @each $selector in _get($keyframe, 'target') {
+      @each $property, $value in _get($keyframe, 'declarations') {
+        $node: MovementNode(
+          $target: nth($selector, 1),
+          $offset: _get($keyframe, 'offset'),
+          $property: $property,
+          $value: $value,
+          $easing: _get($keyframe, 'easing')
+        );
+
+        $NODES: append($NODES, $node);
+      }
+    }
+  }
+
+  $NODES: _($NODES,
+    _map m-split-target,
+    _flatten,
+    _group-by 'target');
+
+  @each $target, $nodes in $NODES {
+    $nodes: _($nodes,
+      _map m-map-properties,
+      m-calculate-values,
+      m-combine-transforms,
+      _group-by 'property');
+
+    $animation-names: ();
+    $animation-durations: ();
+    $animation-easings: ();
+
+    @each $property, $property-nodes in $nodes {
+      $animation-name: unquote(_unique-id());
+      $total-duration: _($property-nodes, _last, _get 'offset');
+
+      $animation-names: append($animation-names, $animation-name);
+      $animation-durations: append($animation-durations, $total-duration);
+
+      @keyframes #{$animation-name} {
+        @each $node in $property-nodes {
+          #{percentage(_get($node, 'offset') / $total-duration)} {
+            #{_get($node, 'property')}: _get($node, 'value');
+            animation-timing-function: _get($node, 'easing');
+          }
+        }
+      }
+    }
+
+    #{$target} {
+      animation-name: join((), $animation-names, comma);
+      animation-duration: join((), $animation-durations, comma);
+      animation-fill-mode: join((), _fill($animation-durations, forwards), comma);
     }
   }
 }
+
 
 @function m-split-target($node, $args...) {
   $selectors: _get($node, 'target'); // selector list
@@ -260,42 +304,3 @@ $_: traverse();
   @return $nodes;
 }
 
-$NODES: _($NODES,
-  _map m-split-target,
-  _flatten,
-  _group-by 'target');
-
-@each $target, $nodes in $NODES {
-  $nodes: _($nodes,
-    _map m-map-properties,
-    m-calculate-values,
-    m-combine-transforms,
-    _group-by 'property');
-
-  $animation-names: ();
-  $animation-durations: ();
-  $animation-easings: ();
-
-  @each $property, $property-nodes in $nodes {
-    $animation-name: unquote(_unique-id());
-    $total-duration: _($property-nodes, _last, _get 'offset');
-
-    $animation-names: append($animation-names, $animation-name);
-    $animation-durations: append($animation-durations, $total-duration);
-
-    @keyframes #{$animation-name} {
-      @each $node in $property-nodes {
-        #{percentage(_get($node, 'offset') / $total-duration)} {
-          #{_get($node, 'property')}: _get($node, 'value');
-          animation-timing-function: _get($node, 'easing');
-        }
-      }
-    }
-  }
-
-  #{$target} {
-    animation-name: join((), $animation-names, comma);
-    animation-duration: join((), $animation-durations, comma);
-    animation-fill-mode: join((), _fill($animation-durations, forwards), comma);
-  }
-}

@@ -14,33 +14,39 @@ body, html {
   background: red;
   margin: 0.5rem; }
 
-@keyframes u6143bff1 {
+@keyframes u34932d27 {
   0% {
     transform: translateX(0);
+    animation-timing-function: linear; }
+  33.33333% {
+    transform: translateX(100%);
     animation-timing-function: linear; }
   100% {
     transform: translateX(100%);
     animation-timing-function: linear; } }
 
 .dot:nth-child(1) {
-  animation-name: u6143bff1;
-  animation-duration: 1s;
-  animation-fill-mode: forwards; }
+  animation-name: u34932d27;
+  animation-duration: 3s;
+  animation-fill-mode: none; }
 
-@keyframes u50e4bb87 {
-  50% {
+@keyframes u8fbe0e38 {
+  33.33333% {
     transform: translateX(0);
+    animation-timing-function: linear; }
+  66.66667% {
+    transform: translateX(100%);
     animation-timing-function: linear; }
   100% {
     transform: translateX(100%);
     animation-timing-function: linear; } }
 
 .dot:nth-child(2) {
-  animation-name: u50e4bb87;
-  animation-duration: 2s;
-  animation-fill-mode: forwards; }
+  animation-name: u8fbe0e38;
+  animation-duration: 3s;
+  animation-fill-mode: none; }
 
-@keyframes u15307642 {
+@keyframes u2fb72af9 {
   66.66667% {
     transform: translateX(0);
     animation-timing-function: linear; }
@@ -49,6 +55,6 @@ body, html {
     animation-timing-function: linear; } }
 
 .dot:nth-child(3) {
-  animation-name: u15307642;
+  animation-name: u2fb72af9;
   animation-duration: 3s;
-  animation-fill-mode: forwards; }
+  animation-fill-mode: none; }

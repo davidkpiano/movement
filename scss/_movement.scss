@@ -38,9 +38,9 @@ $KEYFRAMES: () !global;
 }
 
 
-$_: traverse();
 
 @mixin _m-render() {
+  $_: traverse();
   $NODES: ();
 
   @each $keyframe in $KEYFRAMES {
@@ -58,6 +58,8 @@ $_: traverse();
       }
     }
   }
+
+  $max-offset: _max(_pluck($NODES, 'offset'));
 
   $NODES: _($NODES,
     _map m-split-target,
@@ -77,10 +79,15 @@ $_: traverse();
 
     @each $property, $property-nodes in $nodes {
       $animation-name: unquote(_unique-id());
-      $total-duration: _($property-nodes, _last, _get 'offset');
+      $total-duration: $max-offset;
 
       $animation-names: append($animation-names, $animation-name);
       $animation-durations: append($animation-durations, $total-duration);
+
+      // Duplicate last node
+      @if (_($property-nodes, _last, _get 'offset') < $max-offset) {
+        $property-nodes: append($property-nodes, _($property-nodes, _last, _set 'offset' $max-offset));
+      }
 
       @keyframes #{$animation-name} {
         @each $node in $property-nodes {

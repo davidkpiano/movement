@@ -1,0 +1,11 @@
+@function m-persist-transform-values($node, $index, $nodes) {
+  @if $index == 1 {
+    @return $node;
+  }
+
+  $previous-node: _get($nodes, $index - 1);
+
+  $node: _modify($node, 'transform', _defaults _get($previous-node, 'transform'));
+
+  @return $node;
+}

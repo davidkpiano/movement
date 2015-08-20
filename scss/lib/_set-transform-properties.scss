@@ -1,0 +1,5 @@
+@function m-set-node-transform-properties($node, $index, $nodes) {
+  $node: _set($node, 'transform', (_get($node, 'property'): _get($node, 'value')));
+
+  @return $node;
+}

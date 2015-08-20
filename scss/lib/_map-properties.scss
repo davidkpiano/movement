@@ -1,0 +1,30 @@
+@function m-map-properties($node, $args...) {
+  $property: _get($node, 'property');
+
+  $transform-properties-map: (
+    'x': 'translateX',
+    'y': 'translateY',
+    'z': 'translateZ',
+    'xy': 'translate',
+    '2d': 'translate',
+    '3d': 'translate3d'
+  );
+
+  $transform-properties: _concat(_keys($transform-properties-map),
+    'scale',
+    'scaleX',
+    'scaleY',
+    'rotate',
+    'skew');
+
+  @if _includes($transform-properties, $property) {
+    $property: if(map-has-key($transform-properties-map, $property),
+      map-get($transform-properties-map, $property),
+      $property);
+
+    $node: _set($node, 'property', $property);
+    $node: _set($node, 'transform', true);
+  }
+
+  @return $node;
+}

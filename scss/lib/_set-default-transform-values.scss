@@ -1,0 +1,9 @@
+@function m-set-default-transform-values($node, $args...) {
+  $properties: __this('properties');
+
+  $default-transform-map: _zip-map($properties, _map($properties, m-get-default-transform-values));
+  
+  $transform: _defaults(_get($node, 'transform'), $default-transform-map);
+
+  @return _set($node, 'transform', $transform);
+}

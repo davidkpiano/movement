@@ -1,0 +1,22 @@
+@function m-combine-transforms($nodes, $args...) {
+  $transform-nodes: _filter($nodes, 'transform');
+  $non-transform-nodes: _reject($nodes, 'transform');
+
+  $transform-properties: _($transform-nodes,
+    _pluck 'property',
+    _map unquote,
+    _unique);
+
+  $transform-nodes: _($transform-nodes,
+    _group-by 'offset',
+    _map _bind(m-aggregate-transform-properties),
+    _map m-persist-transform-values,
+    _map _bind(m-set-default-transform-values, ('properties': $transform-properties)),
+    _map m-concatenate-transform-values);
+
+  $nodes: _concat($transform-nodes, $non-transform-nodes);
+
+  @debug $nodes;
+
+  @return $nodes;
+}

@@ -1,13 +1,25 @@
 @import 'api/module';
 
+@import 'lib/split-target';
+@import 'lib/map-properties';
+@import 'lib/set-transform-properties';
+@import 'lib/get-default-transform-values';
+@import 'lib/set-default-transform-values';
+@import 'lib/persist-transform-values';
+@import 'lib/parenthesize';
+@import 'lib/aggregate-transform-properties';
+@import 'lib/concatenate-transform-values';
+@import 'lib/combine-transforms';
+@import 'lib/calculate-values';
+
 @include m-sequence {
-  .dot:nth-child(1) {
+  .dot:nth-of-type(1) {
     @include m-effect((x:0)(x: 100%), 1s);
   }
-  .dot:nth-child(2) {
+  .dot:nth-of-type(2) {
     @include m-effect((x:0)(x: 100%), 1s);
   }
-  .dot:nth-child(3) {
+  .dot:nth-of-type(3) {
     @include m-effect((x:0)(x: 100%), 1s);
   }
 }
@@ -108,206 +120,21 @@ $KEYFRAMES: () !global;
 }
 
 
-@function m-split-target($node, $args...) {
-  $selectors: _get($node, 'target'); // selector list
-  @debug $node, $selectors, length($selectors);
-  $result: ();
 
-  @each $selector in $selectors {
-    $result: append($result, map-merge($node, ('target': $selector)));
-  }
 
-  @return $result;
-}
 
-@function m-map-properties($node, $args...) {
-  $property: _get($node, 'property');
 
-  $transform-properties-map: (
-    'x': 'translateX',
-    'y': 'translateY',
-    'z': 'translateZ',
-    'xy': 'translate',
-    '2d': 'translate',
-    '3d': 'translate3d'
-  );
 
-  $transform-properties: _concat(_keys($transform-properties-map),
-    'scale',
-    'scaleX',
-    'scaleY',
-    'rotate',
-    'skew');
 
-  @if _includes($transform-properties, $property) {
-    $property: if(map-has-key($transform-properties-map, $property),
-      map-get($transform-properties-map, $property),
-      $property);
 
-    $node: _set($node, 'property', $property);
-    $node: _set($node, 'transform', true);
-  }
 
-  @return $node;
-}
 
-@function m-set-node-transform-properties($node, $index, $nodes) {
-  $node: _set($node, 'transform', (_get($node, 'property'): _get($node, 'value')));
 
-  @return $node;
-}
 
-@function m-get-default-transform-values($property, $args...) {
-  $default-transform-values: (
-    'translate': 0,
-    'translate3d': (0, 0, 0),
-    'translateX': 0,
-    'translateY': 0,
-    'translateZ': 0,
-    'scale': 1,
-    'scaleX': 1,
-    'scaleY': 1,
-    'scaleZ': 1,
-    'rotate': 0,
-    'rotate3d': (1, 1, 1, 0),
-    'rotateX': 0,
-    'rotateY': 0,
-    'rotateZ': 0,
-    'skew': (0, 0),
-    'skewX': 0,
-    'skewY': 0,
-    'matrix': (1, 0, 0, 1, 0, 0),
-    'matrix3d': (1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
-  );
 
-  @return _result($default-transform-values, $property, 0);
-}
 
-@function m-set-default-transform-values($node, $args...) {
-  $properties: __this('properties');
 
-  $default-transform-map: _zip-map($properties, _map($properties, m-get-default-transform-values));
-  
-  $transform: _defaults(_get($node, 'transform'), $default-transform-map);
 
-  @return _set($node, 'transform', $transform);
-}
 
-@function m-persist-transform-values($node, $index, $nodes) {
-  @if $index == 1 {
-    @return $node;
-  }
 
-  $previous-node: _get($nodes, $index - 1);
-
-  $node: _modify($node, 'transform', _defaults _get($previous-node, 'transform'));
-
-  @return $node;
-}
-
-@function m-parenthesize($value, $args...) {
-  @return unquote('(#{$value})');
-}
-
-@function m-concatenate-transform-values($node, $args...) {
-  $node: _modify($node, 'transform', _
-    (_map-values m-parenthesize)
-    (_pairs)
-    (_map (_reduce _str-concat))
-    (_join ' '));
-
-  $node: _set($node, 'property', 'transform');
-  $node: _set($node, 'value', unquote(_get($node, 'transform')));
-
-  $node: map-remove($node, 'transform');
-
-  @return $node;
-}
-
-@function m-aggregate-transform-properties($nodes, $args...) {
-  $nodes: _map($nodes, m-set-node-transform-properties);
-
-  $transform: _assign(_pluck($nodes, 'transform')...);
-
-  $node: _($nodes, _first, _set 'transform' $transform);
-
-  @return $node;
-}
-
-@function m-combine-transforms($nodes, $args...) {
-  $transform-nodes: _filter($nodes, 'transform');
-  $non-transform-nodes: _reject($nodes, 'transform');
-
-  $transform-properties: _($transform-nodes,
-    _pluck 'property',
-    _map unquote,
-    _unique);
-
-  $transform-nodes: _($transform-nodes,
-    _group-by 'offset',
-    _map _bind(m-aggregate-transform-properties),
-    _map m-persist-transform-values,
-    _map _bind(m-set-default-transform-values, ('properties': $transform-properties)),
-    _map m-concatenate-transform-values);
-
-  $nodes: _concat($transform-nodes, $non-transform-nodes);
-
-  @debug $nodes;
-
-  @return $nodes;
-}
-
-@function m-calculate-value($node, $index, $nodes) {
-  @if ($index == 1) {
-    $_: _static-set('previous-node', $node);
-
-    @return $node;
-  }
-
-  $previous-node: _static-get('previous-node');
-  $value: _get($node, 'value');
-
-  $operators: (
-    '+=',
-    '-=',
-    '\\+',
-    '\\-',
-    '\\=',
-    '*=',
-    '\\*'
-  );
-
-  $operator: _find($operators, _ary(_partial(_starts-with, $value)));
-
-  @if $operator {
-    $value: _parse-float(str-slice($value, str-length($operator) + 1));
-    $previous-value: _get($previous-node, 'value');
-
-    @if $operator == '+=' or $operator == '\\+' {
-      $value: _add($value, $previous-value);
-    } @else if $operator == '-=' or $operator == '\\-' {
-      $value: _add(-$value, $previous-value);
-    } @else if $operator == '*=' or $operator == '\\*' {
-      @debug $value, $previous-value;
-      $value: $value * $previous-value;
-    } @else if $operator == '\\=' {
-      $value: $previous-value;
-    }
-
-    $node: _set($node, 'value', $value);
-  }
-
-  $_: _static-set('previous-node', $node);
-
-  @return $node;
-}
-
-@function m-calculate-values($nodes, $args...) {
-  $nodes: _($nodes,
-    _group-by 'property',
-    _map (_map m-calculate-value),
-    _flatten);
-
-  @return $nodes;
-}
 

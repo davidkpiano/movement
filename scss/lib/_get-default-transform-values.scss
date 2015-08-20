@@ -1,0 +1,25 @@
+@function m-get-default-transform-values($property, $args...) {
+  $default-transform-values: (
+    'translate': 0,
+    'translate3d': (0, 0, 0),
+    'translateX': 0,
+    'translateY': 0,
+    'translateZ': 0,
+    'scale': 1,
+    'scaleX': 1,
+    'scaleY': 1,
+    'scaleZ': 1,
+    'rotate': 0,
+    'rotate3d': (1, 1, 1, 0),
+    'rotateX': 0,
+    'rotateY': 0,
+    'rotateZ': 0,
+    'skew': (0, 0),
+    'skewX': 0,
+    'skewY': 0,
+    'matrix': (1, 0, 0, 1, 0, 0),
+    'matrix3d': (1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+  );
+
+  @return _result($default-transform-values, $property, 0);
+}

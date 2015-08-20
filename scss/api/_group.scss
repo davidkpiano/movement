@@ -109,11 +109,9 @@
   $prev: $STACK;
   $STACK: () !global;
 
-  $selector: '#{&}';
-
   @content;
 
-  $effect: m-sequence($effects: $STACK, $target: $selector);
+  $effect: m-sequence($effects: $STACK, $target: &);
 
   $STACK: $prev !global;
 

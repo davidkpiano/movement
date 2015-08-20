@@ -1,0 +1,3 @@
+@function m-parenthesize($value, $args...) {
+  @return unquote('(#{$value})');
+}

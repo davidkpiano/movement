@@ -1,0 +1,9 @@
+@function m-aggregate-transform-properties($nodes, $args...) {
+  $nodes: _map($nodes, m-set-node-transform-properties);
+
+  $transform: _assign(_pluck($nodes, 'transform')...);
+
+  $node: _($nodes, _first, _set 'transform' $transform);
+
+  @return $node;
+}

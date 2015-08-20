@@ -1,0 +1,15 @@
+
+@function m-concatenate-transform-values($node, $args...) {
+  $node: _modify($node, 'transform', _
+    (_map-values m-parenthesize)
+    (_pairs)
+    (_map (_reduce _str-concat))
+    (_join ' '));
+
+  $node: _set($node, 'property', 'transform');
+  $node: _set($node, 'value', unquote(_get($node, 'transform')));
+
+  $node: map-remove($node, 'transform');
+
+  @return $node;
+}

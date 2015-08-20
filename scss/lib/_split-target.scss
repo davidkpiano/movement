@@ -1,0 +1,11 @@
+@function m-split-target($node, $args...) {
+  $selectors: _get($node, 'target'); // selector list
+  @debug $node, $selectors, length($selectors);
+  $result: ();
+
+  @each $selector in $selectors {
+    $result: append($result, map-merge($node, ('target': $selector)));
+  }
+
+  @return $result;
+}

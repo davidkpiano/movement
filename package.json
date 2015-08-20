@@ -14,6 +14,7 @@
     "sassdash": "^0.4.1"
   },
   "scripts": {
+    "start": "node-sass -w test/sequence/main.scss test/sequence/main.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

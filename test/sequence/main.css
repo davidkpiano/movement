@@ -14,47 +14,45 @@ body, html {
   background: red;
   margin: 0.5rem; }
 
-@keyframes ub56f6614 {
+@keyframes u2295f30c {
   0% {
-    transform: translateX(0);
+    transform: translateX(90%);
     animation-timing-function: linear; }
-  33.33333% {
-    transform: translateX(100%);
-    animation-timing-function: linear; }
-  100% {
-    transform: translateX(100%);
+  33.33333%, 100% {
+    transform: translateX(160%);
     animation-timing-function: linear; } }
 
 .dot:nth-of-type(1) {
-  animation-name: ub56f6614;
+  animation-name: u2295f30c;
   animation-duration: 3s;
   animation-fill-mode: forwards; }
 
-@keyframes u4875672d {
+@keyframes u098d1e7e {
+  0% {
+    animation-timing-function: step-end; }
   33.33333% {
-    transform: translateX(0);
+    transform: translateX(90%);
     animation-timing-function: linear; }
-  66.66667% {
-    transform: translateX(100%);
-    animation-timing-function: linear; }
-  100% {
-    transform: translateX(100%);
+  66.66667%, 100% {
+    transform: translateX(160%);
     animation-timing-function: linear; } }
 
 .dot:nth-of-type(2) {
-  animation-name: u4875672d;
+  animation-name: u098d1e7e;
   animation-duration: 3s;
   animation-fill-mode: forwards; }
 
-@keyframes u5ebb8453 {
+@keyframes u0c331eb6 {
+  0% {
+    animation-timing-function: step-end; }
   66.66667% {
-    transform: translateX(0);
+    transform: translateX(90%);
     animation-timing-function: linear; }
   100% {
-    transform: translateX(100%);
+    transform: translateX(160%);
     animation-timing-function: linear; } }
 
 .dot:nth-of-type(3) {
-  animation-name: u5ebb8453;
+  animation-name: u0c331eb6;
   animation-duration: 3s;
   animation-fill-mode: forwards; }

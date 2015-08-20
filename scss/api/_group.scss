@@ -73,13 +73,6 @@
 }
 
 
-@function m-group($args...) {
-  $effect: MovementGroup('group', $args...);
-
-  @return $effect;
-}
-
-
 @mixin m-group(
   $duration: auto,
   $iterations: 1
@@ -89,18 +82,12 @@
 
   @content;
 
-  $effect: m-group($effects: $STACK, $target: &);
+  $effect: MovementGroup($type: 'group', $effects: $STACK, $target: &);
 
   $STACK: $prev !global;
 
   @include _m-stack($effect);
 }
-
-
-@function m-sequence($args...) {
-  @return MovementGroup($type: 'sequence', $args...);
-}
-
 
 @mixin m-sequence(
   $duration: auto,
@@ -111,7 +98,7 @@
 
   @content;
 
-  $effect: m-sequence($effects: $STACK, $target: &);
+  $effect: MovementGroup($type: 'sequence', $effects: $STACK, $target: &);
 
   $STACK: $prev !global;
 

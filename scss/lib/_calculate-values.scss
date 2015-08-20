@@ -29,7 +29,6 @@
     } @else if $operator == '-=' or $operator == '\\-' {
       $value: _add(-$value, $previous-value);
     } @else if $operator == '*=' or $operator == '\\*' {
-      @debug $value, $previous-value;
       $value: $value * $previous-value;
     } @else if $operator == '\\=' {
       $value: $previous-value;

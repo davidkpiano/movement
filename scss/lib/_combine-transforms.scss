@@ -16,7 +16,5 @@
 
   $nodes: _concat($transform-nodes, $non-transform-nodes);
 
-  @debug $nodes;
-
   @return $nodes;
 }

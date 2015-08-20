@@ -1,0 +1,14 @@
+
+
+@mixin m-context($factory) {
+  $previous: $STACK;
+  $STACK: () !global;
+
+  @content;
+
+  $effect: call($factory, $effects: $STACK, $target: &);
+
+  $STACK: $previous !global;
+
+  @include _m-stack($effect);
+}

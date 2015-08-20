@@ -12,17 +12,7 @@
 @import 'lib/combine-transforms';
 @import 'lib/calculate-values';
 
-@include m-sequence {
-  .dot:nth-of-type(1) {
-    @include m-effect((x:0)(x: 100%), 1s);
-  }
-  .dot:nth-of-type(2) {
-    @include m-effect((x:0)(x: 100%), 1s);
-  }
-  .dot:nth-of-type(3) {
-    @include m-effect((x:0)(x: 100%), 1s);
-  }
-}
+
 
 $KEYFRAMES: () !global;
 
@@ -49,7 +39,49 @@ $KEYFRAMES: () !global;
   @return $effect;
 }
 
+@function m-add-start-node($nodes, $args...) {
+  $start-node: nth($nodes, 1);
 
+  @if (_get($start-node, 'offset') != 0s) {
+    $start-node: MovementNode(
+      $target: _get($start-node, 'target'),
+      $offset: 0s,
+      $property: null,
+      $value: null,
+      $easing: step-end);
+
+    $nodes: _concat($start-node, $nodes);
+  }
+
+  @return $nodes;
+}
+
+@function m-add-end-node($nodes, $args...) {
+  $max-offset: __this('max-offset');
+  $end-node: nth($nodes, -1);
+
+  @if (_get($end-node, 'offset') < $max-offset) {
+    $end-node: _modify($end-node, 'offset', _concat $max-offset);
+  }
+
+  @return set-nth($nodes, -1, $end-node);
+}
+
+@function m-node-offset-to-percent($node, $args...) {
+  $total-duration: __this('total-duration');
+
+  $offsets: _get($node, 'offset');
+  $percentage-offsets: ();
+
+  @debug $offsets;
+
+  @each $offset in $offsets {
+    $percentage-offsets: append($percentage-offsets,
+      percentage($offset / $total-duration));
+  }
+
+  @return _set($node, 'offset', $percentage-offsets);
+}
 
 @mixin _m-render() {
   $_: traverse();
@@ -57,6 +89,11 @@ $KEYFRAMES: () !global;
 
   @each $keyframe in $KEYFRAMES {
     @each $selector in _get($keyframe, 'target') {
+      $declarations-reducer: _bind(m-declarations-reducer, (
+        'keyframe': $keyframe,
+        'selector': nth($selector, 1)
+      ));
+
       @each $property, $value in _get($keyframe, 'declarations') {
         $node: MovementNode(
           $target: nth($selector, 1),
@@ -79,31 +116,31 @@ $KEYFRAMES: () !global;
     _group-by 'target');
 
   @each $target, $nodes in $NODES {
-    $nodes: _($nodes,
+    $property-nodes-map: _($nodes,
       _map m-map-properties,
       m-calculate-values,
       m-combine-transforms,
-      _group-by 'property');
+      _group-by 'property',
+      _map-values _flow(
+        m-add-start-node,
+        _bind(m-add-end-node, ('max-offset': $max-offset)))
+      );
 
     $animation-names: ();
     $animation-durations: ();
     $animation-easings: ();
 
-    @each $property, $property-nodes in $nodes {
+    @each $property, $property-nodes in $property-nodes-map {
+      $property-nodes: _map($property-nodes, _bind(m-node-offset-to-percent, ('total-duration': $max-offset)));
       $animation-name: unquote(_unique-id());
       $total-duration: $max-offset;
 
       $animation-names: append($animation-names, $animation-name);
       $animation-durations: append($animation-durations, $total-duration);
 
-      // Duplicate last node
-      @if (_($property-nodes, _last, _get 'offset') < $max-offset) {
-        $property-nodes: append($property-nodes, _($property-nodes, _last, _set 'offset' $max-offset));
-      }
-
       @keyframes #{$animation-name} {
         @each $node in $property-nodes {
-          #{percentage(_get($node, 'offset') / $total-duration)} {
+          #{_join(_get($node, 'offset'), ',')} {
             #{_get($node, 'property')}: _get($node, 'value');
             animation-timing-function: _get($node, 'easing');
           }

@@ -14,7 +14,7 @@ body, html {
   background: red;
   margin: 0.5rem; }
 
-@keyframes u2295f30c {
+@keyframes u8bbca293 {
   0% {
     transform: translateX(90%);
     animation-timing-function: linear; }
@@ -23,11 +23,11 @@ body, html {
     animation-timing-function: linear; } }
 
 .dot:nth-of-type(1) {
-  animation-name: u2295f30c;
+  animation-name: u8bbca293;
   animation-duration: 3s;
   animation-fill-mode: forwards; }
 
-@keyframes u098d1e7e {
+@keyframes u0436c017 {
   0% {
     animation-timing-function: step-end; }
   33.33333% {
@@ -38,11 +38,11 @@ body, html {
     animation-timing-function: linear; } }
 
 .dot:nth-of-type(2) {
-  animation-name: u098d1e7e;
+  animation-name: u0436c017;
   animation-duration: 3s;
   animation-fill-mode: forwards; }
 
-@keyframes u0c331eb6 {
+@keyframes u8a509298 {
   0% {
     animation-timing-function: step-end; }
   66.66667% {
@@ -53,6 +53,6 @@ body, html {
     animation-timing-function: linear; } }
 
 .dot:nth-of-type(3) {
-  animation-name: u0c331eb6;
+  animation-name: u8a509298;
   animation-duration: 3s;
   animation-fill-mode: forwards; }

@@ -1,0 +1,13 @@
+@function m-node-offset-to-percent($node, $args...) {
+  $total-duration: __this('total-duration');
+
+  $offsets: _get($node, 'offset');
+  $percentage-offsets: ();
+
+  @each $offset in $offsets {
+    $percentage-offsets: append($percentage-offsets,
+      percentage($offset / $total-duration));
+  }
+
+  @return _set($node, 'offset', $percentage-offsets);
+}

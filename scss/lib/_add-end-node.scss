@@ -1,0 +1,10 @@
+@function m-add-end-node($nodes, $args...) {
+  $max-offset: __this('max-offset');
+  $end-node: nth($nodes, -1);
+
+  @if (_get($end-node, 'offset') < $max-offset) {
+    $end-node: _modify($end-node, 'offset', _concat $max-offset);
+  }
+
+  @return set-nth($nodes, -1, $end-node);
+}

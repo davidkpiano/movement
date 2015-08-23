@@ -11,7 +11,9 @@
 @import 'lib/concatenate-transform-values';
 @import 'lib/combine-transforms';
 @import 'lib/calculate-values';
-
+@import 'lib/add-start-node';
+@import 'lib/add-end-node';
+@import 'lib/node-offset-to-percent';
 
 
 $KEYFRAMES: () !global;
@@ -39,49 +41,6 @@ $KEYFRAMES: () !global;
   @return $effect;
 }
 
-@function m-add-start-node($nodes, $args...) {
-  $start-node: nth($nodes, 1);
-
-  @if (_get($start-node, 'offset') != 0s) {
-    $start-node: MovementNode(
-      $target: _get($start-node, 'target'),
-      $offset: 0s,
-      $property: null,
-      $value: null,
-      $easing: step-end);
-
-    $nodes: _concat($start-node, $nodes);
-  }
-
-  @return $nodes;
-}
-
-@function m-add-end-node($nodes, $args...) {
-  $max-offset: __this('max-offset');
-  $end-node: nth($nodes, -1);
-
-  @if (_get($end-node, 'offset') < $max-offset) {
-    $end-node: _modify($end-node, 'offset', _concat $max-offset);
-  }
-
-  @return set-nth($nodes, -1, $end-node);
-}
-
-@function m-node-offset-to-percent($node, $args...) {
-  $total-duration: __this('total-duration');
-
-  $offsets: _get($node, 'offset');
-  $percentage-offsets: ();
-
-  @debug $offsets;
-
-  @each $offset in $offsets {
-    $percentage-offsets: append($percentage-offsets,
-      percentage($offset / $total-duration));
-  }
-
-  @return _set($node, 'offset', $percentage-offsets);
-}
 
 @mixin _m-render() {
   $_: traverse();
@@ -123,7 +82,8 @@ $KEYFRAMES: () !global;
       _group-by 'property',
       _map-values _flow(
         m-add-start-node,
-        _bind(m-add-end-node, ('max-offset': $max-offset)))
+        _bind(m-add-end-node, ('max-offset': $max-offset)),
+        _map _bind(m-node-offset-to-percent, ('total-duration': $max-offset)))
       );
 
     $animation-names: ();
@@ -131,7 +91,7 @@ $KEYFRAMES: () !global;
     $animation-easings: ();
 
     @each $property, $property-nodes in $property-nodes-map {
-      $property-nodes: _map($property-nodes, _bind(m-node-offset-to-percent, ('total-duration': $max-offset)));
+      // $property-nodes: _map($property-nodes, _bind(m-node-offset-to-percent, ('total-duration': $max-offset)));
       $animation-name: unquote(_unique-id());
       $total-duration: $max-offset;
 

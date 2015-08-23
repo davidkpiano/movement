@@ -1,0 +1,16 @@
+@function m-add-start-node($nodes, $args...) {
+  $start-node: nth($nodes, 1);
+
+  @if (_get($start-node, 'offset') != 0s) {
+    $start-node: MovementNode(
+      $target: _get($start-node, 'target'),
+      $offset: 0s,
+      $property: null,
+      $value: null,
+      $easing: step-end);
+
+    $nodes: _concat($start-node, $nodes);
+  }
+
+  @return $nodes;
+}

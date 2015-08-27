@@ -32,8 +32,8 @@
 
 @function MovementGroup(
   $type: 'group',
-  $effects: (),
   $duration: auto,
+  $effects: (),
   $delay: 0,
   $easing: linear,
   $iterations: 1,
@@ -82,7 +82,11 @@
 
   @content;
 
-  $effect: MovementGroup($type: 'group', $effects: $STACK, $target: &);
+  $effect: MovementGroup(
+    $type: 'group',
+    $duration: $duration,
+    $effects: $STACK,
+    $target: &);
 
   $STACK: $prev !global;
 
@@ -98,7 +102,11 @@
 
   @content;
 
-  $effect: MovementGroup($type: 'sequence', $effects: $STACK, $target: &);
+  $effect: MovementGroup(
+    $type: 'sequence',
+    $duration: $duration,
+    $effects: $STACK,
+    $target: &);
 
   $STACK: $prev !global;
 

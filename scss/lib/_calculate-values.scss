@@ -6,7 +6,7 @@
   }
 
   $previous-node: _static-get('previous-node');
-  $value: _get($node, 'value');
+  $value: _join(_get($node, 'value'));
 
   $operators: (
     '+=',

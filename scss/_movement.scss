@@ -14,6 +14,7 @@
 @import 'lib/add-start-node';
 @import 'lib/add-end-node';
 @import 'lib/node-offset-to-percent';
+@import 'lib/combine-offsets';
 
 
 $KEYFRAMES: () !global;
@@ -83,7 +84,7 @@ $KEYFRAMES: () !global;
       _map-values _flow(
         m-add-start-node,
         _bind(m-add-end-node, ('max-offset': $max-offset)),
-        _map _bind(m-node-offset-to-percent, ('total-duration': $max-offset)))
+        m-combine-offsets)
       );
 
     $animation-names: ();
@@ -91,7 +92,7 @@ $KEYFRAMES: () !global;
     $animation-easings: ();
 
     @each $property, $property-nodes in $property-nodes-map {
-      // $property-nodes: _map($property-nodes, _bind(m-node-offset-to-percent, ('total-duration': $max-offset)));
+      $property-nodes: _map($property-nodes, _bind(m-node-offset-to-percent, ('total-duration': $max-offset)));
       $animation-name: unquote(_unique-id());
       $total-duration: $max-offset;
 

@@ -39,8 +39,13 @@ body, html {
   }
 
   // TODO: selector functions
-  div {
-    @include m-effect((background: green), 0.5s);
+  @include m-group {
+
+    @for $i from 1 through 3 {
+      .dot:nth-of-type(#{$i}), .foo:nth-of-type(#{$i + 3}) {
+        @include m-effect((background: black) (background: green), 0.5s);
+      }
+    }
   }
 }
 

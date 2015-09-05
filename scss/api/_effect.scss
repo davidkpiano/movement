@@ -40,7 +40,7 @@
   $direction: normal,
   $spacing: 'distribute',
   $offset: 0s,
-  $target: #{&}
+  $target: &
 ) {
   $id: _unique-id('effect-');
 
@@ -106,7 +106,7 @@
   $prev: $STACK;
   $STACK: () !global;
 
-  $selector: '#{&}';
+  $selector: &;
 
   @content;
 

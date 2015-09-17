@@ -1,5 +1,6 @@
 Movement
 ========
+**Work in progress!**
 
 SCSS animation framework for creating, composing, sequencing, and using animations.
 

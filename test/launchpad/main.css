@@ -1,0 +1,83 @@
+@keyframes u7ce00ce2 {
+  0% {
+    background-color: red;
+    animation-timing-function: linear; }
+  33.33333% {
+    background-color: gray;
+    animation-timing-function: linear; }
+  100% {
+    background-color: gray;
+    animation-timing-function: linear; } }
+
+.node:nth-child(4) {
+  animation-name: u7ce00ce2;
+  animation-duration: 375ms;
+  animation-fill-mode: forwards; }
+
+@keyframes u8a58525b {
+  0% {
+    animation-timing-function: step-end; }
+  33.33333% {
+    background-color: red;
+    animation-timing-function: linear; }
+  66.66667% {
+    background-color: gray;
+    animation-timing-function: linear; }
+  100% {
+    background-color: gray;
+    animation-timing-function: linear; } }
+
+.node:nth-child(5) {
+  animation-name: u8a58525b;
+  animation-duration: 375ms;
+  animation-fill-mode: forwards; }
+
+@keyframes u5221f0e4 {
+  0% {
+    animation-timing-function: step-end; }
+  66.66667% {
+    background-color: blue;
+    animation-timing-function: linear; }
+  100% {
+    background-color: gray;
+    animation-timing-function: linear; }
+  100% {
+    background-color: gray;
+    animation-timing-function: linear; } }
+
+.node:nth-child(6) {
+  animation-name: u5221f0e4;
+  animation-duration: 375ms;
+  animation-fill-mode: forwards; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center; }
+
+.launchpad {
+  display: flex;
+  flex-basis: 50vmax;
+  height: 50vmax;
+  border: 1px solid red;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: space-between; }
+
+.node {
+  width: 12.5%;
+  height: 12.5%;
+  background: #333;
+  background-clip: content-box;
+  border: 0.5rem solid transparent; }
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  position: relative; }

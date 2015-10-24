@@ -1,0 +1,85 @@
+@import '../../scss/movement';
+
+$colors: (
+  a: red,
+  b: blue
+);
+
+$BPM: 120;
+$measure: (60000ms / $BPM) * 4;
+
+@function duration($str) {
+  $level: _to-number(_char-at($str, 1));
+
+  @return $measure / pow(2, $level);
+}
+
+@function node($str) {
+
+  @return (
+    color: _get($colors, _char-at($str, 1)),
+    x: _char-at($str, 2),
+    y: _char-at($str, 3),
+    duration: duration(str-slice($str, 4))
+  );
+}
+
+@mixin node($node) {
+  @debug _get($node, duration);
+
+  .node:nth-child(#{_get($node, 'y')}) {  
+    @include m-effect(
+      (background-color: _get($node, 'color'))
+      (background-color: gray),
+      _get($node, duration));
+  }
+}
+
+$nodes: (
+  a444, a454, b464
+);
+
+@include m-sequence {
+  @each $node in $nodes {
+    @include node(node($node));
+  }
+}
+
+@include _m-render();
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.launchpad {
+  display: flex;
+  flex-basis: 50vmax;
+  height: 50vmax;
+  border: 1px solid red;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: space-between;
+}
+
+.node {
+  width: percentage(1/8);
+  height: percentage(1/8);
+  background: #333;
+  background-clip: content-box;
+  border: 0.5rem solid transparent;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  position: relative;
+}

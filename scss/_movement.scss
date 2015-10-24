@@ -31,6 +31,8 @@ $KEYFRAMES: () !global;
     $keyframes: _get($effect, 'keyframes');
     $offset: _get($effect, 'offset');
 
+    @debug $keyframes;
+
     $keyframes: _($keyframes,
       _map (_modify 'offset' (_add $offset)),
       _map (_set 'easing' _get($effect, 'easing')),
@@ -46,6 +48,8 @@ $KEYFRAMES: () !global;
 @mixin _m-render() {
   $_: traverse();
   $NODES: ();
+
+  @debug $KEYFRAMES;
 
   @each $keyframe in $KEYFRAMES {
     @each $selector in _get($keyframe, 'target') {
@@ -92,7 +96,9 @@ $KEYFRAMES: () !global;
     $animation-easings: ();
 
     @each $property, $property-nodes in $property-nodes-map {
-      $property-nodes: _map($property-nodes, _bind(m-node-offset-to-percent, ('total-duration': $max-offset)));
+      $property-nodes: _map($property-nodes, _bind(
+        m-node-offset-to-percent,
+        ('total-duration': $max-offset)));
       $animation-name: unquote(_unique-id());
       $total-duration: $max-offset;
 

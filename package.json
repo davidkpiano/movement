@@ -4,7 +4,8 @@
   "description": "SCSS animation framework for creating, composing, sequencing, and using animations similar to the W3C Web Animations spec.",
   "main": "gulpfile.js",
   "dependencies": {
-    "sassdash": "^0.5.3"
+    "node-sass": "^3.3.3",
+    "sassdash": "^0.5.5"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
@@ -14,7 +15,7 @@
     "sassdash": "^0.4.1"
   },
   "scripts": {
-    "start": "node-sass -w test/sequence/main.scss test/sequence/main.css",
+    "start": "node-sass -w test/launchpad/main.scss test/launchpad/main.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

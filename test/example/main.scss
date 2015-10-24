@@ -1,0 +1,39 @@
+@import '../../scss/movement';
+
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  position: relative;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#foo {
+  display: block;
+  height: 1rem;
+  width: 1rem;
+  background: red;
+}
+
+#foo {
+  @include m-group {  
+    @include m-effect(
+      (x: 0)
+      (x: 100px)
+      (x: \=, y: 100px)
+      (y: \=, x: 0)
+      (x: \=, y: 0), 1s);
+
+    @include m-effect(
+      (background: green)
+      (background: red)
+      (background: blue), 1s);
+  }
+}
+
+@include _m-render();

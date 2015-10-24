@@ -1,0 +1,54 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  position: relative; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%; }
+
+#foo {
+  display: block;
+  height: 1rem;
+  width: 1rem;
+  background: red; }
+
+@keyframes u4450ad28 {
+  0% {
+    transform: translateX(0) translateY(0);
+    animation-timing-function: linear; }
+  25% {
+    transform: translateX(100px) translateY(0);
+    animation-timing-function: linear; }
+  50% {
+    transform: translateX(100px) translateY(100px);
+    animation-timing-function: linear; }
+  75% {
+    transform: translateX(0) translateY(100px);
+    animation-timing-function: linear; }
+  100% {
+    transform: translateX(0) translateY(0);
+    animation-timing-function: linear; }
+  100% {
+    transform: translateX(0) translateY(0);
+    animation-timing-function: linear; } }
+
+@keyframes u4456001a {
+  0% {
+    background: green;
+    animation-timing-function: linear; }
+  50% {
+    background: red;
+    animation-timing-function: linear; }
+  100% {
+    background: blue;
+    animation-timing-function: linear; }
+  100% {
+    background: blue;
+    animation-timing-function: linear; } }
+
+#foo {
+  animation-name: u4450ad28, u4456001a;
+  animation-duration: 1s, 1s;
+  animation-fill-mode: forwards, forwards; }

@@ -51,6 +51,7 @@
     }
   }
 
+
   // CHILD RELATIVE OFFSETS
   @if $type == 'sequence' {
     $effects: _m-offset-sequence-effects($effects, $duration);

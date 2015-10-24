@@ -1,4 +1,5 @@
 @function _m-space-MovementEffect-distribute(
+  $duration,
   $keyframe,
   $index,
   $keyframes
@@ -11,7 +12,7 @@
 
   $offset: ($index - 1) / ($length - 1);
 
-  @return map-merge($keyframe, (offset: $offset));
+  @return map-merge($keyframe, (offset: $offset * $duration));
 }
 
 @function _m-space-MovementEffect-to(
@@ -56,7 +57,9 @@
   $calculated-keyframes: ();
 
   @if $spacing == 'distribute' {
-    $keyframes: _map($keyframes, _m-space-MovementEffect-distribute);
+    $keyframes: _map($keyframes, _partial(
+      _m-space-MovementEffect-distribute,
+      $duration));
 
 
   } @else if $spacing == 'to' {

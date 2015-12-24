@@ -1,18 +1,9 @@
 
 
 @function m-combine-offsets($nodes, $args...) {
-  @each $n in $nodes {
-    // @debug $n;
-  }
 
   $xnodes: _($nodes,
     _group-by m-create-node-hash);
-
-  @debug _keys($xnodes);
-
-  @each $a, $b in $xnodes {
-    // @debug $a, length($b);
-  }
 
   @return $nodes;
 }

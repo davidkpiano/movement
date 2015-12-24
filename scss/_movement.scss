@@ -16,8 +16,11 @@
 @import 'lib/node-offset-to-percent';
 @import 'lib/combine-offsets';
 
-
 $KEYFRAMES: () !global;
+
+@function _m-modify-offset($offset, $keyframe, $args...) {
+  @return _set($keyframe, 'offset', _get($keyframe, 'offset') + $offset);
+}
 
 @function traverse($effect: (effects: $STACK, offset: 0s)) {
   @if map-has-key($effect, 'effects') {
@@ -31,10 +34,8 @@ $KEYFRAMES: () !global;
     $keyframes: _get($effect, 'keyframes');
     $offset: _get($effect, 'offset');
 
-    @debug $keyframes;
-
     $keyframes: _($keyframes,
-      _map (_modify 'offset' (_add $offset)),
+      _map _partial(_m-modify-offset, $offset),
       _map (_set 'easing' _get($effect, 'easing')),
       _map (_set 'target' _get($effect, 'target')));
 
@@ -53,6 +54,7 @@ $KEYFRAMES: () !global;
 
   @each $keyframe in $KEYFRAMES {
     @each $selector in _get($keyframe, 'target') {
+      @debug $selector, nth($selector, 1);
       $declarations-reducer: _bind(m-declarations-reducer, (
         'keyframe': $keyframe,
         'selector': nth($selector, 1)
@@ -60,7 +62,7 @@ $KEYFRAMES: () !global;
 
       @each $property, $value in _get($keyframe, 'declarations') {
         $node: MovementNode(
-          $target: nth($selector, 1),
+          $target: "#{nth($selector, 1)}",
           $offset: _get($keyframe, 'offset'),
           $property: $property,
           $value: $value,
@@ -75,9 +77,11 @@ $KEYFRAMES: () !global;
   $max-offset: _max(_pluck($NODES, 'offset'));
 
   $NODES: _($NODES,
-    _map m-split-target,
-    _flatten,
+    // _map m-split-target,
+    // _flatten,
     _group-by 'target');
+  @debug $NODES;
+
 
   @each $target, $nodes in $NODES {
     $property-nodes-map: _($nodes,
@@ -86,10 +90,13 @@ $KEYFRAMES: () !global;
       m-combine-transforms,
       _group-by 'property',
       _map-values _flow(
-        m-add-start-node,
-        _bind(m-add-end-node, ('max-offset': $max-offset)),
-        m-combine-offsets)
+          m-add-start-node,
+          _bind(m-add-end-node, ('max-offset': $max-offset)),
+          m-combine-offsets
+        )
       );
+
+    @debug $property-nodes-map;
 
     $animation-names: ();
     $animation-durations: ();

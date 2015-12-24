@@ -14,38 +14,114 @@ $measure: (60000ms / $BPM) * 4;
   @return $measure / pow(2, $level);
 }
 
-@function node($str) {
+@function create-node($str, $args...) {
+  @if (type-of($str) == 'map') {
+    @return $str;
+  }
+
+  @if (type-of($str) == 'list') {
+    @return _map($str, create-node);
+  }
 
   @return (
     color: _get($colors, _char-at($str, 1)),
-    x: _char-at($str, 2),
-    y: _char-at($str, 3),
-    duration: duration(str-slice($str, 4))
+    x: _to-number(_char-at($str, 2)),
+    y: _to-number(_char-at($str, 3)),
+    duration: duration(str-slice($str, 4)),
+    str: $str
   );
 }
 
 @mixin node($node) {
-  @debug _get($node, duration);
 
-  .node:nth-child(#{_get($node, 'y')}) {  
+  $n: (_get($node, 'y') - 1) * 8 + _get($node, 'x');
+
+  .node:nth-child(#{$n}) {  
     @include m-effect(
-      (background-color: _get($node, 'color'))
+      (background-color: gray)
+      (background-color: _get($node, 'color'), offset: 1%)
       (background-color: gray),
       _get($node, duration));
   }
 }
 
-$nodes: (
-  a444, a454, b464
+@function trans-node($node, $args...) {
+  @if (type-of($node) == 'list') {
+    @return _map($node, _bind(trans-node, __this()));
+  }
+
+  $dx: __this(dx);
+  $dy: __this(dy);
+
+  $str: _get($node, str);
+
+  $x: _get($node, x) + $dx;
+  $y: _get($node, y) + $dy;
+
+  @return _char-at($str, 1) + $x + $y + str-slice($str, 4);
+}
+
+@function trans($nodes, $x, $y) {
+  $nodes: _map($nodes, create-node);
+
+  $first-node: _first($nodes);
+  $dx: $x - _get($first-node, x);
+  $dy: $y - _get($first-node, y);
+
+  $nodes: _map($nodes, _bind(trans-node, (
+    dx: $dx,
+    dy: $dy
+  )));
+
+  @return $nodes;
+}
+
+$e1: (
+  a554,
+  (a544, a564, a454, a654),
+  (a534, a574, a354, a754)
 );
 
-@include m-sequence {
-  @each $node in $nodes {
-    @include node(node($node));
+$e2: trans($e1, 4, 4);
+$e3: trans($e1, 4, 5);
+$e4: trans($e1, 5, 4);
+
+$e5: _concat($e1, $e2, $e1, $e2, $e3, $e4, $e3, $e4);
+$e6: _concat($e5, $e5);
+
+$nodes: $e6;
+
+@mixin node-sequence($nodes) {
+  $nodes: create-node($nodes);
+
+  @include m-sequence {
+    @each $node in $nodes {
+      @if (type-of($node) == 'list') {
+        @include m-group {
+          @each $subnode in $node {
+            @include node($subnode);
+          }
+        }
+      } @else {
+        @include node($node);
+      }
+    }
+  }
+
+  @include _m-render();
+}
+
+@mixin node-group($nodes) {
+  @include m-group {
+    @each $node in $nodes {
+
+      @include node(node($node));
+    }
   }
 }
 
-@include _m-render();
+@include node-sequence($nodes);
+
 
 html, body {
   width: 100%;

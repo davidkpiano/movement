@@ -2,6 +2,8 @@
   $selectors: _get($node, 'target'); // selector list
   $result: ();
 
+  @debug $selectors;
+
   @each $selector in $selectors {
     $result: append($result, map-merge($node, ('target': $selector)));
   }

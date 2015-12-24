@@ -2,6 +2,8 @@
   $max-offset: __this('max-offset');
   $end-node: nth($nodes, -1);
 
+  @debug $end-node, _get($end-node, 'offset');
+
   @if (_get($end-node, 'offset') < $max-offset) {
     $end-node: _set($end-node, 'offset', $max-offset);
   }
